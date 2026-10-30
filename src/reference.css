@@ -1,35 +1,49 @@
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;450;500;550;600;650&display=swap");
 :root {
-  --green: #571720;
+  --green: var(--burgundy);
   --sage: #eee6e2;
-  --muted: #7b858c;
+  --muted: #66707a;
   --line: #ded8d0;
   --cream: #f5f2ec;
-  color: #1c2b34;
-  background: #f5f2ec;
-  font-family: Inter, Arial, sans-serif;
-  font-size: 13px;
+  --ink: #211c1b;
+  --text: #3b3634;
+  --burgundy: #571720;
+  --burgundy-soft: #8b2e3c;
+  --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  color: var(--ink);
+  background: var(--cream);
+  font-family: var(--font-sans);
+  font-size: 14px;
 }
 body {
   background: radial-gradient(ellipse at 70% 40%, #fffdf8 0, transparent 70%),
-    #f4f1ea;
-  color: #1c2b34;
+    var(--cream);
+  color: var(--text);
 }
 h1,
 h2,
 h3 {
-  font-family: Inter, Arial, sans-serif;
+  font-family: var(--font-serif);
   letter-spacing: 0;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--ink);
 }
 h1 {
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: var(--font-serif);
   font-weight: 500;
-  font-size: 29px;
-  line-height: 1.1;
+  font-size: 32px;
+  line-height: 1.12;
+}
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+h3 {
+  font-size: 20px;
+  font-weight: 600;
 }
 p {
-  line-height: 1.7;
+  line-height: 1.55;
 }
 .main-content {
   max-width: 1900px;
@@ -71,7 +85,7 @@ p {
   align-items: center;
   gap: 13px;
   letter-spacing: 3px;
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: var(--font-serif);
   font-weight: 400;
   font-size: 31px;
   padding: 0 8px;
@@ -93,7 +107,7 @@ p {
   position: absolute;
   top: 36px;
   right: 15px;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0;
   margin: 0;
   padding: 3px 8px;
@@ -155,7 +169,7 @@ p {
 .nav-count {
   background: #87434b;
   color: #fff2e6;
-  font-size: 8px;
+  font-size: 10px;
 }
 .topbar {
   height: 60px;
@@ -185,11 +199,11 @@ p {
   gap: 0;
 }
 .header-languages > button {
-  font-size: 8px;
+  font-size: 10px;
   line-height: 1;
   padding: 0 9px;
   border-right: 1px solid #a4a7a8;
-  color: #7d858b;
+  color: var(--muted);
 }
 .header-languages > button:last-child {
   border: 0;
@@ -211,8 +225,8 @@ p {
 }
 .header-profile small {
   display: block;
-  font-size: 8px;
-  color: #7d858b;
+  font-size: 10px;
+  color: var(--muted);
 }
 .header-profile > svg {
   margin-left: 10px;
@@ -259,7 +273,7 @@ p {
 .btn {
   border-radius: 4px;
   font-size: 11px;
-  font-weight: 450;
+  font-weight: 400;
   padding: 9px 14px;
 }
 .btn.primary {
@@ -280,7 +294,7 @@ p {
   color: #662c32;
 }
 .btn.small {
-  font-size: 9px;
+  font-size: 12px;
   padding: 6px 11px;
 }
 .btn:hover {
@@ -293,20 +307,20 @@ p {
   border-radius: 12px;
   background: #eae7e3;
   color: #66717b;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 400;
   white-space: normal;
   text-align: center;
   padding: 5px 10px;
 }
 .badge.green {
-  color: #25613c;
-  background: #e5eee3;
+  color: #2f6b45;
+  background: #e6f1ea;
   border: 1px solid #d3e1d2;
 }
 .badge.amber {
-  color: #b57926;
-  background: #fff0d8;
+  color: #8a5a12;
+  background: #faeed6;
   border: 1px solid #f2dfc3;
 }
 .badge.purple {
@@ -332,16 +346,21 @@ p {
   text-decoration: underline;
 }
 .icon-btn {
-  color: #7b7f7c;
+  color: var(--muted);
 }
 .icon-btn:hover {
   background: #eae4da;
 }
 .muted {
-  color: #82909a;
+  color: var(--muted);
 }
 .eyebrow {
-  color: #755455;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--burgundy);
 }
 .page-heading .eyebrow {
   display: none;
@@ -351,7 +370,7 @@ p {
   font-weight: 500;
 }
 .page-heading p {
-  color: #7b858e;
+  color: var(--muted);
   font-size: 11px;
 }
 .stat {
@@ -361,23 +380,25 @@ p {
 }
 .stat-top,
 .stat > span {
-  color: #7d868a;
+  color: var(--muted);
 }
 .stat-top > svg {
-  color: #69272d;
+  color: var(--burgundy);
 }
 .stat > strong {
-  color: #203039;
-  font-family: Georgia, serif;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
   letter-spacing: 0;
   font-size: 28px;
 }
 .app-footer {
   margin-top: 24px;
-  font-size: 9px;
+  font-size: 11px;
   border-color: #ddd6ce;
   padding-top: 18px;
-  color: #81858b;
+  color: var(--muted);
 }
 .app-footer > span {
   display: none;
@@ -387,11 +408,11 @@ p {
 }
 .app-footer button {
   color: #6a4d4b;
-  font-size: 9px;
+  font-size: 10px;
 }
 .app-footer > div > span {
-  font-size: 8px;
-  color: #9b9790;
+  font-size: 10px;
+  color: var(--muted);
 }
 .table-wrap {
   scrollbar-width: thin;
@@ -401,8 +422,8 @@ table {
 }
 th {
   background: transparent;
-  color: #87919a;
-  font-size: 9px;
+  color: var(--muted);
+  font-size: 10px;
   font-weight: 400;
   line-height: 1.5;
   border-bottom: 1px solid #e4ded6;
@@ -417,12 +438,12 @@ td {
 }
 td b {
   color: #273944;
-  font-weight: 450;
+  font-weight: 400;
   font-size: 10px;
 }
 td small {
-  color: #85909a;
-  font-size: 8px;
+  color: var(--muted);
+  font-size: 10px;
 }
 td .person-line {
   min-width: 0;
@@ -431,7 +452,7 @@ td .person-line {
   color: #253641;
 }
 .person-line small {
-  color: #8b969f;
+  color: var(--muted);
 }
 .task b {
   color: #657785;
@@ -445,7 +466,7 @@ td .person-line {
   border-color: #591c22;
 }
 .task small {
-  color: #84929e;
+  color: var(--muted);
 }
 .callout {
   background: #eee9df;
@@ -485,14 +506,16 @@ input[type="radio"] {
   border-radius: 5px;
 }
 .property-price {
-  color: #243842;
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-weight: 500;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-weight: 600;
   font-size: 24px;
   letter-spacing: 0;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
 }
 .property-info h3 {
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 20px;
   color: #21333c;
 }
@@ -511,13 +534,13 @@ input[type="radio"] {
   color: #6d1b22;
 }
 .pro-card h3 {
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 25px;
 }
 .pro-detail,
 .pro-card .pro-bio,
 .pro-card > p {
-  color: #7d858c;
+  color: var(--muted);
 }
 .rating {
   color: #ba8a4e;
@@ -530,7 +553,7 @@ input[type="radio"] {
   color: #886e68;
 }
 .tabs button {
-  color: #85848a;
+  color: var(--muted);
 }
 .tabs button.active {
   color: #681d23;
@@ -551,7 +574,7 @@ input[type="radio"] {
   color: #475b68;
 }
 .message-meta span {
-  color: #8b959c;
+  color: var(--muted);
 }
 .send-btn {
   background: #5b1b22;
@@ -559,7 +582,7 @@ input[type="radio"] {
 .calendar-cell > span,
 .calendar-dayname,
 .calendar-upcoming small {
-  color: #82909a;
+  color: var(--muted);
 }
 .calendar-cell.today > span {
   background: #5b1b22;
@@ -576,21 +599,21 @@ input[type="radio"] {
   color: #394d59;
 }
 .calendar-upcoming > span {
-  color: #8a939b;
+  color: var(--muted);
 }
 .ref-page-title {
   margin: 0 0 16px;
 }
 .ref-page-title h1 {
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 29px;
   font-weight: 500;
   line-height: 1.1;
   letter-spacing: 0.1px;
 }
 .ref-page-title p {
-  font-size: 10px;
-  color: #7d8790;
+  font-size: 11px;
+  color: var(--muted);
   margin-top: 7px;
   line-height: 1.5;
 }
@@ -611,12 +634,12 @@ input[type="radio"] {
   min-height: 18px;
 }
 .ref-panel-heading h2 {
-  font-family: Inter, Arial, sans-serif;
-  font-size: 12px;
-  font-weight: 500;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
   letter-spacing: 0;
-  color: #1e303b;
-  line-height: 1.5;
+  color: var(--ink);
+  line-height: 1.25;
   display: flex;
   align-items: center;
   gap: 9px;
@@ -625,14 +648,14 @@ input[type="radio"] {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 8px;
-  color: #6c2c32;
+  font-size: 11px;
+  color: var(--burgundy);
   padding: 0;
   white-space: nowrap;
 }
 .ref-panel p {
-  font-size: 10px;
-  color: #82909a;
+  font-size: 11px;
+  color: var(--muted);
 }
 .ref-metrics {
   display: grid;
@@ -657,21 +680,22 @@ input[type="radio"] {
   height: 21px;
 }
 .ref-metric > span {
-  font-size: 10px;
-  color: #354550;
+  font-size: 11px;
+  color: var(--text);
   line-height: 1.4;
 }
 .ref-metric > strong {
   font-size: 24px;
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: var(--font-serif);
   font-weight: 600;
-  color: #162d39;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--ink);
   line-height: 1;
   white-space: nowrap;
 }
 .ref-metric > small {
-  font-size: 8px;
-  color: #8b9295;
+  font-size: 11px;
+  color: var(--muted);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -681,8 +705,8 @@ input[type="radio"] {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  color: #2e8a58;
-  font-size: 9px;
+  color: var(--ok);
+  font-size: 11px;
   white-space: nowrap;
 }
 .ref-trend.negative {
@@ -715,15 +739,18 @@ input[type="radio"] {
 }
 .ref-ranking table th,
 .ref-ranking table td {
-  font-size: 7.5px;
+  font-size: 11.5px;
   padding: 11px 4px;
 }
 .ref-ranking table th {
-  font-size: 7px;
+  font-size: 11px;
+  font-weight: 600;
 }
 .ref-ranking table td:nth-child(2) {
   white-space: nowrap;
   max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .ref-ranking table td:nth-child(3) {
   white-space: nowrap;
@@ -736,7 +763,7 @@ input[type="radio"] {
   background: #ffffff30;
 }
 .ref-ranking .badge {
-  font-size: 7px;
+  font-size: 10px;
   padding: 4px 6px;
 }
 .ref-ranking td:last-child {
@@ -781,11 +808,11 @@ input[type="radio"] {
   position: absolute;
   right: 10px;
   top: 17px;
-  font-size: 6px;
+  font-size: 10px;
   padding: 3px 5px;
 }
 .ref-agency-detail .ref-panel-heading h2 {
-  font-size: 10px;
+  font-size: 17px;
 }
 .ref-agency-detail .ref-panel-heading {
   padding-right: 65px;
@@ -807,8 +834,8 @@ input[type="radio"] {
   margin-bottom: 14px;
 }
 .ref-small-tabs > button {
-  font-size: 8px;
-  color: #8b8e91;
+  font-size: 10px;
+  color: var(--muted);
   padding: 0 0 9px;
   border-bottom: 1px solid transparent;
 }
@@ -831,24 +858,24 @@ input[type="radio"] {
 }
 .ref-mini-stats small {
   display: block;
-  font-size: 6px;
-  color: #8a9298;
+  font-size: 10px;
+  color: var(--muted);
   line-height: 1.6;
   min-height: 19px;
 }
 .ref-mini-stats b {
   display: block;
   font-size: 12px;
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-weight: 600;
   margin: 3px 0 6px;
   white-space: nowrap;
 }
 .ref-mini-stats .ref-trend {
-  font-size: 7px;
+  font-size: 10px;
 }
 .ref-agency-detail h4 {
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 500;
   margin: 14px 0 0;
 }
@@ -862,8 +889,8 @@ input[type="radio"] {
   gap: 11px;
   min-height: 19px;
   align-items: center;
-  color: #859099;
-  font-size: 6.5px;
+  color: var(--muted);
+  font-size: 10px;
 }
 .chart-legend span {
   display: flex;
@@ -888,8 +915,8 @@ input[type="radio"] {
   overflow: visible;
 }
 .ref-chart svg text {
-  font-family: Inter;
-  font-size: 8px;
+  font-family: var(--font-sans);
+  font-size: 10px;
   fill: #8a949d;
 }
 .ref-admin-aside .ref-chart svg {
@@ -912,11 +939,12 @@ input[type="radio"] {
   padding-bottom: 5px;
 }
 .approval-table th {
-  font-size: 7px;
+  font-size: 11px;
+  font-weight: 600;
   padding: 7px 4px;
 }
 .approval-table td {
-  font-size: 6.5px;
+  font-size: 11.5px;
   padding: 9px 4px;
 }
 .approval-table .avatar {
@@ -930,7 +958,10 @@ input[type="radio"] {
   white-space: nowrap;
 }
 .approval-table td:nth-child(2) {
-  max-width: 60px;
+  max-width: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .approval-table .button-row {
   margin: 0;
@@ -938,7 +969,7 @@ input[type="radio"] {
   gap: 4px;
 }
 .approval-table .btn.small {
-  font-size: 7px;
+  font-size: 12px;
   padding: 5px 7px;
 }
 .ref-billing-summary {
@@ -948,18 +979,18 @@ input[type="radio"] {
 }
 .ref-billing-summary > b {
   font-weight: 500;
-  font-size: 8px;
+  font-size: 10px;
   display: block;
   margin-bottom: 9px;
 }
 .ref-billing-summary > small {
-  font-size: 7px;
-  color: #8c9498;
+  font-size: 10px;
+  color: var(--muted);
   display: block;
   margin-top: 4px;
 }
 .ref-billing-summary > strong {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 22px;
   display: block;
   font-weight: 600;
@@ -987,33 +1018,33 @@ input[type="radio"] {
   padding-bottom: 0;
 }
 .ref-billing-row > b {
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 500;
 }
 .ref-billing-row > div {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 8px;
+  font-size: 10px;
   margin-top: 9px;
 }
 .ref-billing-row > div > span {
   margin-right: auto;
-  color: #82909c;
+  color: var(--muted);
 }
 .ref-billing-row small {
   display: block;
-  font-size: 7px;
+  font-size: 10px;
 }
 .ref-billing-row strong {
   display: block;
   font-size: 10px;
   color: #273b47;
-  font-weight: 450;
+  font-weight: 400;
   margin-top: 3px;
 }
 .ref-billing-row .btn.small {
-  font-size: 8px;
+  font-size: 10px;
   padding: 5px 14px;
 }
 .ref-quick-stats {
@@ -1031,15 +1062,15 @@ input[type="radio"] {
   align-items: center;
   padding: 14px 0;
   border-bottom: 1px solid #e4ddd4;
-  color: #8b959d;
-  font-size: 8px;
+  color: var(--muted);
+  font-size: 10px;
 }
 .ref-quick-stats > div:last-child {
   border: 0;
   padding-bottom: 2px;
 }
 .ref-quick-stats > div > b {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-weight: 600;
   color: #1e3642;
   font-size: 16px;
@@ -1047,15 +1078,15 @@ input[type="radio"] {
   white-space: nowrap;
 }
 .ref-quick-stats .ref-trend {
-  font-size: 7px;
+  font-size: 10px;
   margin-left: 5px;
 }
 .responders th {
-  font-size: 7px;
+  font-size: 10px;
   padding: 9px 3px;
 }
 .responders td {
-  font-size: 8px;
+  font-size: 10px;
   padding: 12px 3px;
 }
 .responders td:nth-child(2) {
@@ -1075,7 +1106,7 @@ input[type="radio"] {
   place-items: center;
   border-radius: 50%;
   background: #eae4dc;
-  font-size: 9px;
+  font-size: 10px;
   color: #695151;
 }
 .responders tr:first-child .rank-medal {
@@ -1083,7 +1114,7 @@ input[type="radio"] {
 }
 .ref-empty {
   text-align: center;
-  color: #8e9698;
+  color: var(--muted);
   padding: 30px 10px;
   font-size: 11px;
 }
@@ -1094,12 +1125,12 @@ input[type="radio"] {
   padding: 10px 0;
 }
 .ref-people-list b {
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-people-list small {
   display: block;
-  font-size: 8px;
-  color: #83909a;
+  font-size: 10px;
+  color: var(--muted);
 }
 .ref-people-list .btn {
   margin-left: auto;
@@ -1141,11 +1172,11 @@ input[type="radio"] {
   min-height: 218px;
 }
 .ref-pro-panels .table-wrap td {
-  font-size: 9px;
+  font-size: 10px;
   padding: 14px 4px;
 }
 .ref-pro-panels .table-wrap th {
-  font-size: 8px;
+  font-size: 10px;
   padding: 10px 4px;
 }
 .ref-pro-panels .table-wrap td:nth-child(3),
@@ -1156,17 +1187,17 @@ input[type="radio"] {
   gap: 7px;
 }
 .ref-pro-panels .table-wrap .person-line b {
-  font-size: 8px;
+  font-size: 10px;
 }
 .ref-pro-panels .table-wrap .person-line small {
-  font-size: 7px;
+  font-size: 10px;
 }
 .ref-pro-panels .table-wrap .person-line .avatar {
   width: 24px;
   height: 24px;
 }
 .ref-pro-panels .table-wrap .badge {
-  font-size: 7px;
+  font-size: 10px;
   padding: 4px 6px;
 }
 .ref-deadline {
@@ -1199,15 +1230,15 @@ input[type="radio"] {
   min-width: 0;
 }
 .ref-deadline b {
-  font-size: 9px;
+  font-size: 10px;
   color: #394d5c;
-  font-weight: 450;
+  font-weight: 400;
   line-height: 1.7;
   display: block;
 }
 .ref-deadline small {
-  font-size: 8px;
-  color: #8d9aa4;
+  font-size: 10px;
+  color: var(--muted);
   display: block;
   margin-top: 4px;
 }
@@ -1216,12 +1247,12 @@ input[type="radio"] {
   color: #3e7352;
   padding: 4px 7px;
   border-radius: 7px;
-  font-size: 7px;
+  font-size: 10px;
   text-align: center;
   flex-shrink: 0;
 }
 .deadline-state small {
-  font-size: 6px;
+  font-size: 10px;
   color: #5e8668;
   line-height: 1.4;
   margin-top: 2px;
@@ -1234,7 +1265,7 @@ input[type="radio"] {
   color: #c57265;
 }
 .ref-deadline > svg {
-  color: #8c9498;
+  color: var(--muted);
   flex-shrink: 0;
 }
 .ref-request-person {
@@ -1243,17 +1274,17 @@ input[type="radio"] {
   align-items: center;
 }
 .ref-request-person > b {
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-request-person small {
   display: block;
-  font-size: 8px;
-  color: #87949e;
+  font-size: 10px;
+  color: var(--muted);
   line-height: 1.7;
 }
 .ref-request-person b {
-  font-size: 9px;
-  font-weight: 450;
+  font-size: 10px;
+  font-weight: 400;
 }
 .ref-meeting-requests > div {
   padding: 11px 0;
@@ -1269,7 +1300,7 @@ input[type="radio"] {
   flex-wrap: nowrap;
 }
 .ref-meeting-requests .btn.small {
-  font-size: 7px;
+  font-size: 10px;
   padding: 5px 8px;
   flex: 1;
 }
@@ -1289,9 +1320,9 @@ input[type="radio"] {
   border: 0;
 }
 .week-strip span {
-  font-size: 8px;
+  font-size: 10px;
   display: block;
-  color: #7d8990;
+  color: var(--muted);
 }
 .week-strip b {
   font-size: 13px;
@@ -1320,20 +1351,20 @@ input[type="radio"] {
   padding: 7px 8px;
   border: 1px solid #d4ccc3;
   border-radius: 4px;
-  font-size: 8px;
+  font-size: 10px;
   flex: 1;
   white-space: nowrap;
 }
 .google-g {
   font-family: Arial;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   color: #4285f4;
   text-shadow: -1px 1px #e94335;
 }
 .outlook-o {
   font-family: Arial;
-  font-weight: bold;
+  font-weight: 700;
   background: #087bc4;
   color: white;
   padding: 1px 4px;
@@ -1349,19 +1380,19 @@ input[type="radio"] {
   width: 100%;
 }
 .ref-agenda time {
-  font-size: 8px;
-  color: #80909c;
+  font-size: 10px;
+  color: var(--muted);
   white-space: nowrap;
 }
 .ref-agenda b {
-  font-size: 9px;
-  font-weight: 450;
+  font-size: 10px;
+  font-weight: 400;
   display: block;
 }
 .ref-agenda small {
-  font-size: 8px;
+  font-size: 10px;
   display: block;
-  color: #8a98a2;
+  color: var(--muted);
   line-height: 1.7;
   margin-top: 3px;
 }
@@ -1383,7 +1414,7 @@ input[type="radio"] {
 }
 .ref-listings-table td,
 .ref-listings-table th {
-  font-size: 7px;
+  font-size: 10px;
   padding: 9px 4px;
 }
 .ref-listings-table td {
@@ -1401,11 +1432,11 @@ input[type="radio"] {
   white-space: nowrap;
 }
 .ref-listings-table small {
-  font-size: 6px;
+  font-size: 10px;
   line-height: 1.6;
 }
 .ref-large-number {
-  font-family: Inter;
+  font-family: var(--font-sans);
   font-size: 20px;
   font-weight: 500;
   display: block;
@@ -1413,13 +1444,13 @@ input[type="radio"] {
   color: #1c3442;
 }
 .ref-listings-bottom .ref-panel h2 {
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-listings-bottom .ref-panel > small {
-  font-size: 7px;
+  font-size: 10px;
 }
 .ref-listings-bottom .ref-trend {
-  font-size: 7px;
+  font-size: 10px;
 }
 .ref-view-toggle {
   display: inline-flex;
@@ -1449,7 +1480,10 @@ input[type="radio"] {
   padding: 12px;
 }
 .ref-agency-metrics .ref-panel h2 {
-  font-size: 8px;
+  font-size: 17px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.2;
 }
 .ref-agency-metrics .ref-metric {
   padding: 15px 10px;
@@ -1462,50 +1496,71 @@ input[type="radio"] {
   height: 20px;
 }
 .ref-agency-metrics .ref-metric > span {
-  font-size: 8px;
+  font-size: 10px;
 }
 .ref-agency-metrics .ref-metric > strong {
   font-size: 26px;
-  font-family: Inter;
-  font-weight: 450;
+  font-family: var(--font-sans);
+  font-weight: 400;
 }
 .ref-agency-metrics .ref-metric > small {
-  font-size: 7px;
+  font-size: 10px;
   flex-wrap: wrap;
   justify-content: center;
 }
 .ref-agent-bars {
   display: flex;
-  gap: 9px;
-  align-items: flex-end;
-  height: 117px;
-  padding-top: 10px;
+  gap: 10px;
+  align-items: stretch;
+  height: 132px;
+  padding: 4px 6px 2px;
+  overflow: visible;
+  min-width: 0;
+  box-sizing: border-box;
 }
 .ref-agent-bars > button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   flex: 1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
   padding: 0;
+  overflow: visible;
 }
 .ref-agent-bars small {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-style: italic;
-  font-size: 8px;
+  font-size: 11px;
+  line-height: 1.1;
   color: #8b5155;
   margin-bottom: 4px;
+  flex-shrink: 0;
 }
 .ref-agent-bars i {
+  display: block;
   width: 100%;
+  max-width: 100%;
+  max-height: 60px;
+  flex-shrink: 1;
+  border-radius: 2px 2px 0 0;
   background: linear-gradient(#8e4f56, #5a1721);
 }
 .ref-agent-bars button:nth-child(n + 3) i {
   background: linear-gradient(#c7a09f, #a66b6b);
 }
 .ref-agent-bars span {
-  font-size: 7px;
-  color: #8c9399;
-  margin-top: 5px;
+  font-size: 11px;
+  line-height: 1.25;
+  color: var(--muted);
+  margin-top: 6px;
+  flex-shrink: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .ref-top-agents > button {
   display: flex;
@@ -1521,18 +1576,18 @@ input[type="radio"] {
 }
 .ref-top-agents b {
   font-size: 10px;
-  font-weight: 450;
+  font-weight: 400;
 }
 .ref-top-agents small {
   display: block;
   color: #8a939a;
-  font-size: 8px;
+  font-size: 10px;
   margin-top: 5px;
 }
 .ref-top-agents > button > span:last-child {
   margin-left: auto;
   color: #9a6735;
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-agency-banner {
   display: grid;
@@ -1553,12 +1608,12 @@ input[type="radio"] {
   text-align: center;
 }
 .ref-agency-banner h2 {
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 23px;
   font-weight: 500;
 }
 .ref-agency-banner p {
-  font-size: 9px;
+  font-size: 10px;
   color: #6e7b84;
   margin: 10px 0 16px;
 }
@@ -1596,20 +1651,20 @@ input[type="radio"] {
   border-radius: 4px;
 }
 .ref-doc-requests b {
-  font-size: 9px;
-  font-weight: 450;
+  font-size: 10px;
+  font-weight: 400;
   display: block;
 }
 .ref-doc-requests small {
   display: block;
   color: #929ba2;
-  font-size: 8px;
+  font-size: 10px;
   margin-top: 5px;
 }
 .ref-doc-requests .badge {
   margin-left: auto;
   white-space: nowrap;
-  font-size: 7px;
+  font-size: 10px;
 }
 .ref-lawyer-bottom {
   display: grid;
@@ -1635,7 +1690,7 @@ input[type="radio"] {
   margin-top: 17px;
 }
 .ref-inline-prepare h3 {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -1645,7 +1700,7 @@ input[type="radio"] {
 .prepare-options {
   display: flex;
   gap: 13px;
-  font-size: 8px;
+  font-size: 10px;
   color: #6f7479;
   margin-bottom: 10px;
 }
@@ -1661,13 +1716,13 @@ input[type="radio"] {
 .ref-inline-prepare > textarea,
 .ref-inline-prepare > select {
   width: 100%;
-  font-size: 9px;
+  font-size: 10px;
   line-height: 1.8;
   border-radius: 4px;
   padding: 10px;
 }
 .ref-inline-prepare .inline-check {
-  font-size: 8px !important;
+  font-size: 10px !important;
   margin-top: 12px;
   line-height: 1.7;
 }
@@ -1676,7 +1731,7 @@ input[type="radio"] {
   height: 12px;
 }
 .ref-inline-prepare > .text-link {
-  font-size: 8px;
+  font-size: 10px;
   margin-top: 13px;
   color: #677680;
 }
@@ -1686,7 +1741,7 @@ input[type="radio"] {
   padding-top: 15px;
 }
 .ref-inline-prepare summary {
-  font-size: 9px;
+  font-size: 10px;
   cursor: pointer;
   color: #6d4c4c;
 }
@@ -1706,7 +1761,7 @@ input[type="radio"] {
   font-size: 30px;
 }
 .ref-purchase-title > h1 .badge {
-  font-family: Inter;
+  font-family: var(--font-sans);
   font-size: 10px;
   vertical-align: middle;
   margin-left: 15px;
@@ -1734,7 +1789,7 @@ input[type="radio"] {
 }
 .ref-client-header h1 > span {
   font-size: 10px;
-  font-family: Inter;
+  font-family: var(--font-sans);
   color: #8a959b;
   letter-spacing: 0;
 }
@@ -1749,13 +1804,13 @@ input[type="radio"] {
   border-radius: 4px;
 }
 .ref-client-meta b {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 15px;
   font-weight: 500;
   white-space: nowrap;
 }
 .ref-client-meta > span {
-  font-size: 8px;
+  font-size: 10px;
   line-height: 2;
   padding-left: 14px;
   border-left: 1px solid #d9d1c6;
@@ -1814,7 +1869,7 @@ input[type="radio"] {
   padding-right: 12px;
 }
 .ref-purchase-progress .journey-step.current b {
-  font-weight: 550;
+  font-weight: 500;
   color: #57232b;
 }
 .ref-purchase-progress .journey-step small {
@@ -1838,22 +1893,24 @@ input[type="radio"] {
 }
 .ref-participant > span:not(.avatar):not(.badge) {
   flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .ref-participant small {
   display: block;
-  font-size: 9px;
-  color: #89969e;
+  font-size: 11px;
+  color: var(--muted);
   margin-bottom: 5px;
 }
 .ref-participant b {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 18px;
   font-weight: 500;
   display: block;
   margin: 5px 0 6px;
 }
 .ref-participant > .badge {
-  font-size: 8px;
+  font-size: 10px;
   line-height: 1.6;
   border-radius: 8px;
   text-align: left;
@@ -1888,7 +1945,7 @@ input[type="radio"] {
   top: 12px;
 }
 .ref-doc-toolbar .btn {
-  font-size: 8px;
+  font-size: 10px;
   padding: 7px 10px;
   gap: 5px;
 }
@@ -1904,21 +1961,21 @@ input[type="radio"] {
   color: #488265;
   padding: 11px;
   border-radius: 5px;
-  font-size: 9px;
+  font-size: 10px;
   margin-bottom: 12px;
   margin-top: -44px;
 }
 .ref-purchase-documents table th {
-  font-size: 8px;
+  font-size: 10px;
   padding: 11px 4px;
 }
 .ref-purchase-documents table td {
   padding: 13px 4px;
-  font-size: 8px;
+  font-size: 10px;
   line-height: 1.7;
 }
 .ref-purchase-documents .badge {
-  font-size: 7px;
+  font-size: 10px;
   padding: 3px 7px;
 }
 .ref-document-name {
@@ -1928,7 +1985,7 @@ input[type="radio"] {
   text-align: left;
   padding: 0;
   color: #304a59;
-  font-size: 9px;
+  font-size: 10px;
   line-height: 1.7;
 }
 .ref-document-name > span:last-child {
@@ -1955,7 +2012,7 @@ input[type="radio"] {
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: 8px;
+  font-size: 10px;
   color: #8b9297;
 }
 .ref-translate input {
@@ -2008,12 +2065,12 @@ input[type="radio"] {
   margin-bottom: 8px;
 }
 .ref-chat-message b {
-  font-size: 8px;
+  font-size: 10px;
   color: #587082;
-  font-weight: 450;
+  font-weight: 400;
 }
 .ref-chat-message time {
-  font-size: 7px;
+  font-size: 10px;
   color: #929da4;
 }
 .ref-chat-bubble {
@@ -2038,12 +2095,12 @@ input[type="radio"] {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 7px;
+  font-size: 10px;
   color: #8c9ba6;
   margin-top: 12px;
 }
 .ref-chat-bubble small button {
-  font-size: 7px;
+  font-size: 10px;
   margin-left: auto;
   color: #8d9aa5;
   padding: 0;
@@ -2060,7 +2117,7 @@ input[type="radio"] {
 .ref-chat-compose input {
   flex: 1;
   min-width: 0;
-  font-size: 9px;
+  font-size: 10px;
   border: 0;
   padding: 5px 0;
   background: none;
@@ -2087,7 +2144,7 @@ input[type="radio"] {
 }
 .ref-purchase-payment b {
   font-size: 11px;
-  font-weight: 450;
+  font-weight: 400;
   color: #425563;
 }
 .ref-purchase-payment > button > span {
@@ -2100,7 +2157,7 @@ input[type="radio"] {
   display: block;
   color: #9ba5ab;
   margin-top: 6px;
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-purchase-payment .badge {
   min-width: 65px;
@@ -2125,7 +2182,7 @@ input[type="radio"] {
   gap: 8px;
 }
 .ref-purchase.professional .journey-step b {
-  font-size: 8px;
+  font-size: 10px;
   padding: 0;
   white-space: nowrap;
 }
@@ -2137,7 +2194,7 @@ input[type="radio"] {
 .ref-purchase.professional .journey-step span {
   width: 25px;
   height: 25px;
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-team-member {
   padding: 0 0 19px;
@@ -2154,14 +2211,14 @@ input[type="radio"] {
   height: 39px;
 }
 .ref-team-member .person-line b {
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-team-member .person-line small {
-  font-size: 8px;
+  font-size: 10px;
 }
 .ref-team-member .person-line .badge {
   margin-left: auto;
-  font-size: 7px;
+  font-size: 10px;
   padding: 4px 6px;
 }
 .team-task-bar {
@@ -2177,7 +2234,7 @@ input[type="radio"] {
   background: linear-gradient(90deg, #5f2127, #aa6369);
 }
 .ref-team-member > small {
-  font-size: 7px;
+  font-size: 10px;
   display: block;
   color: #8e9aa2;
   margin-left: 47px;
@@ -2192,7 +2249,7 @@ input[type="radio"] {
 }
 .ref-team-member .btn {
   flex: 1;
-  font-size: 8px;
+  font-size: 10px;
   padding: 7px 6px;
   gap: 6px;
 }
@@ -2201,7 +2258,7 @@ input[type="radio"] {
   height: 12px;
 }
 .ref-purchase-team > .btn {
-  font-size: 8px;
+  font-size: 10px;
   width: 100%;
 }
 .ref-commission {
@@ -2211,14 +2268,14 @@ input[type="radio"] {
   color: #682a32;
 }
 .ref-commission strong {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 25px;
   font-weight: 500;
   color: #233c49;
 }
 .ref-commission .badge {
   margin-left: auto;
-  font-size: 8px;
+  font-size: 10px;
 }
 .ref-purchase-action-panels {
   display: grid;
@@ -2232,12 +2289,12 @@ input[type="radio"] {
   display: none;
 }
 .ref-purchase-action-panels .callout {
-  font-size: 9px;
+  font-size: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 .ref-purchase-action-panels .btn.full {
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-template-list > div {
   padding: 15px 0;
@@ -2249,7 +2306,7 @@ input[type="radio"] {
   color: #7d858a;
 }
 .ref-template-list .text-link {
-  font-size: 9px;
+  font-size: 10px;
   margin-top: 10px;
 }
 .form label {
@@ -2270,7 +2327,7 @@ input[type="radio"] {
   box-shadow: 0 30px 100px #1d080b40;
 }
 .modal-header h2 {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 29px;
   font-weight: 500;
   letter-spacing: 0;
@@ -2366,7 +2423,7 @@ input[type="radio"] {
   display: none;
 }
 .login-visual h1 {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-weight: 400;
   font-size: 36px;
   line-height: 1.25;
@@ -2387,7 +2444,7 @@ input[type="radio"] {
   display: none;
 }
 .login-form h1 {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 37px;
   font-weight: 500;
 }
@@ -2437,17 +2494,17 @@ input[type="radio"] {
   background: linear-gradient(90deg, #240d12b5, transparent);
 }
 .welcome-hero h1 {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 73px;
   font-weight: 400;
   letter-spacing: -1px;
 }
 .welcome > section > h2 {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 45px;
 }
 .welcome-features h3 {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 27px;
 }
 .welcome-features article > span {
@@ -2513,40 +2570,40 @@ input[type="radio"] {
     font-size: 11px;
   }
   .ref-metric > small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-admin-middle > .ref-panel {
     padding: 15px;
     min-height: 268px;
   }
   .ref-ranking table th {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-ranking table td {
-    font-size: 9px;
+    font-size: 10px;
     padding: 13px 4px;
   }
   .ref-agency-detail .ref-panel-heading h2 {
     font-size: 12px;
   }
   .ref-mini-stats small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-mini-stats b {
     font-size: 15px;
   }
   .ref-mini-stats .ref-trend {
-    font-size: 8px;
+    font-size: 10px;
   }
   .approval-table th {
-    font-size: 8px;
+    font-size: 10px;
   }
   .approval-table td {
-    font-size: 8px;
+    font-size: 10px;
     padding: 10px 5px;
   }
   .approval-table .btn.small {
-    font-size: 8px;
+    font-size: 10px;
     padding: 6px 9px;
   }
   .ref-admin-aside .ref-chart svg {
@@ -2563,20 +2620,20 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-billing-summary > small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-billing-summary > strong {
     font-size: 27px;
   }
   .ref-billing-row > div {
-    font-size: 9px;
+    font-size: 10px;
   }
   .responders td {
     font-size: 10px;
     padding: 14px 4px;
   }
   .responders th {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-quick-stats > div {
     font-size: 10px;
@@ -2591,10 +2648,10 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-pro-panels .table-wrap .person-line small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-pro-panels .table-wrap .badge {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-deadline {
     padding: 17px 0;
@@ -2603,26 +2660,26 @@ input[type="radio"] {
     font-size: 11px;
   }
   .ref-deadline small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .deadline-state {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-request-person b {
     font-size: 11px;
   }
   .ref-request-person small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-meeting-requests .btn.small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-meeting-requests > div {
     padding: 13px 0;
   }
   .ref-listings-table td,
   .ref-listings-table th {
-    font-size: 9px;
+    font-size: 10px;
     padding: 10px 5px;
   }
   .ref-pro-aside .ref-page-title h1 {
@@ -2638,7 +2695,7 @@ input[type="radio"] {
     font-size: 30px;
   }
   .ref-agent-bars {
-    height: 135px;
+    height: 132px;
   }
   .ref-top-agents b {
     font-size: 12px;
@@ -2671,7 +2728,7 @@ input[type="radio"] {
     font-size: 11px;
   }
   .ref-purchase-documents .badge {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-doc-toolbar .btn {
     font-size: 10px;
@@ -2686,10 +2743,10 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-chat-message time {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-chat-bubble small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-chat-body {
     max-height: 555px;
@@ -2699,10 +2756,10 @@ input[type="radio"] {
     font-size: 11px;
   }
   .ref-team-member .person-line small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-team-member > small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-inline-prepare h3 {
     font-size: 11px;
@@ -2745,7 +2802,7 @@ input[type="radio"] {
   }
   .brand-caption {
     right: 12px;
-    font-size: 7px;
+    font-size: 10px;
     padding: 3px 6px;
   }
   .top-actions {
@@ -2765,7 +2822,7 @@ input[type="radio"] {
     font-size: 11px;
   }
   .ref-panel-heading > button {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-metrics {
     gap: 9px;
@@ -2775,18 +2832,18 @@ input[type="radio"] {
     gap: 8px;
   }
   .ref-metric > span {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-metric > strong {
     font-size: 22px;
   }
   .ref-metric > small {
-    font-size: 7px;
+    font-size: 10px;
     flex-wrap: wrap;
     gap: 3px;
   }
   .ref-trend {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-admin-middle {
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
@@ -2798,7 +2855,7 @@ input[type="radio"] {
   }
   .ref-ranking table td,
   .ref-ranking table th {
-    font-size: 6.5px;
+    font-size: 10px;
     padding: 11px 3px;
   }
   .ref-agency-logo {
@@ -2810,7 +2867,7 @@ input[type="radio"] {
     width: 9px;
   }
   .ref-ranking .badge {
-    font-size: 6px;
+    font-size: 10px;
     padding: 3px 5px;
   }
   .ref-ranking table td:nth-child(4) {
@@ -2820,7 +2877,7 @@ input[type="radio"] {
     display: none;
   }
   .ref-agency-detail .ref-panel-heading h2 {
-    font-size: 9px;
+    font-size: 10px;
     gap: 6px;
   }
   .agency-circle {
@@ -2836,7 +2893,7 @@ input[type="radio"] {
     gap: 13px;
   }
   .ref-small-tabs > button {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-mini-stats {
     gap: 5px;
@@ -2848,7 +2905,7 @@ input[type="radio"] {
     font-size: 5.5px;
   }
   .ref-mini-stats .ref-trend {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-mini-stats .ref-trend > svg {
     width: 8px;
@@ -2864,7 +2921,7 @@ input[type="radio"] {
     margin-right: 3px;
   }
   .approval-table .btn.small {
-    font-size: 6px;
+    font-size: 10px;
     padding: 5px;
   }
   .approval-table th:nth-child(3),
@@ -2872,13 +2929,13 @@ input[type="radio"] {
     display: none;
   }
   .ref-quick-stats > div {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-quick-stats > div > b {
     font-size: 14px;
   }
   .responders td {
-    font-size: 7px;
+    font-size: 10px;
   }
   .responders .avatar {
     width: 23px;
@@ -2886,7 +2943,7 @@ input[type="radio"] {
     margin-right: 5px;
   }
   .responders th {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-pro-layout {
     grid-template-columns: minmax(0, 1.5fr) minmax(290px, 1fr);
@@ -2906,7 +2963,7 @@ input[type="radio"] {
     padding: 13px 0;
   }
   .ref-pro-panels .deadline-state {
-    font-size: 6px;
+    font-size: 10px;
     padding: 4px;
   }
   .ref-pro-panels .deadline-icon {
@@ -2914,10 +2971,10 @@ input[type="radio"] {
     height: 22px;
   }
   .ref-pro-panels .ref-deadline b {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-pro-panels .ref-deadline small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-pro-panels .ref-deadline > svg {
     display: none;
@@ -2927,24 +2984,24 @@ input[type="radio"] {
     height: 28px;
   }
   .ref-request-person b {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-request-person small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-meeting-requests .button-row {
     padding-left: 0;
     gap: 5px;
   }
   .ref-meeting-requests .btn.small {
-    font-size: 6px;
+    font-size: 10px;
     padding: 5px 7px;
   }
   .ref-pro-panels .table-wrap .person-line b {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-pro-panels .table-wrap .person-line small {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-pro-panels .table-wrap .person-line .avatar {
     width: 20px;
@@ -2954,33 +3011,33 @@ input[type="radio"] {
     gap: 5px;
   }
   .ref-pro-panels .table-wrap .badge {
-    font-size: 6px;
+    font-size: 10px;
     padding: 3px 5px;
   }
   .ref-pro-panels .table-wrap td {
     padding: 13px 3px;
   }
   .ref-pro-panels .table-wrap th {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-pro-panels .table-wrap .icon-btn {
     width: 17px;
   }
   .calendar-sync > button {
-    font-size: 6px;
+    font-size: 10px;
     gap: 4px;
   }
   .calendar-sync {
     gap: 5px;
   }
   .ref-agenda time {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-agenda b {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-agenda small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-agenda > button {
     gap: 10px;
@@ -2991,7 +3048,7 @@ input[type="radio"] {
   }
   .ref-listings-table th,
   .ref-listings-table td {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-listings-table td > img {
     width: 24px;
@@ -3013,25 +3070,25 @@ input[type="radio"] {
     padding: 13px 7px;
   }
   .ref-agency-metrics .ref-metric > span {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-agency-metrics .ref-metric > strong {
     font-size: 23px;
   }
   .ref-agency-metrics .ref-metric > small {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-agency-metrics .ref-panel {
     padding: 10px 8px;
   }
   .ref-agency-metrics .ref-panel-heading h2 {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-agent-bars {
     gap: 5px;
   }
   .ref-agent-bars span {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-agency-banner > div {
     padding: 10px;
@@ -3040,20 +3097,20 @@ input[type="radio"] {
     font-size: 20px;
   }
   .ref-agency-banner p {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-agency-banner .btn {
-    font-size: 8px;
+    font-size: 10px;
     padding: 7px 9px;
   }
   .ref-doc-requests b {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-doc-requests small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-doc-requests .badge {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-doc-requests > button {
     gap: 6px;
@@ -3081,11 +3138,11 @@ input[type="radio"] {
   }
   .ref-document-notice {
     margin-top: 0;
-    font-size: 8px;
+    font-size: 10px;
     padding: 9px;
   }
   .ref-doc-toolbar .btn {
-    font-size: 7px;
+    font-size: 10px;
     padding: 6px 7px;
   }
   .ref-doc-toolbar .btn svg {
@@ -3093,10 +3150,10 @@ input[type="radio"] {
   }
   .ref-purchase-documents table td,
   .ref-purchase-documents table th {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-document-name {
-    font-size: 8px;
+    font-size: 10px;
     gap: 6px;
   }
   .ref-document-name .doc-symbol {
@@ -3107,7 +3164,7 @@ input[type="radio"] {
     width: 16px;
   }
   .ref-purchase-documents .badge {
-    font-size: 6px;
+    font-size: 10px;
     padding: 3px 5px;
   }
   .ref-purchase.professional .ref-purchase-columns {
@@ -3123,7 +3180,7 @@ input[type="radio"] {
     font-size: 13px;
   }
   .ref-client-meta > span {
-    font-size: 7px;
+    font-size: 10px;
     padding-left: 9px;
   }
   .ref-client-meta {
@@ -3138,7 +3195,7 @@ input[type="radio"] {
     height: 45px;
   }
   .ref-purchase-title > .button-row .btn {
-    font-size: 7px;
+    font-size: 10px;
     padding: 7px 8px;
   }
   .ref-purchase-title > .button-row .btn > svg {
@@ -3152,20 +3209,20 @@ input[type="radio"] {
     margin-top: -18px;
   }
   .ref-team-member .person-line > .badge {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-team-member .person-line .avatar {
     width: 30px;
     height: 30px;
   }
   .ref-team-member .person-line b {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-team-member .person-line small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-team-member .btn {
-    font-size: 7px;
+    font-size: 10px;
     padding: 6px 4px;
   }
   .ref-team-member > small,
@@ -3207,7 +3264,7 @@ input[type="radio"] {
     padding: 0 17px;
   }
   .header-role select {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-admin-layout {
     grid-template-columns: 1fr;
@@ -3222,7 +3279,7 @@ input[type="radio"] {
   }
   .ref-ranking table th,
   .ref-ranking table td {
-    font-size: 8px;
+    font-size: 10px;
     padding: 13px 5px;
   }
   .ref-panel-heading h2 {
@@ -3238,7 +3295,7 @@ input[type="radio"] {
     font-size: 25px;
   }
   .ref-metric > small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-admin-middle > .ref-panel {
     min-height: 250px;
@@ -3248,47 +3305,47 @@ input[type="radio"] {
     font-size: 11px;
   }
   .ref-mini-stats small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-mini-stats b {
     font-size: 13px;
   }
   .ref-small-tabs > button {
-    font-size: 8px;
+    font-size: 10px;
   }
   .approval-table td,
   .approval-table th {
-    font-size: 7px;
+    font-size: 10px;
   }
   .approval-table .btn.small {
-    font-size: 7px;
+    font-size: 10px;
     padding: 5px 8px;
   }
   .ref-billing-summary > b,
   .ref-billing-row > b {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-billing-summary > strong {
     font-size: 25px;
   }
   .ref-billing-summary > small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-billing-row > div {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-admin-aside .ref-chart svg {
     height: 155px;
   }
   .responders td {
-    font-size: 8px;
+    font-size: 10px;
     padding: 13px 5px;
   }
   .responders th {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-quick-stats > div {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-quick-stats > div > b {
     font-size: 16px;
@@ -3307,43 +3364,43 @@ input[type="radio"] {
     padding: 15px;
   }
   .ref-pro-panels .table-wrap .person-line b {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-pro-panels .table-wrap .person-line small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-pro-panels .table-wrap .person-line .avatar {
     width: 28px;
     height: 28px;
   }
   .ref-pro-panels .table-wrap .badge {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-pro-panels .ref-deadline b {
     font-size: 10px;
   }
   .ref-pro-panels .ref-deadline small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-pro-panels .ref-deadline .deadline-state {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-request-person b {
     font-size: 10px;
   }
   .ref-request-person small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-meeting-requests .btn.small {
-    font-size: 8px;
+    font-size: 10px;
     padding: 6px 9px;
   }
   .calendar-sync > button {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-agenda time,
   .ref-agenda small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-agenda b {
     font-size: 10px;
@@ -3353,7 +3410,7 @@ input[type="radio"] {
   }
   .ref-listings-table td,
   .ref-listings-table th {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-pro-aside:has(.ref-agency-metrics) {
     display: grid;
@@ -3379,7 +3436,7 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-agency-metrics .ref-metric > small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-agency-banner {
     display: flex;
@@ -3402,10 +3459,10 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-doc-requests small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-doc-requests .badge {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-purchase-columns {
     grid-template-columns: minmax(0, 1.8fr) minmax(230px, 1fr);
@@ -3457,7 +3514,7 @@ input[type="radio"] {
     gap: 9px;
   }
   .ref-purchase-progress .journey-step b {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-purchase.professional .journey-step {
     flex-direction: row;
@@ -3479,11 +3536,11 @@ input[type="radio"] {
     grid-column: 1/-1;
   }
   .ref-document-name {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-purchase-documents table td,
   .ref-purchase-documents table th {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-participant {
     min-width: 190px;
@@ -3496,17 +3553,17 @@ input[type="radio"] {
     height: 38px;
   }
   .ref-participant > .badge {
-    font-size: 7px;
+    font-size: 10px;
     padding: 6px;
   }
   .ref-purchase-payment > button {
     gap: 15px;
   }
   .ref-purchase-payment > button > span {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-purchase-payment b {
-    font-size: 9px;
+    font-size: 10px;
   }
   .login {
     grid-template-columns: 35% 65%;
@@ -3585,10 +3642,10 @@ input[type="radio"] {
     gap: 6px;
   }
   .header-profile > span:not(.avatar) {
-    font-size: 9px;
+    font-size: 10px;
   }
   .header-profile small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .header-profile > .avatar {
     width: 29px;
@@ -3598,11 +3655,11 @@ input[type="radio"] {
     display: none;
   }
   .header-languages > button {
-    font-size: 7px;
+    font-size: 10px;
     padding: 0 6px;
   }
   .header-role select {
-    font-size: 8px;
+    font-size: 10px;
     padding: 5px 15px 5px 5px;
     max-width: 65px;
   }
@@ -3619,7 +3676,7 @@ input[type="radio"] {
     font-size: 27px;
   }
   .ref-page-title p {
-    font-size: 9px;
+    font-size: 10px;
     max-width: 310px;
     margin-top: 7px;
   }
@@ -3639,7 +3696,7 @@ input[type="radio"] {
     font-size: 28px;
   }
   .ref-metric > small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-admin-middle {
     grid-template-columns: 1fr;
@@ -3656,11 +3713,11 @@ input[type="radio"] {
     font-size: 12px;
   }
   .ref-panel-heading > button {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-ranking table td,
   .ref-ranking table th {
-    font-size: 8px;
+    font-size: 10px;
     padding: 13px 4px;
   }
   .ref-ranking table td:nth-child(4),
@@ -3677,14 +3734,14 @@ input[type="radio"] {
     margin-right: 4px;
   }
   .ref-ranking .badge {
-    font-size: 7px;
+    font-size: 10px;
     padding: 4px 6px;
   }
   .ref-agency-detail .ref-panel-heading h2 {
     font-size: 12px;
   }
   .ref-agency-detail > .badge {
-    font-size: 7px;
+    font-size: 10px;
     top: 18px;
     padding: 3px 6px;
   }
@@ -3697,22 +3754,22 @@ input[type="radio"] {
     margin-bottom: 17px;
   }
   .ref-small-tabs > button {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-mini-stats small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-mini-stats b {
     font-size: 16px;
   }
   .ref-mini-stats .ref-trend {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-agency-detail h4 {
     font-size: 10px;
   }
   .chart-legend {
-    font-size: 7px;
+    font-size: 10px;
     gap: 11px;
   }
   .ref-chart svg {
@@ -3720,7 +3777,7 @@ input[type="radio"] {
   }
   .approval-table td,
   .approval-table th {
-    font-size: 7px;
+    font-size: 10px;
     padding: 11px 3px;
   }
   .approval-table .avatar {
@@ -3729,7 +3786,7 @@ input[type="radio"] {
     margin-right: 5px;
   }
   .approval-table .btn.small {
-    font-size: 7px;
+    font-size: 10px;
     padding: 5px 8px;
   }
   .approval-table td:first-child {
@@ -3741,14 +3798,14 @@ input[type="radio"] {
   }
   .approval-table td:nth-child(4),
   .approval-table th:nth-child(4) {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-billing-summary > b,
   .ref-billing-row > b {
     font-size: 11px;
   }
   .ref-billing-summary > small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-billing-summary > strong {
     font-size: 29px;
@@ -3769,13 +3826,13 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-billing-row small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-billing-row strong {
     font-size: 12px;
   }
   .ref-billing-row .btn.small {
-    font-size: 9px;
+    font-size: 10px;
     padding: 6px 17px;
   }
   .ref-admin-aside {
@@ -3795,10 +3852,10 @@ input[type="radio"] {
     font-size: 20px;
   }
   .ref-quick-stats .ref-trend {
-    font-size: 8px;
+    font-size: 10px;
   }
   .responders th {
-    font-size: 8px;
+    font-size: 10px;
   }
   .responders td {
     font-size: 10px;
@@ -3821,7 +3878,7 @@ input[type="radio"] {
     margin-top: 0;
   }
   .ref-wide-activity .chart-legend {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-wide-activity .ref-chart svg {
     height: 115px;
@@ -3845,10 +3902,10 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-pro-panels .ref-deadline small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-pro-panels .ref-deadline .deadline-state {
-    font-size: 8px;
+    font-size: 10px;
     padding: 5px 8px;
   }
   .ref-meeting-requests > div {
@@ -3862,21 +3919,21 @@ input[type="radio"] {
     font-size: 11px;
   }
   .ref-request-person small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-meeting-requests .button-row {
     padding-left: 47px;
     gap: 7px;
   }
   .ref-meeting-requests .btn.small {
-    font-size: 8px;
+    font-size: 10px;
     padding: 7px 11px;
   }
   .ref-pro-panels .table-wrap .person-line b {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-pro-panels .table-wrap .person-line small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-pro-panels .table-wrap .person-line .avatar {
     width: 28px;
@@ -3885,10 +3942,10 @@ input[type="radio"] {
   .ref-pro-panels .table-wrap td,
   .ref-pro-panels .table-wrap th {
     padding: 14px 6px;
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-pro-panels .table-wrap .badge {
-    font-size: 8px;
+    font-size: 10px;
     padding: 4px 7px;
   }
   .ref-listings-bottom {
@@ -3904,14 +3961,14 @@ input[type="radio"] {
   }
   .ref-listings-bottom .ref-panel > small,
   .ref-listings-bottom .ref-trend {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-large-number {
     font-size: 23px;
   }
   .ref-listings-table td,
   .ref-listings-table th {
-    font-size: 7px;
+    font-size: 10px;
     padding: 13px 4px;
   }
   .ref-listings-table td > img {
@@ -3920,7 +3977,7 @@ input[type="radio"] {
     margin-right: 6px;
   }
   .ref-listings-table small {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-pro-aside:has(.ref-agency-metrics) {
     display: block;
@@ -3951,7 +4008,7 @@ input[type="radio"] {
     font-size: 12px;
   }
   .ref-agent-bars span {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-agent-bars i {
     max-width: 39px;
@@ -3963,13 +4020,13 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-agency-metrics .ref-metric > small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-top-agents b {
     font-size: 11px;
   }
   .ref-top-agents small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-top-agents > button {
     padding: 16px 0;
@@ -3992,31 +4049,31 @@ input[type="radio"] {
     font-size: 25px;
   }
   .ref-agency-banner p {
-    font-size: 9px;
+    font-size: 10px;
     line-height: 1.8;
   }
   .ref-agency-banner .btn {
-    font-size: 9px;
+    font-size: 10px;
     padding: 9px 13px;
   }
   .ref-inline-prepare h3 {
     font-size: 10px;
   }
   .prepare-options {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-inline-prepare > textarea {
     font-size: 11px;
   }
   .ref-inline-prepare .inline-check {
-    font-size: 9px !important;
+    font-size: 10px !important;
   }
   .ref-inline-prepare .btn.small {
-    font-size: 9px;
+    font-size: 10px;
     padding: 8px 12px;
   }
   .ref-inline-prepare > .text-link {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-inline-prepare summary {
     font-size: 10px;
@@ -4025,7 +4082,7 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-doc-requests .badge {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-doc-requests > button {
     padding: 15px 0;
@@ -4045,7 +4102,7 @@ input[type="radio"] {
     line-height: 1.35;
   }
   .ref-purchase-title > h1 .badge {
-    font-size: 8px;
+    font-size: 10px;
     margin-left: 6px;
   }
   .ref-purchase-progress .journey-steps {
@@ -4068,7 +4125,7 @@ input[type="radio"] {
     height: 28px;
   }
   .ref-purchase-progress .journey-step b {
-    font-size: 8px;
+    font-size: 10px;
     padding: 0;
     line-height: 1.6;
     background: none;
@@ -4094,10 +4151,10 @@ input[type="radio"] {
     font-size: 20px;
   }
   .ref-participant small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-participant > .badge {
-    font-size: 8px;
+    font-size: 10px;
     padding: 7px 9px;
   }
   .ref-purchase-columns,
@@ -4139,22 +4196,22 @@ input[type="radio"] {
     margin-bottom: 18px !important;
   }
   .ref-doc-toolbar .btn {
-    font-size: 8px;
+    font-size: 10px;
     padding: 7px 9px;
     gap: 5px;
   }
   .ref-document-notice {
-    font-size: 8px;
+    font-size: 10px;
     line-height: 1.8;
     padding: 10px;
   }
   .ref-purchase-documents table td,
   .ref-purchase-documents table th {
-    font-size: 7px;
+    font-size: 10px;
     padding: 15px 4px;
   }
   .ref-document-name {
-    font-size: 8px;
+    font-size: 10px;
     gap: 7px;
   }
   .ref-document-name > span:last-child {
@@ -4165,12 +4222,12 @@ input[type="radio"] {
     height: 29px;
   }
   .ref-purchase-documents .badge {
-    font-size: 6px;
+    font-size: 10px;
     padding: 3px 5px;
   }
   .ref-purchase-documents td:nth-child(2) {
     max-width: 70px;
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-purchase-documents .icon-btn {
     width: 12px;
@@ -4190,7 +4247,7 @@ input[type="radio"] {
     font-size: 13px;
   }
   .ref-translate {
-    font-size: 9px;
+    font-size: 10px;
     top: 21px;
     right: 18px;
   }
@@ -4199,19 +4256,19 @@ input[type="radio"] {
     min-height: 220px;
   }
   .ref-chat-message b {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-chat-message time {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-chat-bubble p {
     font-size: 11px;
   }
   .ref-chat-bubble small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-chat-bubble small button {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-chat-compose {
     padding: 11px;
@@ -4239,10 +4296,10 @@ input[type="radio"] {
   .ref-purchase-payment > button > span:nth-last-child(2) {
     margin-left: 35px;
     flex: 1;
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-purchase-payment small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-client-header {
     gap: 13px;
@@ -4257,7 +4314,7 @@ input[type="radio"] {
     margin-bottom: 12px;
   }
   .ref-client-header h1 > span {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-client-meta {
     gap: 8px;
@@ -4277,7 +4334,7 @@ input[type="radio"] {
     gap: 8px;
   }
   .ref-purchase-title > .button-row .btn {
-    font-size: 8px;
+    font-size: 10px;
     padding: 8px 11px;
   }
   .ref-team-member {
@@ -4292,20 +4349,20 @@ input[type="radio"] {
     font-size: 11px;
   }
   .ref-team-member .person-line small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-team-member .person-line > .badge {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-team-member > small,
   .team-task-bar {
     margin-left: 51px;
   }
   .ref-team-member > small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-team-member .btn {
-    font-size: 9px;
+    font-size: 10px;
     padding: 8px 12px;
   }
   .ref-team-member .button-row {
@@ -4365,7 +4422,7 @@ input[type="radio"] {
     font-size: 28px;
   }
   .login-visual p {
-    font-size: 9px;
+    font-size: 10px;
     max-width: 180px;
   }
   .login-content {
@@ -4405,7 +4462,7 @@ input[type="radio"] {
 @media (max-width: 370px) {
   .ref-ranking table td,
   .ref-ranking table th {
-    font-size: 7px;
+    font-size: 10px;
     padding: 12px 3px;
   }
   .ref-ranking table td:nth-child(5),
@@ -4423,7 +4480,7 @@ input[type="radio"] {
     display: none;
   }
   .ref-pro-panels .table-wrap .badge {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-purchase-payment b {
     max-width: 140px;
@@ -4441,7 +4498,7 @@ input[type="radio"] {
     grid-template-columns: 1fr;
   }
   .ref-purchase-progress .journey-step b {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-purchase-title > h1 {
     font-size: 24px;
@@ -4483,24 +4540,24 @@ input[type="radio"] {
 }
 .ref-admin-middle > .ref-agency-detail .chart-legend {
   min-height: 13px;
-  font-size: 6px;
+  font-size: 10px;
 }
 .ref-admin-middle > .ref-panel {
   min-height: 0;
 }
 .ref-admin-middle .approval-table td {
   padding: 8px 3px;
-  font-size: 6.5px;
+  font-size: 10px;
 }
 .ref-admin-middle .approval-table th {
-  font-size: 6.5px;
+  font-size: 10px;
   padding: 8px 3px;
 }
 .ref-admin-middle .approval-table td:first-child {
   white-space: nowrap;
 }
 .ref-admin-middle .approval-table td:nth-child(2) {
-  font-size: 6px;
+  font-size: 10px;
 }
 .ref-admin-middle .approval-table .avatar {
   width: 21px;
@@ -4508,7 +4565,7 @@ input[type="radio"] {
   margin-right: 4px;
 }
 .ref-admin-middle .approval-table .btn.small {
-  font-size: 6.5px;
+  font-size: 10px;
   padding: 5px 7px;
 }
 .ref-admin-layout .ref-billing-summary {
@@ -4611,30 +4668,32 @@ input[type="radio"] {
   border: 0;
   background: #e9decf;
   color: #845b44;
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-property-info > h1 {
   font-size: 34px;
   margin: 18px 0 12px;
 }
 .ref-property-price {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 30px;
   font-weight: 600;
-  color: #203944;
+  color: var(--ink);
   display: flex;
   gap: 7px;
   align-items: center;
   flex-wrap: wrap;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
 }
 .ref-property-price > small {
-  font-family: Inter;
+  font-family: var(--font-sans);
   font-size: 12px;
   color: #89929a;
   font-weight: 400;
 }
 .ref-property-price select {
-  font-size: 9px;
+  font-size: 10px;
   padding: 4px 16px 4px 6px;
   margin-left: auto;
 }
@@ -4658,7 +4717,7 @@ input[type="radio"] {
   stroke-width: 1.4;
 }
 .ref-property-facts b {
-  font-family: Inter;
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1;
   font-weight: 400;
@@ -4680,7 +4739,7 @@ input[type="radio"] {
 }
 .unit-switch > button {
   padding: 4px 13px;
-  font-size: 8px;
+  font-size: 10px;
   color: #9c8a82;
 }
 .unit-switch > button.active {
@@ -4697,7 +4756,7 @@ input[type="radio"] {
   border-bottom: 1px solid #e0d8ce;
   padding: 22px 0;
   color: #909599;
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-property-amenities > span {
   display: flex;
@@ -4709,7 +4768,7 @@ input[type="radio"] {
   stroke-width: 1.4;
 }
 .ref-property-info h2 {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 25px;
   font-weight: 500;
   margin-bottom: 16px;
@@ -4734,7 +4793,7 @@ input[type="radio"] {
   text-align: left;
   padding: 10px 0 16px;
   width: 100%;
-  font-size: 9px;
+  font-size: 10px;
   color: #526777;
 }
 .ref-nearby-layout > div > button > svg {
@@ -4750,7 +4809,7 @@ input[type="radio"] {
 }
 .ref-nearby-layout small {
   display: block;
-  font-size: 8px;
+  font-size: 10px;
   color: #9aa3a8;
   margin-top: 6px;
 }
@@ -4762,7 +4821,7 @@ input[type="radio"] {
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: 9px;
+  font-size: 10px;
   color: #8f9598;
   margin: 12px 0;
 }
@@ -4771,7 +4830,7 @@ input[type="radio"] {
 }
 .ref-nearby-amenity b {
   margin: 0 0 0 auto;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 400;
   white-space: nowrap;
   color: #88929a;
@@ -4834,7 +4893,7 @@ input[type="radio"] {
 }
 .ref-property-aside .person-line b {
   font-size: 13px;
-  font-weight: 450;
+  font-weight: 400;
 }
 .ref-property-aside .person-line small {
   font-size: 10px;
@@ -4857,13 +4916,13 @@ input[type="radio"] {
   border: 1px solid #d7cec2;
   border-radius: 4px;
   padding: 10px 5px;
-  font-size: 9px;
+  font-size: 10px;
   text-align: center;
   color: #596a76;
 }
 .ref-viewing-slots small {
   display: block;
-  font-size: 8px;
+  font-size: 10px;
   color: #909ca5;
   margin-top: 6px;
 }
@@ -4874,7 +4933,7 @@ input[type="radio"] {
 }
 .ref-property-aside .button-row .btn {
   flex: 1;
-  font-size: 9px;
+  font-size: 10px;
   padding: 9px 8px;
 }
 .ref-property-aside .button-row svg {
@@ -4897,7 +4956,7 @@ input[type="radio"] {
   color: #8c959b;
 }
 .ref-cost-items b {
-  font-family: "Cormorant Garamond";
+  font-family: var(--font-serif);
   font-size: 16px;
   color: #344a57;
   font-weight: 500;
@@ -4923,7 +4982,7 @@ input[type="radio"] {
   font-weight: 500;
 }
 .ref-cost-note {
-  font-size: 8px !important;
+  font-size: 10px !important;
   line-height: 1.8 !important;
   color: #a0988f !important;
   margin-top: 10px;
@@ -4951,13 +5010,13 @@ input[type="radio"] {
 }
 .ref-property-recommend small {
   display: block;
-  font-size: 9px;
+  font-size: 10px;
   color: #96a0a6;
   margin-top: 4px;
 }
 .ref-property-recommend .badge {
   margin-left: auto;
-  font-size: 7px;
+  font-size: 10px;
   padding: 4px 7px;
 }
 .ref-property-aside p {
@@ -4971,7 +5030,7 @@ input[type="radio"] {
   padding: 0 0 0 18px;
   font-size: 10px;
   line-height: 1.9;
-  color: #8b969f;
+  color: var(--muted);
 }
 .ref-property-aside li {
   padding: 6px 0 6px 8px;
@@ -5010,13 +5069,13 @@ input[type="radio"] {
 }
 .ref-vertical-journey b {
   font-size: 10px;
-  font-weight: 450;
+  font-weight: 400;
   display: block;
   color: #4a6070;
 }
 .ref-vertical-journey small {
   display: block;
-  font-size: 9px;
+  font-size: 10px;
   color: #9ba4a9;
   margin-top: 7px;
 }
@@ -5026,7 +5085,7 @@ input[type="radio"] {
   border-top: 1px solid #ded4c7;
 }
 .ref-land-path p {
-  font-size: 9px;
+  font-size: 10px;
   margin-bottom: 7px;
 }
 .ref-land-path b {
@@ -5035,7 +5094,7 @@ input[type="radio"] {
   color: #7d8992;
 }
 .ref-property-aside .ref-panel > .btn.small {
-  font-size: 9px;
+  font-size: 10px;
   padding: 8px 14px;
 }
 @media (min-width: 1550px) {
@@ -5101,7 +5160,7 @@ input[type="radio"] {
     font-size: 25px;
   }
   .ref-property-price > small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-property-facts {
     gap: 12px;
@@ -5123,7 +5182,7 @@ input[type="radio"] {
   }
   .ref-property-amenities > span {
     gap: 6px;
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-property-amenities svg {
     width: 19px;
@@ -5136,21 +5195,21 @@ input[type="radio"] {
     height: 260px;
   }
   .ref-nearby-layout > div > button {
-    font-size: 8px;
+    font-size: 10px;
     gap: 7px;
   }
   .ref-nearby-layout > div > button > svg {
     width: 17px;
   }
   .ref-nearby-layout small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-nearby-amenity {
-    font-size: 8px;
+    font-size: 10px;
     gap: 6px;
   }
   .ref-property-features span {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-property-aside > .ref-panel {
     padding: 16px;
@@ -5159,7 +5218,7 @@ input[type="radio"] {
     font-size: 12px;
   }
   .ref-cost-items > div {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-cost-items b {
     font-size: 15px;
@@ -5168,16 +5227,16 @@ input[type="radio"] {
     font-size: 12px;
   }
   .ref-property-aside .person-line small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-property-recommend .badge {
-    font-size: 6px;
+    font-size: 10px;
   }
   .ref-property-recommend b {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-property-recommend small {
-    font-size: 8px;
+    font-size: 10px;
   }
 }
 @media (max-width: 800px) {
@@ -5197,7 +5256,7 @@ input[type="radio"] {
     font-size: 29px;
   }
   .ref-property-amenities > span {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-nearby-layout {
     grid-template-columns: 1.5fr 1fr;
@@ -5231,7 +5290,7 @@ input[type="radio"] {
     font-size: 10px;
   }
   .ref-property-aside .ref-cost-items > div {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-property-aside .ref-cost-items b {
     font-size: 14px;
@@ -5249,17 +5308,17 @@ input[type="radio"] {
     height: 155px;
   }
   .ref-admin-middle .approval-table td {
-    font-size: 7px;
+    font-size: 10px;
     padding: 10px 3px;
   }
   .ref-admin-middle .approval-table th {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-admin-middle .approval-table td:nth-child(2) {
-    font-size: 7px;
+    font-size: 10px;
   }
   .ref-admin-middle .approval-table .btn.small {
-    font-size: 7px;
+    font-size: 10px;
     padding: 6px 8px;
   }
   .ref-admin-middle .approval-table .avatar {
@@ -5276,7 +5335,7 @@ input[type="radio"] {
     height: 55px;
   }
   .ref-photo-strip > button:last-child {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-property-info {
     padding: 17px;
@@ -5290,7 +5349,7 @@ input[type="radio"] {
     gap: 5px;
   }
   .ref-property-price > small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-property-facts {
     gap: 10px;
@@ -5302,7 +5361,7 @@ input[type="radio"] {
     font-size: 13px;
   }
   .ref-property-facts small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-property-facts > div > svg {
     width: 20px;
@@ -5315,7 +5374,7 @@ input[type="radio"] {
     padding: 20px 0;
   }
   .ref-property-amenities > span {
-    font-size: 8px;
+    font-size: 10px;
     gap: 7px;
   }
   .ref-property-amenities > span > svg {
@@ -5334,19 +5393,19 @@ input[type="radio"] {
     gap: 0 15px;
   }
   .ref-nearby-layout > div > button {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-nearby-layout > div > small {
     grid-column: 1/-1;
   }
   .ref-nearby-amenity {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-nearby-layout b {
     font-size: 11px;
   }
   .ref-nearby-layout small {
-    font-size: 8px;
+    font-size: 10px;
   }
   .ref-property-info h2 {
     font-size: 25px;
@@ -5392,10 +5451,10 @@ input[type="radio"] {
     font-size: 11px;
   }
   .ref-property-recommend small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .ref-property-recommend .badge {
-    font-size: 7px;
+    font-size: 10px;
     padding: 5px 8px;
   }
   .ref-property-recommend .avatar {
@@ -5429,10 +5488,10 @@ input[type="radio"] {
   padding: 14px 0;
 }
 .ref-pro-panels .task small {
-  font-size: 8px;
+  font-size: 10px;
 }
 .ref-pro-panels .task b {
-  font-size: 9px;
+  font-size: 10px;
 }
 .ref-purchase.buyer .ref-purchase-documents .ref-doc-toolbar {
   position: static;

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Folder,
+  FolderClosed,
   Eye,
   Users,
   Clock,
@@ -10,8 +11,11 @@ import {
   ChevronRight,
   FileText,
   Plus,
+  Calendar,
   CalendarDays,
   MessageSquare,
+  MessageCircle,
+  MessageCircleText,
   Bell,
   Download,
   Upload,
@@ -33,6 +37,7 @@ import {
   UserCheck,
   TrendingUp,
   Link,
+  Database,
 } from "lucide-react";
 export function Brand() {
   return (
@@ -107,21 +112,53 @@ function Metric({
     </section>
   );
 }
-function Panel({ title, link, onClick, children, className = "" }) {
+function Panel({
+  title,
+  link,
+  onClick,
+  children,
+  className = "",
+  plainLink = false,
+  actions = null,
+}) {
   return (
     <section className={"ref-panel " + className}>
       <div className="ref-panel-heading">
         <h2>{title}</h2>
-        {link && (
-          <button onClick={onClick}>
-            {link}
-            <ArrowRight size={11} />
-          </button>
-        )}
+        {actions ||
+          (link && (
+            <button onClick={onClick}>
+              {link}
+              {!plainLink && <ArrowRight size={11} />}
+            </button>
+          ))}
       </div>
       {children}
     </section>
   );
+}
+const DEMO_TODAY = "2026-10-30";
+const statusColor = {
+  Explore: "#8a8f94",
+  Viewings: "#2f8755",
+  Offer: "#d28a1c",
+  Documents: "#2f6fb0",
+  Completion: "#7a4fb0",
+};
+function formatClock(t) {
+  if (!t) return "";
+  if (/am|pm/i.test(t)) return t;
+  const [h, m] = t.split(":").map(Number);
+  const ap = h >= 12 ? "PM" : "AM";
+  const hr = ((h + 11) % 12) + 1;
+  return `${hr}:${String(m || 0).padStart(2, "0")} ${ap}`;
+}
+function deadlineWhen(t) {
+  if (t.due === DEMO_TODAY)
+    return `Today, ${t.time || formatClock("10:00")}`;
+  if (t.due === "2026-10-31")
+    return `Tomorrow, ${t.time || formatClock("11:00")}`;
+  return `${fmt(t.due)}, 2026${t.time ? `, ${t.time}` : ""}`;
 }
 function Chart({ kind = "line", wide = false, metric = "revenue" }) {
   const ticks = wide
@@ -677,9 +714,13 @@ function Deadlines({ c, compact = false }) {
     </div>
   );
 }
-function CalendarMini({ c }) {
-  const { visibleMeetings, setModal, btn, go } = c;
+function CalendarMini({ c, variant }) {
+  const { visibleMeetings, setModal } = c;
   const [day, setDay] = useState(0);
+  const agent = variant === "agent";
+  const barColors = agent
+    ? ["#2f8755", "#8b2e3c", "#2f6fb0"]
+    : ["#2f8755", "#2983ab", "#6e5291"];
   return (
     <>
       <div className="week-strip">
@@ -694,15 +735,17 @@ function CalendarMini({ c }) {
           </button>
         ))}
       </div>
-      <div className="calendar-sync">
-        <button onClick={() => setModal({ type: "connect" })}>
-          <span className="google-g">G</span>Sync with Google
-        </button>
-        <button onClick={() => setModal({ type: "connect" })}>
-          <span className="outlook-o">O</span>Sync with Outlook
-        </button>
-      </div>
-      <div className="ref-agenda">
+      {!agent && (
+        <div className="calendar-sync">
+          <button onClick={() => setModal({ type: "connect" })}>
+            <span className="google-g">G</span>Sync with Google
+          </button>
+          <button onClick={() => setModal({ type: "connect" })}>
+            <span className="outlook-o">O</span>Sync with Outlook
+          </button>
+        </div>
+      )}
+      <div className={"ref-agenda" + (agent ? " agent-agenda" : "")}>
         {visibleMeetings()
           .filter(
             (m) =>
@@ -716,14 +759,16 @@ function CalendarMini({ c }) {
               key={m.id}
               onClick={() => setModal({ type: "appointment", item: m })}
             >
-              <time>{m.time}</time>
+              <i style={{ background: barColors[i % barColors.length] }} />
+              <time>{formatClock(m.time)}</time>
               <span>
                 <b>{m.title}</b>
                 <small>
-                  {m.person} · {fmt(m.date)}
+                  {agent
+                    ? m.property || m.person
+                    : `${m.person} · ${fmt(m.date)}`}
                 </small>
               </span>
-              <i style={{ background: ["#2f8755", "#2983ab", "#6e5291"][i] }} />
             </button>
           ))}
       </div>
@@ -732,54 +777,67 @@ function CalendarMini({ c }) {
 }
 function MeetingRequests({ c, lawyer = false }) {
   const { visibleMeetings, btn, setModal, meetingAction } = c;
+  const pending = visibleMeetings()
+    .filter((m) => m.status === "Pending")
+    .slice(0, lawyer ? 99 : 3);
   return (
     <div className="ref-meeting-requests">
-      {visibleMeetings()
-        .filter((m) => m.status === "Pending")
-        .map((m) => (
-          <div key={m.id}>
-            <div className="ref-request-person">
-              <c.Avatar name={m.person} />
-              <span>
-                <b>{m.person}</b>
-                <small>
-                  {m.title} · {m.property}
-                </small>
-                <small>
-                  {fmt(m.date)}, 2026 · {m.time}
-                </small>
-              </span>
-            </div>
-            <div className="button-row">
-              {btn(
-                lawyer ? "Accept & prepare" : "Accept",
-                () => setModal({ type: "prepare", item: m }),
-                "primary small",
-              )}
-              {btn(
-                "Decline",
-                () => meetingAction(m.id, "Declined"),
+      {pending.map((m) => (
+        <div key={m.id}>
+          <div className="ref-request-person">
+            <c.Avatar name={m.person} />
+            <span>
+              <b>{m.person}</b>
+              <small>
+                {lawyer
+                  ? `${m.title} · ${m.property}`
+                  : `${m.title} – ${m.property}`}
+              </small>
+              <small>
+                {lawyer
+                  ? `${fmt(m.date)}, 2026 · ${m.time}`
+                  : deadlineWhen({
+                      due: m.date,
+                      time: formatClock(m.time),
+                    })}
+              </small>
+            </span>
+          </div>
+          <div className={"button-row" + (lawyer ? "" : " agent-meeting-actions")}>
+            {btn(
+              lawyer ? "Accept & prepare" : "Accept",
+              () => setModal({ type: "prepare", item: m }),
+              "primary small",
+            )}
+            {btn(
+              "Decline",
+              () => meetingAction(m.id, "Declined"),
+              "secondary small",
+            )}
+            {!lawyer &&
+              btn(
+                "Reassign",
+                () => setModal({ type: "reassign", item: m }),
                 "secondary small",
               )}
-              {!lawyer &&
-                btn(
-                  "Reassign",
-                  () => setModal({ type: "reassign", item: m }),
-                  "secondary small",
-                )}
-            </div>
           </div>
-        ))}
-      {!visibleMeetings().some((m) => m.status === "Pending") && (
+        </div>
+      ))}
+      {!pending.length && (
         <p className="ref-empty">No pending meeting requests.</p>
       )}
     </div>
   );
 }
-function ListingsMini({ c }) {
+function ListingsMini({ c, variant }) {
+  const agent = variant === "agent";
   return (
     <div className="table-wrap">
-      <table className="ref-listings-table">
+      <table
+        className={
+          "ref-listings-table" + (agent ? " agent-listings-table" : "")
+        }
+      >
         <thead>
           <tr>
             <th>Property</th>
@@ -800,9 +858,9 @@ function ListingsMini({ c }) {
             >
               <td>
                 <img src={p.image} alt="" />
-                {p.name}
+                <span>{p.name}</span>
               </td>
-              <td>{p.location}</td>
+              <td>{agent ? p.location.split(",")[0] : p.location}</td>
               <td>{euro(p.price)}</td>
               <td>
                 {p.school}
@@ -819,31 +877,305 @@ function ListingsMini({ c }) {
     </div>
   );
 }
+function AgentDeadlines({ c }) {
+  const tasks = c.d.tasks
+    .filter((t) => !t.done)
+    .slice()
+    .sort((a, b) => a.due.localeCompare(b.due) || a.id - b.id)
+    .slice(0, 5);
+  return (
+    <div className="agent-timeline">
+      {tasks.map((t) => {
+        const overdue = t.due <= DEMO_TODAY && !t.done;
+        return (
+          <button
+            key={t.id}
+            className={"agent-timeline-row" + (overdue ? " overdue" : "")}
+            onClick={() => c.setModal({ type: "reminder", item: t })}
+          >
+            <span className="agent-timeline-rail" aria-hidden="true">
+              <i className={overdue ? "dot red" : "dot"} />
+            </span>
+            <span className="agent-timeline-body">
+              <small>{deadlineWhen(t)}</small>
+              <b>{t.title}</b>
+              <small>{t.person || "—"}</small>
+            </span>
+            <span className="agent-timeline-meta">
+              {overdue && <span className="agent-overdue-pill">Overdue</span>}
+              <ChevronRight size={14} strokeWidth={1.5} />
+            </span>
+          </button>
+        );
+      })}
+      {!tasks.length && <p className="ref-empty">No upcoming deadlines.</p>}
+    </div>
+  );
+}
+function AgentCasesTable({ c }) {
+  const rows = c.d.clients.slice(0, 5);
+  return (
+    <div className="table-wrap agent-cases-wrap">
+      <table className="agent-cases-table">
+        <thead>
+          <tr>
+            <th>Buyer</th>
+            <th>Status</th>
+            <th>Other parties</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((client) => {
+            const stageName =
+              c.stages[client.id === 1 ? c.d.stage : client.stage];
+            const parties = c.pros.slice(0, 2 + (client.id % 2));
+            return (
+              <tr
+                key={client.id}
+                onClick={() => {
+                  c.setTab("Overview");
+                  c.go(client.id === 1 ? "My purchase" : "Client detail");
+                  c.setSelected(client.id);
+                }}
+              >
+                <td>
+                  <div className="agent-buyer">
+                    <c.Avatar name={client.name} />
+                    <span>
+                      <b>{client.name}</b>
+                      <small>
+                        {client.city || "Lisbon"}, {client.country}
+                      </small>
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <span className="agent-status">
+                    <i style={{ background: statusColor[stageName] }} />
+                    {stageName}
+                  </span>
+                </td>
+                <td>
+                  <span className="agent-party-stack">
+                    {parties.map((p) => (
+                      <c.Avatar key={p.id} name={p.name} />
+                    ))}
+                  </span>
+                </td>
+                <td>
+                  <ChevronRight size={16} strokeWidth={1.5} />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+function AgentStatTile({
+  icon: Icon,
+  label,
+  value,
+  trend,
+  down = false,
+  onClick,
+}) {
+  const Tag = onClick ? "button" : "div";
+  return (
+    <Tag
+      className={"agent-stat-tile" + (onClick ? " clickable" : "")}
+      onClick={onClick}
+    >
+      <span className="agent-stat-icon">
+        <Icon size={22} strokeWidth={1.5} />
+      </span>
+      <span className="agent-stat-label">{label}</span>
+      <strong className="agent-stat-value">{value}</strong>
+      <small className={"agent-stat-trend" + (down ? " down-good" : "")}>
+        {down ? <ArrowDown size={11} /> : <ArrowUp size={11} />} {trend}
+      </small>
+    </Tag>
+  );
+}
 function ProfessionalDashboard({ c }) {
   const lawyer = c.d.role === "Lawyer";
+  if (!lawyer) {
+    return (
+      <div className="ref-pro-layout agent">
+        <div className="ref-pro-main">
+          <div className="ref-page-title agent-greeting">
+            <h1>Good morning, Sofia</h1>
+            <p>Here’s what’s happening with your cases today.</p>
+          </div>
+          <div className="ref-metrics agent-metrics">
+            <Metric
+              icon={FolderClosed}
+              title="Active cases"
+              value="12"
+              change="2"
+              period="vs. last week"
+            />
+            <Metric
+              icon={Eye}
+              title="Viewings this week"
+              value="7"
+              change="3"
+              period="vs. last week"
+            />
+            <Metric
+              icon={FileText}
+              title="Documents waiting"
+              value={
+                c.d.documents.filter((x) =>
+                  ["Requested", "Ready to review"].includes(x.status),
+                ).length
+              }
+              change="2"
+              down
+              period="vs. last week"
+            />
+            <Metric
+              icon={Calendar}
+              title="Reminders due today"
+              value="3"
+              change="1"
+              down={false}
+              period="vs. last week"
+            />
+          </div>
+          <div className="ref-pro-panels agent-panels">
+            <Panel
+              title="Deadlines and reminders"
+              link="View all"
+              plainLink
+              onClick={() => c.go("Tasks")}
+            >
+              <AgentDeadlines c={c} />
+            </Panel>
+            <Panel
+              title="Meeting requests"
+              link="View all"
+              plainLink
+              onClick={() => c.go("Meetings")}
+            >
+              <MeetingRequests c={c} />
+            </Panel>
+            <Panel
+              title="My cases"
+              link="View all"
+              plainLink
+              onClick={() => c.go("Clients")}
+            >
+              <AgentCasesTable c={c} />
+            </Panel>
+            <Panel
+              title="Calendar"
+              actions={
+                <div className="agent-cal-sync">
+                  <button onClick={() => c.setModal({ type: "connect" })}>
+                    <span className="agent-brand-icon google" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="14" height="14">
+                        <path
+                          fill="#4285F4"
+                          d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+                        />
+                        <path
+                          fill="#34A853"
+                          d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                        />
+                        <path
+                          fill="#FBBC05"
+                          d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z"
+                        />
+                        <path
+                          fill="#EA4335"
+                          d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                        />
+                      </svg>
+                    </span>
+                    Sync with Google
+                  </button>
+                  <button onClick={() => c.setModal({ type: "connect" })}>
+                    <span className="agent-brand-icon outlook" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="14" height="14">
+                        <rect width="24" height="24" rx="4" fill="#0078D4" />
+                        <path
+                          fill="#fff"
+                          d="M7.2 6.5h4.1c2.2 0 3.7 1.3 3.7 3.3 0 1.3-.7 2.3-1.8 2.8l2.2 4.9h-2.3l-2-4.6H9.4v4.6H7.2V6.5zm2.2 1.8v2.8h1.6c1.1 0 1.8-.6 1.8-1.4s-.7-1.4-1.8-1.4H9.4z"
+                        />
+                      </svg>
+                    </span>
+                    Sync with Outlook
+                  </button>
+                </div>
+              }
+            >
+              <CalendarMini c={c} variant="agent" />
+            </Panel>
+          </div>
+          <div className="ref-listings-bottom agent-listings-bottom">
+            <Panel
+              title="My listings"
+              actions={
+                <div className="agent-listings-actions">
+                  <button
+                    className="agent-view-all"
+                    onClick={() => c.go("Listings")}
+                  >
+                    View all
+                  </button>
+                  <button
+                    className="agent-add-listing"
+                    onClick={() => c.setModal({ type: "listing" })}
+                  >
+                    <Plus size={12} strokeWidth={1.5} /> Add listing
+                  </button>
+                </div>
+              }
+            >
+              <ListingsMini c={c} variant="agent" />
+            </Panel>
+            <div className="agent-side-tiles">
+              <AgentStatTile
+                icon={MessageCircleText}
+                label="Your average reply"
+                value="2 h 10 m"
+                trend="45% vs. last month"
+                down
+              />
+              <AgentStatTile
+                icon={Database}
+                label="Commission pending"
+                value={euro((c.purchase.price * c.d.agencyRate) / 100)}
+                trend="12% vs. last month"
+                onClick={() => c.go("Commissions")}
+              />
+            </div>
+          </div>
+        </div>
+        <aside className="ref-pro-aside">
+          <AgencyPanel c={c} />
+        </aside>
+      </div>
+    );
+  }
   return (
-    <div className={"ref-pro-layout " + (lawyer ? "lawyer" : "agent")}>
+    <div className="ref-pro-layout lawyer">
       <div className="ref-pro-main">
         <div className="ref-page-title">
-          <h1>Good morning, {lawyer ? "Ana" : "Sofia"}</h1>
-          <p>
-            Here’s what’s happening with your{" "}
-            {lawyer ? "client purchases" : "cases"} today.
-          </p>
+          <h1>Good morning, Ana</h1>
+          <p>Here’s what’s happening with your client purchases today.</p>
         </div>
         <div className="ref-metrics">
-          <Metric
-            icon={Folder}
-            title="Active cases"
-            value={lawyer ? "8" : "12"}
-            change="2"
-          />
+          <Metric icon={Folder} title="Active cases" value="8" change="2" />
           <Metric
             icon={CalendarDays}
-            title={lawyer ? "Deadlines today" : "Viewings this week"}
-            value={lawyer ? "3" : "7"}
+            title="Deadlines today"
+            value="3"
             change="3"
-            down={lawyer}
+            down
             period="vs. last week"
           />
           <Metric
@@ -860,181 +1192,106 @@ function ProfessionalDashboard({ c }) {
           />
           <Metric
             icon={MessageSquare}
-            title={lawyer ? "Meeting requests" : "Reminders due today"}
+            title="Meeting requests"
             value={
-              lawyer
-                ? c.visibleMeetings().filter((x) => x.status === "Pending")
-                    .length
-                : "3"
+              c.visibleMeetings().filter((x) => x.status === "Pending").length
             }
             change="1"
-            down={!lawyer}
             period="vs. last week"
           />
         </div>
         <div className="ref-pro-panels">
-          {!lawyer && (
-            <Panel
-              title="Deadlines and reminders"
-              link="View all"
-              onClick={() => c.go("Tasks")}
-            >
-              <Deadlines c={c} />
-            </Panel>
-          )}
-          {lawyer ? (
-            <Panel
-              title="My cases"
-              link="View all"
-              onClick={() => c.go("Purchases")}
-            >
-              {c.clientTable(true)}
-            </Panel>
-          ) : (
-            <Panel
-              title="Meeting requests"
-              link="View all"
-              onClick={() => c.go("Meetings")}
-            >
-              <MeetingRequests c={c} />
-            </Panel>
-          )}
-          {lawyer ? (
-            <Panel
-              title="Document requests"
-              link="View all"
-              onClick={() => c.go("Documents")}
-            >
-              <div className="ref-doc-requests">
-                {c.d.documents
-                  .filter((x) => x.access.includes(c.d.role))
-                  .slice(0, 5)
-                  .map((x) => (
-                    <button key={x.id} onClick={() => c.documentAction(x)}>
-                      <span className="doc-symbol">
-                        <FileText size={20} />
-                      </span>
-                      <span>
-                        <b>{x.name}</b>
-                        <small>From: {x.by}</small>
-                      </span>
-                      <c.Badge
-                        tone={x.access.length === 3 ? "green" : "purple"}
-                      >
-                        {x.access.length === 3
-                          ? "Everyone"
-                          : x.access.join(" + ")}
-                      </c.Badge>
-                    </button>
-                  ))}
-              </div>
-              {c.btn(
-                "Request document",
-                () => c.setModal({ type: "requestDoc" }),
-                "primary small",
-                Plus,
-              )}
-            </Panel>
-          ) : (
-            <Panel
-              title="My cases"
-              link="View all"
-              onClick={() => c.go("Clients")}
-            >
-              {c.clientTable(true)}
-            </Panel>
-          )}
-          {lawyer ? (
-            <Panel
-              title="To-do list"
-              link="View all"
-              onClick={() => c.go("Tasks")}
-            >
-              {c.taskList()}
-            </Panel>
-          ) : (
-            <Panel
-              title="Calendar"
-              link="View all"
-              onClick={() => c.go("Calendar")}
-            >
-              <CalendarMini c={c} />
-            </Panel>
-          )}
-          {lawyer && (
-            <Panel
-              title="Reminders for deadlines"
-              link="View all"
-              onClick={() => c.go("Tasks")}
-            >
-              <Deadlines c={c} compact />
-            </Panel>
-          )}
-        </div>
-        {!lawyer ? (
-          <div className="ref-listings-bottom">
-            <Panel
-              title="My listings"
-              link="+ Add listing"
-              onClick={() => c.setModal({ type: "listing" })}
-            >
-              <ListingsMini c={c} />
-            </Panel>
-            <div>
-              <Panel title="Your average reply">
-                <strong className="ref-large-number">2 h 10 m</strong>
-                <small className="muted">↓ 45% vs. last month</small>
-              </Panel>
-              <Panel title="Commission pending">
-                <strong className="ref-large-number">
-                  {euro((c.purchase.price * c.d.agencyRate) / 100)}
-                </strong>
-                <Trend>12% vs. last month</Trend>
-              </Panel>
+          <Panel
+            title="My cases"
+            link="View all"
+            onClick={() => c.go("Purchases")}
+          >
+            {c.clientTable(true)}
+          </Panel>
+          <Panel
+            title="Document requests"
+            link="View all"
+            onClick={() => c.go("Documents")}
+          >
+            <div className="ref-doc-requests">
+              {c.d.documents
+                .filter((x) => x.access.includes(c.d.role))
+                .slice(0, 5)
+                .map((x) => (
+                  <button key={x.id} onClick={() => c.documentAction(x)}>
+                    <span className="doc-symbol">
+                      <FileText size={20} />
+                    </span>
+                    <span>
+                      <b>{x.name}</b>
+                      <small>From: {x.by}</small>
+                    </span>
+                    <c.Badge
+                      tone={x.access.length === 3 ? "green" : "purple"}
+                    >
+                      {x.access.length === 3
+                        ? "Everyone"
+                        : x.access.join(" + ")}
+                    </c.Badge>
+                  </button>
+                ))}
             </div>
-          </div>
-        ) : (
-          <div className="ref-lawyer-bottom">
-            <Panel title="Response time">
-              <small className="muted">Average reply</small>
-              <strong className="ref-large-number">3 h 05 m</strong>
-              <Trend>32% vs. last month</Trend>
-              <Chart />
-            </Panel>
-            <Panel title="Stay on top">
-              <p>
-                Keep track of deadlines, manage your clients and close more
-                deals.
-              </p>
-              {c.btn(
-                "View all cases",
-                () => c.go("Purchases"),
-                "secondary small",
-                ArrowRight,
-              )}
-            </Panel>
-          </div>
-        )}
+            {c.btn(
+              "Request document",
+              () => c.setModal({ type: "requestDoc" }),
+              "primary small",
+              Plus,
+            )}
+          </Panel>
+          <Panel
+            title="To-do list"
+            link="View all"
+            onClick={() => c.go("Tasks")}
+          >
+            {c.taskList()}
+          </Panel>
+          <Panel
+            title="Reminders for deadlines"
+            link="View all"
+            onClick={() => c.go("Tasks")}
+          >
+            <Deadlines c={c} compact />
+          </Panel>
+        </div>
+        <div className="ref-lawyer-bottom">
+          <Panel title="Response time">
+            <small className="muted">Average reply</small>
+            <strong className="ref-large-number">3 h 05 m</strong>
+            <Trend>32% vs. last month</Trend>
+            <Chart />
+          </Panel>
+          <Panel title="Stay on top">
+            <p>
+              Keep track of deadlines, manage your clients and close more
+              deals.
+            </p>
+            {c.btn(
+              "View all cases",
+              () => c.go("Purchases"),
+              "secondary small",
+              ArrowRight,
+            )}
+          </Panel>
+        </div>
       </div>
       <aside className="ref-pro-aside">
-        {lawyer ? (
-          <>
-            <Panel
-              title="Calendar and meetings"
-              link="View all"
-              onClick={() => c.go("Calendar")}
-            >
-              <CalendarMini c={c} />
-              <div className="ref-subheading">
-                <h3>Meeting requests</h3>
-              </div>
-              <MeetingRequests c={c} lawyer />
-              <InlinePrepare c={c} />
-            </Panel>
-          </>
-        ) : (
-          <AgencyPanel c={c} />
-        )}
+        <Panel
+          title="Calendar and meetings"
+          link="View all"
+          onClick={() => c.go("Calendar")}
+        >
+          <CalendarMini c={c} />
+          <div className="ref-subheading">
+            <h3>Meeting requests</h3>
+          </div>
+          <MeetingRequests c={c} lawyer />
+          <InlinePrepare c={c} />
+        </Panel>
       </aside>
     </div>
   );
@@ -1146,6 +1403,8 @@ function InlinePrepare({ c }) {
 }
 function AgencyPanel({ c }) {
   const [view, setView] = useState("Agency view");
+  const barVals = [12, 9, 7, 6, 5];
+  const barNames = ["Sofia", "João", "Marta", "Rafael", "Inês"];
   return (
     <>
       <div className="ref-view-toggle">
@@ -1165,35 +1424,44 @@ function AgencyPanel({ c }) {
           Agency view
         </button>
       </div>
-      <div className="ref-page-title">
+      <div className="ref-page-title agent-agency-title">
         <h1>Agency performance</h1>
         <p>Key metrics and team overview.</p>
       </div>
-      <div className="ref-agency-metrics">
-        <Panel title="Clients per agent this month">
+      <div className="ref-agency-metrics agent-agency-metrics">
+        <Panel
+          className="agent-bars-panel"
+          title={
+            <span className="agent-bars-heading">
+              <House size={16} strokeWidth={1.5} />
+              Clients per agent this month
+            </span>
+          }
+        >
           <div className="ref-agent-bars">
-            {[12, 9, 7, 6, 5].map((v, i) => (
+            {barVals.map((v, i) => (
               <button
                 onClick={() => c.setModal({ type: "agentDetail", index: i })}
                 key={i}
               >
                 <small>{v}</small>
-                <i style={{ height: 20 + v * 5 + "px" }} />
-                <span>{["Sofia", "João", "Marta", "Rafael", "Inês"][i]}</span>
+                <i style={{ height: `${Math.round((v / 12) * 56)}px` }} />
+                <span>{barNames[i]}</span>
               </button>
             ))}
           </div>
         </Panel>
-        <Metric icon={House} title="Houses listed" value="28" />
+        <Metric icon={House} title="Houses listed" value="28" change="12%" />
         <Metric icon={Eye} title="Viewings" value="73" change="18%" />
         <Metric icon={Star} title="Reviews" value="4.8" change="0.3" />
       </div>
       <Panel
         title="Top agents this month"
         link="View all"
+        plainLink
         onClick={() => c.go("Agency")}
       >
-        <div className="ref-top-agents">
+        <div className="ref-top-agents agent-top-agents">
           {[
             "Sofia Sousa",
             "João Almeida",
@@ -1205,7 +1473,7 @@ function AgencyPanel({ c }) {
               key={n}
               onClick={() => c.setModal({ type: "agentDetail", index: i })}
             >
-              <span className="rank-medal">{i + 1}</span>
+              <span className="agent-rank">{i + 1}</span>
               <c.Avatar name={n} />
               <span>
                 <b>{n}</b>
@@ -1213,12 +1481,17 @@ function AgencyPanel({ c }) {
                   {12 - i * 2} clients · {8 - i} closed
                 </small>
               </span>
-              <span>☆ {(4.9 - i * 0.1).toFixed(1)}</span>
+              <span className="agent-rating">
+                <Star size={12} strokeWidth={2} className="agent-star" />
+                <span className="agent-rating-value">
+                  {(4.9 - i * 0.1).toFixed(1)}
+                </span>
+              </span>
             </button>
           ))}
         </div>
       </Panel>
-      <div className="ref-agency-banner">
+      <div className="ref-agency-banner agent-agency-banner">
         <img
           src="/brand/portugal-coast.jpg"
           alt="Portuguese coast extracted from the client's PowerPoint"

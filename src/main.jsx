@@ -10,7 +10,9 @@ import {
   Users,
   FolderOpen,
   CalendarDays,
+  Calendar,
   MessageSquare,
+  MessageCircle,
   Wallet,
   Settings,
   Bell,
@@ -60,8 +62,15 @@ import {
   PenLine,
 } from "lucide-react";
 import { properties, pros, stages, initial } from "./data";
+import "@fontsource-variable/inter/wght.css";
+import "@fontsource/cormorant-garamond/400.css";
+import "@fontsource/cormorant-garamond/500.css";
+import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/cormorant-garamond/700.css";
 import "./style.css";
 import "./reference.css";
+import "./theme.css";
+import "./agent-dashboard.css";
 import {
   Brand,
   ReferenceDashboard,
@@ -95,6 +104,16 @@ const icons = {
   Settings,
   Languages,
 };
+const agentIcons = {
+  Overview: House,
+  Clients: Briefcase,
+  Listings: Building2,
+  Calendar: Calendar,
+  Messages: MessageCircle,
+  Documents: FileText,
+  Agency: BarChart3,
+  Settings,
+};
 const menus = {
   Buyer: [
     "Overview",
@@ -113,13 +132,10 @@ const menus = {
     "Overview",
     "Clients",
     "Listings",
-    "Meetings",
-    "Documents",
     "Calendar",
     "Messages",
-    "Tasks",
+    "Documents",
     "Agency",
-    "Commissions",
     "Settings",
   ],
   Lawyer: [
@@ -213,7 +229,7 @@ function App() {
     try {
       return {
         ...initial,
-        ...JSON.parse(localStorage.getItem("ninho-demo-v2") || "{}"),
+        ...JSON.parse(localStorage.getItem("ninho-demo-v3") || "{}"),
       };
     } catch {
       return initial;
@@ -246,7 +262,7 @@ function App() {
   const [budgetFit, setBudgetFit] = useState(false);
   useEffect(() => {
     try {
-      localStorage.setItem("ninho-demo-v2", JSON.stringify(d));
+      localStorage.setItem("ninho-demo-v3", JSON.stringify(d));
     } catch {
       setToast(
         "Browser storage is full. Remove a demo upload or reset sample data in Settings.",
@@ -4080,6 +4096,7 @@ function App() {
       btn,
       go,
       setModal,
+      setTab,
       patch,
       notify,
       clientTable,
@@ -4288,7 +4305,10 @@ function App() {
             </div>
             <nav className="side-nav">
               {menus[d.role].map((n) => {
-                const Icon = icons[n];
+                const Icon =
+                  d.role === "Agent" && agentIcons[n]
+                    ? agentIcons[n]
+                    : icons[n];
                 return (
                   <button
                     className={
@@ -4302,9 +4322,13 @@ function App() {
                       go(n);
                     }}
                   >
-                    <Icon size={18} />
+                    <Icon size={18} strokeWidth={1.5} />
                     <span>{navLabel(n)}</span>
-                    {n === "Messages" && <span className="nav-count">3</span>}
+                    {n === "Messages" && (
+                      <span className="nav-count">
+                        {d.role === "Agent" ? "2" : "3"}
+                      </span>
+                    )}
                     {n === "Approvals" && (
                       <span className="nav-count">
                         {
@@ -4467,13 +4491,22 @@ function App() {
                   <button
                     onClick={() => setModal({ type: "legal", key: "privacy" })}
                   >
-                    Privacy
+                    {d.role === "Agent" ? "Privacy policy" : "Privacy"}
                   </button>
                   <button
                     onClick={() => setModal({ type: "legal", key: "terms" })}
                   >
                     Terms
                   </button>
+                  {d.role === "Agent" && (
+                    <button
+                      onClick={() =>
+                        setModal({ type: "legal", key: "consent" })
+                      }
+                    >
+                      Cookie settings
+                    </button>
+                  )}
                 </div>
               </footer>
             </main>

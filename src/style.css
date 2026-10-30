@@ -1,15 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Manrope:wght@400;500;600;650;700;750;800&display=swap");
 :root {
-  font-family: "DM Sans", Arial, sans-serif;
-  color: #293b32;
-  background: #f7f8f4;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--cream);
   font-size: 14px;
   font-synthesis: none;
-  --green: #344e40;
-  --sage: #e8eee5;
-  --muted: #7e877e;
-  --line: #e5e9e1;
-  --cream: #f7f8f4;
+  --green: var(--burgundy);
+  --sage: #eee6e2;
+  --muted: #66707a;
+  --line: #ded8d0;
+  --cream: #f5f2ec;
+  --ink: #211c1b;
+  --text: #3b3634;
+  --burgundy: #571720;
+  --burgundy-soft: #8b2e3c;
+  --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
 }
 * {
   box-sizing: border-box;
@@ -45,7 +50,7 @@ button:disabled {
 }
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid #819d80;
+  outline: 2px solid var(--burgundy);
   outline-offset: 4px;
 }
 button {
@@ -61,22 +66,24 @@ p {
 h1,
 h2,
 h3 {
-  font-family: "Manrope", "DM Sans", Arial, sans-serif;
-  font-weight: 650;
-  letter-spacing: -0.035em;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink);
 }
 h1 {
+  font-weight: 500;
   font-size: 32px;
-  line-height: 1.3;
+  line-height: 1.12;
 }
 h2 {
   font-size: 20px;
 }
 h3 {
-  font-size: 16px;
+  font-size: 20px;
 }
 p {
-  line-height: 1.75;
+  line-height: 1.55;
 }
 small {
   font-size: 11px;
@@ -90,20 +97,20 @@ img {
 input,
 select,
 textarea {
-  color: #34463a;
+  color: var(--text);
   outline: none;
 }
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: #6f8a6d;
-  box-shadow: 0 0 0 3px #6f8a6d13;
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 3px #57172022;
 }
 input,
 select,
 textarea {
   background: #fff;
-  border: 1px solid #dfe5dc;
+  border: 1px solid var(--line);
   border-radius: 7px;
   padding: 11px 12px;
 }
@@ -115,7 +122,7 @@ textarea {
   resize: vertical;
 }
 input[type="checkbox"] {
-  accent-color: #344e40;
+  accent-color: var(--burgundy);
   width: 15px;
   height: 15px;
   padding: 0;
@@ -127,10 +134,12 @@ input[type="checkbox"] {
   font-size: 11px;
 }
 .eyebrow {
-  font-size: 10px;
-  letter-spacing: 1.8px;
-  font-weight: 700;
-  color: #7b8779;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--burgundy);
   margin-bottom: 10px;
 }
 .btn {
@@ -140,7 +149,7 @@ input[type="checkbox"] {
   gap: 8px;
   border-radius: 7px;
   padding: 12px 17px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   border: 1px solid transparent;
   white-space: nowrap;
@@ -157,15 +166,15 @@ input[type="checkbox"] {
 }
 .btn.secondary {
   background: #fff;
-  border-color: #dfe5dc;
+  border-color: var(--line);
 }
 .btn.soft {
-  background: #edf1e9;
-  color: #40583c;
+  background: var(--sage);
+  color: var(--burgundy);
 }
 .btn.white {
   background: white;
-  color: #344336;
+  color: var(--ink);
 }
 .btn.glass {
   background: #ffffff15;
@@ -173,13 +182,13 @@ input[type="checkbox"] {
   color: #fff;
 }
 .btn.ghost {
-  color: #778173;
+  color: var(--muted);
   padding-left: 4px;
   padding-right: 4px;
 }
 .btn.small {
   padding: 8px 11px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .btn.full {
   width: 100%;
@@ -187,7 +196,7 @@ input[type="checkbox"] {
 }
 .text-link {
   font-size: 11px;
-  color: #425d40;
+  color: var(--burgundy);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -237,25 +246,25 @@ input[type="checkbox"] {
   gap: 5px;
   padding: 5px 9px;
   border-radius: 5px;
-  background: #f0f2ec;
-  color: #6a7864;
+  background: #ebe6e0;
+  color: var(--muted);
   font-size: 10px;
-  font-weight: 550;
+  font-weight: 500;
   line-height: 1.3;
   white-space: nowrap;
 }
 .badge.green {
-  background: #eaf1e6;
-  color: #55704b;
+  background: #e6f1ea;
+  color: #2f6b45;
 }
 .badge.amber {
-  background: #f8f0df;
-  color: #9a8050;
+  background: #faeed6;
+  color: #8a5a12;
 }
 .badge.light {
   background: #ffffffed;
-  color: #52644c;
-  font-size: 9px;
+  color: var(--burgundy);
+  font-size: 10px;
   letter-spacing: 1px;
   padding: 8px 10px;
 }
@@ -264,7 +273,7 @@ input[type="checkbox"] {
   width: 5px;
   height: 5px;
   flex-shrink: 0;
-  background: #8b9b68;
+  background: var(--burgundy-soft);
   border-radius: 50%;
 }
 .avatar {
@@ -278,8 +287,8 @@ input[type="checkbox"] {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.2px;
-  background: #e4ecdf;
-  color: #63765a;
+  background: var(--sage);
+  color: var(--burgundy);
   border: 3px solid #fff;
 }
 .avatar.sand {
@@ -297,7 +306,7 @@ input[type="checkbox"] {
 .avatar.small {
   width: 32px;
   height: 32px;
-  font-size: 9px;
+  font-size: 10px;
   border-width: 2px;
 }
 .avatar.large {
@@ -352,8 +361,8 @@ input[type="checkbox"] {
 }
 .brand {
   display: block;
-  font-family: "Manrope", Arial, sans-serif;
-  font-weight: 800;
+  font-family: var(--font-serif), Arial, sans-serif;
+  font-weight: 700;
   font-size: 38px;
   letter-spacing: -3px;
   color: #334d3c;
@@ -369,9 +378,9 @@ input[type="checkbox"] {
   padding-left: 14px;
 }
 .brand-caption {
-  font-size: 7px;
+  font-size: 10px;
   letter-spacing: 1.9px;
-  color: #929887;
+  color: var(--muted);
   margin: 11px 0 30px 14px;
 }
 .workspace-switch {
@@ -396,9 +405,9 @@ input[type="checkbox"] {
   color: #64795b;
 }
 .workspace-switch small {
-  font-size: 7px;
+  font-size: 10px;
   letter-spacing: 1.2px;
-  color: #959d8c;
+  color: var(--muted);
   display: block;
   margin-bottom: 2px;
 }
@@ -413,9 +422,9 @@ input[type="checkbox"] {
   box-shadow: none;
 }
 .nav-label {
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 1.5px;
-  color: #9da58f;
+  color: var(--muted);
   margin: 0 0 12px 13px;
 }
 .side-nav {
@@ -429,17 +438,17 @@ input[type="checkbox"] {
   gap: 12px;
   text-align: left;
   padding: 11px 13px;
-  color: #7b8575;
+  color: #d9cfc4;
   border-radius: 6px;
   font-size: 12px;
   min-height: 39px;
 }
 .side-nav button:hover {
-  background: #f5f6f0;
+  background: #f0ebe4;
 }
 .side-nav button.active {
-  color: #3b5936;
-  background: #eaf0e3;
+  color: var(--burgundy);
+  background: var(--sage);
   font-weight: 600;
 }
 .side-nav button.active:before {
@@ -447,15 +456,15 @@ input[type="checkbox"] {
   width: 3px;
   height: 18px;
   border-radius: 2px;
-  background: #7f9569;
+  background: var(--burgundy);
   position: absolute;
   left: 20px;
 }
 .nav-count {
-  font-size: 9px;
+  font-size: 10px;
   margin-left: auto;
-  background: #eef1e9;
-  color: #758363;
+  background: var(--sage);
+  color: var(--burgundy);
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -464,14 +473,14 @@ input[type="checkbox"] {
   padding-top: 22px;
 }
 .sidebar-help {
-  background: #f4f5ec;
-  border: 1px solid #e8ebdd;
+  background: #f3eee6;
+  border: 1px solid var(--line);
   padding: 18px 15px;
   border-radius: 8px;
   margin: 12px 0 17px;
 }
 .sidebar-help > svg {
-  color: #8a9a70;
+  color: var(--muted);
   margin-bottom: 8px;
 }
 .sidebar-help h3 {
@@ -479,14 +488,14 @@ input[type="checkbox"] {
 }
 .sidebar-help p {
   font-size: 10px;
-  color: #8d9581;
+  color: var(--muted);
   margin: 5px 0 12px;
 }
 .settings-link {
   display: flex;
   gap: 11px;
   align-items: center;
-  color: #8a917f;
+  color: var(--muted);
   font-size: 11px;
   padding: 10px 13px;
   width: 100%;
@@ -510,8 +519,8 @@ input[type="checkbox"] {
 }
 .user-card small {
   display: block;
-  color: #9aa18f;
-  font-size: 8px;
+  color: var(--muted);
+  font-size: 10px;
 }
 .user-card > svg {
   margin-left: auto;
@@ -535,7 +544,7 @@ input[type="checkbox"] {
   gap: 12px;
   align-items: center;
   font-size: 11px;
-  color: #949c8a;
+  color: var(--muted);
 }
 .breadcrumbs b {
   font-weight: 500;
@@ -547,7 +556,7 @@ input[type="checkbox"] {
   gap: 17px;
 }
 .demo-chip {
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 1px;
   display: flex;
   align-items: center;
@@ -598,7 +607,7 @@ input[type="checkbox"] {
   margin-bottom: 30px;
 }
 .page-heading p {
-  color: #949b89;
+  color: var(--muted);
   font-size: 12px;
   margin-top: 9px;
 }
@@ -644,7 +653,7 @@ input[type="checkbox"] {
   justify-content: space-between;
 }
 .hero-top > span:last-child {
-  font-size: 9px;
+  font-size: 10px;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -657,9 +666,9 @@ input[type="checkbox"] {
 }
 .hero-copy h2 {
   font-size: 32px;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
   line-height: 1.3;
-  font-weight: 550;
+  font-weight: 500;
 }
 .hero-copy p {
   font-size: 10px;
@@ -679,7 +688,7 @@ input[type="checkbox"] {
 }
 .hero-progress span {
   display: block;
-  font-size: 7px;
+  font-size: 10px;
   letter-spacing: 1.5px;
   color: #ecefe3a8;
   margin-bottom: 9px;
@@ -703,20 +712,20 @@ input[type="checkbox"] {
   position: relative;
   flex: 1;
   text-align: center;
-  color: #a5ad9a;
+  color: #a39a92;
   min-width: 0;
 }
 .journey-step:not(:last-child):after {
   content: "";
   height: 1px;
-  background: #e3e9db;
+  background: #e0d9d0;
   position: absolute;
   left: 60%;
   right: -40%;
   top: 12px;
 }
 .journey-step.complete:after {
-  background: #a4b38f;
+  background: var(--burgundy-soft);
 }
 .journey-step span {
   position: relative;
@@ -724,59 +733,59 @@ input[type="checkbox"] {
   display: flex;
   width: 27px;
   height: 27px;
-  border: 1px solid #e3e8db;
+  border: 1px solid var(--line);
   border-radius: 50%;
   justify-content: center;
   align-items: center;
   margin: 0 auto 11px;
-  font-size: 9px;
+  font-size: 10px;
   background: white;
-  color: #9daa91;
+  color: #a39a92;
 }
 .journey-step.complete span {
-  background: #789466;
+  background: var(--burgundy);
   color: #fff;
-  border-color: #789466;
+  border-color: var(--burgundy);
 }
 .journey-step.current span {
-  background: #edf2e3;
-  border: 1px solid #8fa278;
-  color: #6f875b;
-  outline: 4px solid #f7f9f1;
+  background: #f3ebe8;
+  border: 1px solid var(--burgundy-soft);
+  color: var(--burgundy);
+  outline: 4px solid #f7f2ec;
 }
 .journey-step b {
   display: block;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
 }
 .journey-step.current b {
-  color: #4f6b3e;
+  color: var(--burgundy);
   font-weight: 600;
 }
 .journey-step small {
-  font-size: 7px;
+  font-size: 10px;
   display: block;
   margin-top: 6px;
   letter-spacing: 0.2px;
 }
 .journey-note {
-  background: #f7f9f2;
-  border-top: 1px solid #edf0e5;
+  background: #f7f2ec;
+  border-top: 1px solid var(--line);
   margin: 0 -24px;
   padding: 13px 21px;
   border-radius: 0 0 11px 11px;
   display: flex;
   gap: 11px;
   align-items: center;
-  color: #859570;
+  color: var(--muted);
 }
 .journey-note span {
-  font-size: 9px;
+  font-size: 10px;
   line-height: 1.7;
-  color: #929b85;
+  color: var(--muted);
 }
 .journey-note b {
-  color: #6e825b;
+  color: var(--burgundy);
   font-weight: 500;
 }
 .journey-note .avatar {
@@ -796,16 +805,16 @@ input[type="checkbox"] {
   margin: 24px 0 16px;
 }
 .date-block strong {
-  font-family: "Manrope";
+  font-family: var(--font-serif);
   font-size: 38px;
   font-weight: 500;
   letter-spacing: -2px;
   line-height: 1;
 }
 .date-block span {
-  font-size: 8px;
+  font-size: 10px;
   line-height: 1.8;
-  color: #919a80;
+  color: var(--muted);
   letter-spacing: 1px;
 }
 .next-card h3 {
@@ -814,14 +823,14 @@ input[type="checkbox"] {
 }
 .next-card > p {
   font-size: 10px;
-  color: #919b80;
+  color: var(--muted);
   margin-bottom: 8px;
 }
 .detail-line {
   display: flex;
   gap: 7px;
   align-items: center;
-  color: #939d89;
+  color: var(--muted);
   font-size: 10px;
   flex-wrap: wrap;
 }
@@ -837,12 +846,12 @@ input[type="checkbox"] {
 }
 .person-line b {
   font-size: 11px;
-  font-weight: 550;
+  font-weight: 500;
 }
 .person-line small {
   display: block;
-  color: #929b89;
-  font-size: 9px;
+  color: var(--muted);
+  font-size: 10px;
   margin-top: 3px;
 }
 .person-line .icon-btn {
@@ -876,14 +885,14 @@ input[type="checkbox"] {
 }
 .task small {
   display: block;
-  font-size: 9px;
-  color: #a1a68f;
+  font-size: 10px;
+  color: var(--muted);
   margin-top: 5px;
 }
 .task .checkbox {
   width: 15px;
   height: 15px;
-  border: 1px solid #d8dfce;
+  border: 1px solid var(--line);
   flex-shrink: 0;
   border-radius: 4px;
   margin-top: 2px;
@@ -896,8 +905,8 @@ input[type="checkbox"] {
   opacity: 0.55;
 }
 .task.done .checkbox {
-  background: #638154;
-  border-color: #638154;
+  background: var(--burgundy);
+  border-color: var(--burgundy);
   color: #fff;
 }
 .task.done b {
@@ -916,16 +925,16 @@ input[type="checkbox"] {
   display: flex;
   gap: 12px;
   align-items: center;
-  background: #f7f8f0;
+  background: #f7f2ec;
   border: 1px solid #eef0e2;
   padding: 13px;
   border-radius: 6px;
-  color: #98a583;
+  color: var(--muted);
   margin-top: 24px;
 }
 .help-note p {
-  font-size: 9px;
-  color: #9ca38f;
+  font-size: 10px;
+  color: var(--muted);
   line-height: 1.7;
 }
 .help-note b {
@@ -980,7 +989,7 @@ input[type="checkbox"] {
   top: 14px;
   left: 14px;
   background: #fffffff0;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.4px;
   padding: 6px 9px;
 }
@@ -1004,8 +1013,11 @@ input[type="checkbox"] {
 }
 .property-price {
   font-size: 17px;
-  font-family: "Manrope";
-  letter-spacing: -0.5px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  letter-spacing: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1015,15 +1027,16 @@ input[type="checkbox"] {
   height: 23px;
 }
 .property-info h3 {
-  font-size: 13px;
-  letter-spacing: -0.1px;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  letter-spacing: 0;
   font-weight: 600;
   margin-top: 7px;
   cursor: pointer;
 }
 .property-info > p {
-  font-size: 10px;
-  color: #9aa28e;
+  font-size: 11px;
+  color: var(--muted);
   margin-top: 6px;
   display: flex;
   align-items: center;
@@ -1033,7 +1046,7 @@ input[type="checkbox"] {
   display: flex;
   gap: 16px;
   padding-top: 15px;
-  font-size: 9px;
+  font-size: 10px;
   color: #8c9980;
 }
 .property-specs span {
@@ -1045,8 +1058,8 @@ input[type="checkbox"] {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 9px;
-  color: #a2a992;
+  font-size: 10px;
+  color: var(--muted);
   border-top: 1px solid #edf0e7;
   padding-top: 12px;
   margin-top: 14px;
@@ -1059,8 +1072,8 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  color: #a5ad98;
-  font-size: 9px;
+  color: var(--muted);
+  font-size: 10px;
 }
 .app-footer > div {
   display: flex;
@@ -1069,8 +1082,8 @@ input[type="checkbox"] {
 }
 .app-footer button {
   padding: 0;
-  font-size: 9px;
-  color: #a0aa90;
+  font-size: 10px;
+  color: var(--muted);
 }
 .stats {
   display: grid;
@@ -1089,22 +1102,23 @@ input[type="checkbox"] {
   justify-content: space-between;
   gap: 8px;
   font-size: 11px;
-  color: #87947c;
+  color: var(--muted);
 }
 .stat-top > svg {
-  color: #a2af90;
+  color: var(--burgundy-soft);
 }
 .stat > strong {
-  font-family: Manrope;
+  font-family: var(--font-serif);
   font-size: 28px;
-  font-weight: 550;
-  letter-spacing: -1.5px;
+  font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0;
   display: block;
   margin: 16px 0 8px;
 }
 .stat > span {
-  font-size: 10px;
-  color: #9aa68e;
+  font-size: 11px;
+  color: var(--muted);
 }
 .stats:has(> .stat:nth-child(3):last-child) {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1131,10 +1145,10 @@ table {
   white-space: nowrap;
 }
 th {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.2px;
-  color: #9aa58c;
+  color: var(--muted);
   padding: 14px 15px;
   border-bottom: 1px solid var(--line);
   background: #fafbf8;
@@ -1147,12 +1161,12 @@ td {
 }
 td b {
   font-size: 11px;
-  font-weight: 550;
+  font-weight: 500;
   color: #4b6242;
 }
 td small {
   display: block;
-  font-size: 9px;
+  font-size: 10px;
   color: #99a38d;
   margin-top: 5px;
 }
@@ -1164,10 +1178,10 @@ td .person-line {
   min-width: 200px;
 }
 td .person-line small {
-  font-size: 9px;
+  font-size: 10px;
 }
 td .btn.small {
-  font-size: 9px;
+  font-size: 10px;
   padding: 7px 10px;
 }
 .meeting-mini {
@@ -1214,7 +1228,7 @@ td .btn.small {
 .activity-list small {
   display: block;
   color: #a4ac98;
-  font-size: 9px;
+  font-size: 10px;
   margin-top: 5px;
 }
 .approval-mini {
@@ -1230,7 +1244,7 @@ td .btn.small {
 .approval-mini small {
   display: block;
   color: #97a18b;
-  font-size: 9px;
+  font-size: 10px;
   margin-top: 4px;
 }
 .approval-mini .icon-btn {
@@ -1468,7 +1482,7 @@ td .btn.small {
   position: absolute;
   left: 12px;
   bottom: 90px;
-  font-size: 7px;
+  font-size: 10px;
   letter-spacing: 1.5px;
   color: #9db7af;
   transform: rotate(-65deg);
@@ -1519,7 +1533,7 @@ td .btn.small {
   position: absolute;
   bottom: 10px;
   left: 12px;
-  font-size: 8px;
+  font-size: 10px;
   color: #92a080;
 }
 .map a {
@@ -1532,7 +1546,7 @@ td .btn.small {
   background: white;
   padding: 9px 12px;
   border-radius: 5px;
-  font-size: 9px;
+  font-size: 10px;
 }
 .sticky-detail {
   position: sticky;
@@ -1546,7 +1560,7 @@ td .btn.small {
 .sticky-detail > small {
   display: block;
   margin-top: 20px;
-  font-size: 9px;
+  font-size: 10px;
   line-height: 1.8;
 }
 .action-line {
@@ -1563,7 +1577,7 @@ td .btn.small {
   margin-left: auto;
 }
 .action-line:hover {
-  color: #344e40;
+  color: var(--burgundy);
 }
 .purchase-summary {
   display: flex;
@@ -1598,7 +1612,7 @@ td .btn.small {
 }
 .purchase-percentage {
   margin-left: auto;
-  font-family: "Manrope";
+  font-family: var(--font-serif);
   font-size: 32px;
   color: #70895d;
   padding: 10px 25px;
@@ -1606,26 +1620,26 @@ td .btn.small {
 }
 .purchase-percentage small {
   display: block;
-  font-size: 9px;
+  font-size: 10px;
   letter-spacing: 0;
 }
 .tabs {
   display: flex;
   gap: 27px;
-  border-bottom: 1px solid #dfe6d8;
+  border-bottom: 1px solid var(--line);
   margin: 24px 0 26px;
   overflow-x: auto;
 }
 .tabs button {
   padding: 0 2px 14px;
-  color: #94a184;
+  color: var(--muted);
   font-size: 11px;
   white-space: nowrap;
   border-bottom: 2px solid transparent;
 }
 .tabs button.active {
-  color: #46653b;
-  border-color: #708d5a;
+  color: var(--burgundy);
+  border-color: var(--burgundy);
   font-weight: 600;
 }
 .workspace-grid {
@@ -1637,15 +1651,15 @@ td .btn.small {
   display: flex;
   align-items: flex-start;
   gap: 19px;
-  background: #f7f9f2;
+  background: #f7f2ec;
   padding: 22px;
-  border: 1px solid #edf1e4;
+  border: 1px solid var(--line);
   border-radius: 7px;
   margin: 30px 0 0;
 }
 .stage-number {
   font-size: 30px;
-  font-family: "Manrope";
+  font-family: var(--font-serif);
   letter-spacing: -1px;
   color: #acb79a;
 }
@@ -1693,7 +1707,7 @@ td .btn.small {
   margin-bottom: 20px;
 }
 .pro-top .badge {
-  font-size: 8px;
+  font-size: 10px;
 }
 .pro-card h3 {
   font-size: 18px;
@@ -1738,7 +1752,7 @@ td .btn.small {
   margin-top: 18px;
 }
 .tag-list .badge {
-  font-size: 8px;
+  font-size: 10px;
 }
 .compare-check {
   border-top: 1px solid #eef1e6;
@@ -1826,7 +1840,7 @@ td .btn.small {
 }
 .chat-date {
   text-align: center;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 1px;
   color: #b0bba1;
   margin: 10px 0 30px;
@@ -1845,15 +1859,15 @@ td .btn.small {
   display: flex;
   gap: 12px;
   align-items: center;
-  font-size: 9px;
+  font-size: 10px;
   margin: 2px 0 8px;
 }
 .message-meta b {
-  font-weight: 550;
+  font-weight: 500;
   color: #80956b;
 }
 .message-meta span {
-  font-size: 8px;
+  font-size: 10px;
   color: #a9b498;
 }
 .message-bubble {
@@ -1876,13 +1890,13 @@ td .btn.small {
   justify-content: flex-end;
 }
 .message small {
-  font-size: 8px;
+  font-size: 10px;
   color: #a4b08f;
   display: block;
   margin-top: 7px;
 }
 .message small .text-link {
-  font-size: 8px;
+  font-size: 10px;
 }
 .chat-input {
   display: flex;
@@ -1902,7 +1916,7 @@ td .btn.small {
   width: 38px;
   height: 38px;
   border-radius: 7px;
-  background: #4c6840;
+  background: var(--burgundy);
   color: white;
   display: grid;
   place-items: center;
@@ -1913,16 +1927,16 @@ td .btn.small {
   gap: 26px;
 }
 .meeting-date {
-  background: #f1f4e9;
+  background: var(--sage);
   border-radius: 8px;
   padding: 18px;
   text-align: center;
-  color: #718b58;
+  color: var(--burgundy);
   min-width: 75px;
 }
 .meeting-date strong {
   display: block;
-  font-family: Manrope;
+  font-family: var(--font-serif);
   font-size: 30px;
   font-weight: 500;
   line-height: 1.1;
@@ -1943,12 +1957,12 @@ td .btn.small {
 }
 .meeting-info p {
   font-size: 11px;
-  color: #91a37b;
+  color: var(--muted);
   margin-bottom: 9px;
 }
 .meeting-info > small {
   display: block;
-  color: #94a580;
+  color: var(--muted);
   margin-top: 12px;
   max-width: 400px;
 }
@@ -1968,8 +1982,8 @@ td .btn.small {
   margin-top: 28px;
 }
 .calendar-dayname {
-  font-size: 8px;
-  color: #a5b295;
+  font-size: 10px;
+  color: var(--muted);
   padding: 12px 5px;
   text-align: center;
   letter-spacing: 1px;
@@ -1977,30 +1991,30 @@ td .btn.small {
 .calendar-cell {
   min-height: 95px;
   padding: 9px 6px;
-  border-top: 1px solid #e7eddf;
-  border-right: 1px solid #edf1e7;
+  border-top: 1px solid var(--line);
+  border-right: 1px solid var(--line);
 }
 .calendar-cell:nth-child(7n) {
   border-right: 0;
 }
 .calendar-cell > span {
   font-size: 10px;
-  color: #92a57b;
+  color: var(--muted);
   display: inline-grid;
   place-items: center;
   width: 22px;
   height: 22px;
 }
 .calendar-cell.today > span {
-  background: #698650;
+  background: var(--burgundy);
   border-radius: 50%;
   color: white;
 }
 .calendar-cell button {
   display: block;
-  background: #e7eedc;
-  font-size: 8px;
-  color: #78935d;
+  background: var(--sage);
+  font-size: 10px;
+  color: var(--burgundy);
   border-radius: 3px;
   padding: 6px;
   margin: 4px 0;
@@ -2017,7 +2031,7 @@ td .btn.small {
   padding: 15px 0;
 }
 .calendar-upcoming > span {
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 1px;
   text-transform: uppercase;
   color: #a2ae8e;
@@ -2030,7 +2044,7 @@ td .btn.small {
   font-weight: 500;
 }
 .calendar-upcoming small {
-  font-size: 9px;
+  font-size: 10px;
   color: #a1af8c;
 }
 .calendar-layout aside .action-line {
@@ -2042,7 +2056,7 @@ td .btn.small {
   gap: 13px;
 }
 .rank {
-  font-family: Manrope;
+  font-family: var(--font-serif);
   font-size: 17px;
   color: #b2bca5;
 }
@@ -2093,13 +2107,13 @@ td .btn.small {
   margin: 20px 0;
 }
 .membership-price {
-  font-family: Manrope;
+  font-family: var(--font-serif);
   font-size: 35px;
   letter-spacing: -1px;
   margin-bottom: 23px;
 }
 .membership-price > span {
-  font-family: "DM Sans";
+  font-family: var(--font-sans);
   font-size: 11px;
   color: #94a880;
   letter-spacing: 0;
@@ -2116,7 +2130,7 @@ td .btn.small {
   color: #9bac8b;
 }
 .key-value b {
-  font-weight: 550;
+  font-weight: 500;
   font-size: 11px;
   color: #698352;
   text-align: right;
@@ -2283,7 +2297,7 @@ td .btn.small {
   font-size: 12px;
 }
 .estimate-total strong {
-  font-family: Manrope;
+  font-family: var(--font-serif);
   font-size: 26px;
   letter-spacing: -1px;
   color: #57733f;
@@ -2352,7 +2366,7 @@ td .btn.small {
 }
 .notification b {
   font-size: 12px;
-  font-weight: 550;
+  font-weight: 500;
   color: #6e8857;
 }
 .notification p {
@@ -2380,7 +2394,7 @@ td .btn.small {
   align-items: center;
   gap: 12px;
   max-width: min(90%, 650px);
-  background: #344e40;
+  background: var(--burgundy);
   color: #fff;
   padding: 16px 20px;
   border: 1px solid #ffffff30;
@@ -2493,7 +2507,7 @@ td .btn.small {
   font-size: 10px;
 }
 .role-cards > button.active {
-  background: #edf2e3;
+  background: #f3ebe8;
   border-color: #91a874;
   color: #667f51;
 }
@@ -2592,7 +2606,7 @@ td .btn.small {
   text-align: left;
 }
 .welcome-features article > span {
-  font-family: Manrope;
+  font-family: var(--font-serif);
   font-size: 30px;
   color: #b7c1a5;
 }
@@ -2659,7 +2673,7 @@ td .btn.small {
     font-size: 11px;
   }
   .journey-step small {
-    font-size: 9px;
+    font-size: 10px;
   }
   .journey-note span {
     font-size: 11px;
@@ -2718,7 +2732,7 @@ td .btn.small {
     margin-right: -17px;
   }
   .journey-steps b {
-    font-size: 8px;
+    font-size: 10px;
   }
   .property-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2931,7 +2945,7 @@ td .btn.small {
     gap: 10px;
   }
   .demo-chip {
-    font-size: 7px;
+    font-size: 10px;
   }
   .app-footer > div > span {
     display: none;
@@ -3040,13 +3054,13 @@ td .btn.small {
     display: none;
   }
   .demo-chip {
-    font-size: 6px;
+    font-size: 10px;
     padding: 5px;
     letter-spacing: 0.5px;
   }
   .language-button {
     gap: 4px;
-    font-size: 9px;
+    font-size: 10px;
   }
   .top-actions .icon-btn {
     width: 27px;
@@ -3065,7 +3079,7 @@ td .btn.small {
     max-width: 330px;
   }
   .eyebrow {
-    font-size: 8px;
+    font-size: 10px;
     letter-spacing: 1.5px;
     margin-bottom: 9px;
   }
@@ -3085,7 +3099,7 @@ td .btn.small {
     right: 20px;
   }
   .hero-top > span:last-child {
-    font-size: 8px;
+    font-size: 10px;
   }
   .hero-copy {
     left: 24px;
@@ -3107,24 +3121,24 @@ td .btn.small {
     font-size: 16px;
   }
   .journey-panel .section-title .text-link {
-    font-size: 9px;
+    font-size: 10px;
   }
   .journey-panel > .muted {
     font-size: 10px;
   }
   .journey-step b {
-    font-size: 7px;
+    font-size: 10px;
     line-height: 1.5;
   }
   .journey-step small {
-    font-size: 6px;
+    font-size: 10px;
   }
   .journey-note {
     padding: 13px 16px;
     gap: 9px;
   }
   .journey-note span {
-    font-size: 8px;
+    font-size: 10px;
   }
   .journey-note .avatar {
     display: none;
@@ -3149,10 +3163,10 @@ td .btn.small {
     font-size: 18px;
   }
   .next-card > p {
-    font-size: 9px;
+    font-size: 10px;
   }
   .detail-line {
-    font-size: 9px;
+    font-size: 10px;
   }
   .next-card .person-line {
     margin-top: 18px;
@@ -3167,7 +3181,7 @@ td .btn.small {
     font-size: 10px;
   }
   .right-column .section-title .text-link {
-    font-size: 8px;
+    font-size: 10px;
   }
   .property-grid {
     gap: 17px;
@@ -3187,7 +3201,7 @@ td .btn.small {
     line-height: 1.5;
   }
   .property-info > p {
-    font-size: 8px;
+    font-size: 10px;
     align-items: flex-start;
     gap: 3px;
     line-height: 1.7;
@@ -3195,14 +3209,14 @@ td .btn.small {
   .property-specs {
     gap: 9px;
     flex-wrap: wrap;
-    font-size: 8px;
+    font-size: 10px;
     padding-top: 12px;
   }
   .property-specs svg {
     width: 12px;
   }
   .school-line {
-    font-size: 7px;
+    font-size: 10px;
     line-height: 1.5;
     padding-top: 10px;
     margin-top: 11px;
@@ -3219,18 +3233,18 @@ td .btn.small {
   .property-photo .badge {
     left: 10px;
     top: 10px;
-    font-size: 7px;
+    font-size: 10px;
     padding: 5px 7px;
   }
   .app-footer {
-    font-size: 8px;
+    font-size: 10px;
     padding: 20px 0;
   }
   .app-footer > div {
     gap: 14px;
   }
   .app-footer button {
-    font-size: 8px;
+    font-size: 10px;
   }
   .panel {
     padding: 20px;
@@ -3247,7 +3261,7 @@ td .btn.small {
     padding: 14px;
   }
   .stat-top {
-    font-size: 9px;
+    font-size: 10px;
   }
   .stat-top > svg {
     width: 14px;
@@ -3259,7 +3273,7 @@ td .btn.small {
     margin: 15px 0 8px;
   }
   .stat > span {
-    font-size: 8px;
+    font-size: 10px;
     line-height: 1.7;
     display: block;
   }
@@ -3267,7 +3281,7 @@ td .btn.small {
     font-size: 20px;
   }
   .stats:has(> .stat:nth-child(3):last-child) .stat-top {
-    font-size: 8px;
+    font-size: 10px;
   }
   .stats:has(> .stat:nth-child(3):last-child) .stat-top > svg {
     display: none;
@@ -3301,20 +3315,20 @@ td .btn.small {
     font-size: 14px;
   }
   .pro-top .badge {
-    font-size: 7px;
+    font-size: 10px;
   }
   .pro-card h3 {
     font-size: 16px;
   }
   .pro-card > p {
-    font-size: 9px;
+    font-size: 10px;
   }
   .pro-card .pro-bio {
     font-size: 10px;
     min-height: 85px;
   }
   .pro-detail {
-    font-size: 9px;
+    font-size: 10px;
     align-items: flex-start;
     line-height: 1.7;
   }
@@ -3325,11 +3339,11 @@ td .btn.small {
     gap: 8px;
   }
   .pro-card .btn.small {
-    font-size: 9px;
+    font-size: 10px;
     padding: 8px;
   }
   .compare-check {
-    font-size: 9px;
+    font-size: 10px;
     line-height: 1.6;
   }
   .gallery {
@@ -3337,7 +3351,7 @@ td .btn.small {
     gap: 7px;
   }
   .gallery > .btn {
-    font-size: 8px;
+    font-size: 10px;
     padding: 8px 10px;
     bottom: 12px;
     right: 12px;
@@ -3350,7 +3364,7 @@ td .btn.small {
     white-space: nowrap;
   }
   .property-detail-heading .eyebrow {
-    font-size: 7px;
+    font-size: 10px;
   }
   .property-detail-heading p {
     font-size: 10px;
@@ -3382,7 +3396,7 @@ td .btn.small {
     font-size: 11px;
   }
   .neighborhood span {
-    font-size: 9px;
+    font-size: 10px;
     line-height: 1.8;
   }
   .feature-grid {
@@ -3399,13 +3413,13 @@ td .btn.small {
     height: 95px;
   }
   .purchase-summary p {
-    font-size: 9px;
+    font-size: 10px;
     gap: 3px 8px;
     margin: 8px 0 4px;
     line-height: 1.5;
   }
   .purchase-summary small {
-    font-size: 8px;
+    font-size: 10px;
     line-height: 1.6;
     display: block;
   }
@@ -3413,13 +3427,13 @@ td .btn.small {
     display: none;
   }
   .purchase-summary .badge {
-    font-size: 8px;
+    font-size: 10px;
   }
   .workspace-grid > aside {
     display: block;
   }
   .workspace-grid .journey-step b {
-    font-size: 7px;
+    font-size: 10px;
   }
   .tabs {
     gap: 23px;
@@ -3461,7 +3475,7 @@ td .btn.small {
     font-size: 26px;
   }
   .meeting-date span {
-    font-size: 8px;
+    font-size: 10px;
   }
   .meeting-info {
     min-width: 170px;
@@ -3473,7 +3487,7 @@ td .btn.small {
     font-size: 10px;
   }
   .meeting-info .detail-line {
-    font-size: 8px;
+    font-size: 10px;
   }
   .meeting-actions {
     max-width: none;
@@ -3488,15 +3502,15 @@ td .btn.small {
     padding: 7px 2px;
   }
   .calendar-cell > span {
-    font-size: 9px;
+    font-size: 10px;
   }
   .calendar-cell button {
-    font-size: 6px;
+    font-size: 10px;
     padding: 4px 2px;
     line-height: 1.7;
   }
   .calendar-dayname {
-    font-size: 7px;
+    font-size: 10px;
     padding: 10px 0;
   }
   .calendar-panel {
@@ -3507,7 +3521,7 @@ td .btn.small {
   }
   .calendar-panel .btn.small {
     padding: 7px;
-    font-size: 9px;
+    font-size: 10px;
   }
   .agent-bars > div {
     flex-wrap: wrap;
@@ -3542,10 +3556,10 @@ td .btn.small {
     line-height: 1.7;
   }
   .chat-top p {
-    font-size: 9px;
+    font-size: 10px;
   }
   .switch-label {
-    font-size: 9px;
+    font-size: 10px;
     gap: 5px;
   }
   .switch-label > svg {
@@ -3681,7 +3695,7 @@ td .btn.small {
     font-size: 10px;
   }
   .login .eyebrow {
-    font-size: 8px;
+    font-size: 10px;
   }
   .welcome > nav {
     padding: 22px 25px;
@@ -3722,7 +3736,7 @@ td .btn.small {
     margin: 0 8px 10px 0;
   }
   .welcome-hero .eyebrow {
-    font-size: 7px;
+    font-size: 10px;
     letter-spacing: 1.3px;
   }
   .welcome > section {
@@ -3750,13 +3764,13 @@ td .btn.small {
   .welcome > footer {
     padding: 25px;
     flex-wrap: wrap;
-    font-size: 9px;
+    font-size: 10px;
   }
   .welcome > footer > span {
     margin-left: 0;
   }
   .welcome > footer > button {
-    font-size: 9px;
+    font-size: 10px;
   }
 }
 @media (max-width: 390px) {

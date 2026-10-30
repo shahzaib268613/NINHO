@@ -1,0 +1,348 @@
+/* NINHO design tokens + typography overrides (load last) */
+:root {
+  --ink: #211c1b;
+  --text: #3b3634;
+  --muted: #66707a;
+  --burgundy: #571720;
+  --burgundy-soft: #8b2e3c;
+  --cream: #f5f2ec;
+  --sage: #eee6e2;
+  --line: #ded8d0;
+  --ok: #2f6b45;
+  --ok-bg: #e6f1ea;
+  --warn: #8a5a12;
+  --warn-bg: #faeed6;
+  --green: var(--burgundy);
+  --font-sans: "Inter Variable", Inter, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+h1 {
+  font-weight: 500;
+  font-size: clamp(29px, 2.2vw, 34px);
+  line-height: 1.12;
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.muted,
+.fine,
+small {
+  color: var(--muted);
+}
+
+.eyebrow,
+.page-heading .eyebrow,
+.welcome-hero .eyebrow,
+.login-visual .eyebrow,
+.membership-card > .eyebrow {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--burgundy);
+}
+
+.btn {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.btn.small {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Stat numbers, prices, money — lining + tabular Cormorant */
+.stat > strong,
+.ref-metric > strong,
+.ref-mini-stats b,
+.ref-quick-stats > div > b,
+.meeting-date strong,
+.stage-number,
+.price,
+.money,
+.property-price,
+.ref-property-price,
+.membership-price,
+.ref-billing-summary strong,
+.ref-property-info .price,
+.agency-name,
+[data-money],
+.ref-agency-metrics .ref-metric > strong {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  letter-spacing: 0;
+}
+
+.stat > strong,
+.ref-metric > strong {
+  font-weight: 600;
+}
+
+/* Panel titles */
+.ref-panel-heading h2,
+.section-title h2,
+.modal-header h2,
+.ref-listings-bottom .ref-panel h2,
+.ref-agency-banner h2,
+.ref-property-info h2,
+.ref-property-aside .ref-panel-heading h2,
+.ref-quick-stats h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+/* Nested / dense sub-panels */
+.ref-agency-detail .ref-panel-heading h2,
+.ref-admin-aside .ref-panel-heading h2,
+.ref-agency-metrics .ref-panel-heading h2,
+.ref-agency-metrics .ref-panel h2,
+.right-column .section-title h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: 0;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.ref-agency-metrics .ref-panel {
+  min-width: 0;
+  overflow: visible;
+}
+
+.ref-agency-metrics .ref-panel:has(.ref-agent-bars) {
+  overflow: visible;
+  padding-bottom: 14px;
+}
+
+/* Tables */
+table th,
+.ref-listings-table th,
+.ref-ranking table th,
+.approval-table th {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+table td,
+.ref-listings-table td {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.ref-ranking table td,
+.approval-table td,
+.ref-admin-layout table td {
+  font-size: 11.5px;
+}
+
+.badge.green {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.badge.amber {
+  background: var(--warn-bg);
+  color: var(--warn);
+}
+
+/* UI accents → burgundy */
+button:focus-visible,
+a:focus-visible {
+  outline-color: var(--burgundy);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 3px #57172022;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--burgundy);
+}
+
+/* Underline / outline tabs — burgundy text when selected */
+.tabs button.active,
+.ref-small-tabs > button.active,
+.header-languages > button.active {
+  color: var(--burgundy);
+}
+
+.role-cards > button.active {
+  color: var(--burgundy);
+  background: #f6f1e7;
+  border-color: var(--burgundy);
+}
+
+/* Filled segmented toggles — white label on burgundy fill */
+.ref-view-toggle button.active,
+.unit-switch > button.active,
+.week-strip .active {
+  color: #fffaf1;
+  background: linear-gradient(#65222a, #450c13);
+}
+
+.ref-view-toggle button:not(.active),
+.unit-switch > button:not(.active) {
+  color: var(--muted);
+  background: transparent;
+}
+
+/* Sidebar nav stays ivory/white on the burgundy panel */
+.side-nav button {
+  color: #f4ece4;
+}
+.side-nav button.active {
+  color: #fffaf1;
+  background: #ffffff13;
+}
+.side-nav button:hover {
+  background: #ffffff13;
+  color: #fffaf1;
+}
+
+.send-btn,
+.calendar-cell.today > span,
+.journey-step.complete span,
+.task.done .checkbox {
+  background: var(--burgundy);
+  border-color: var(--burgundy);
+}
+
+.journey-step.current span {
+  border-color: var(--burgundy-soft);
+  color: var(--burgundy);
+  background: #f3ebe8;
+}
+
+.journey-step.current b,
+.text-link {
+  color: var(--burgundy);
+}
+
+/* Readable supporting copy — never below 11px */
+.ref-page-title p,
+.ref-panel p,
+.ref-metric > span,
+.ref-metric > small,
+.ref-participant small,
+.app-footer,
+.stat > span,
+.page-heading p {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.ref-metric > span {
+  color: var(--text);
+}
+
+/* Narrow columns: avoid overlap */
+.ref-ranking table td:nth-child(2),
+.approval-table td:nth-child(2),
+.approval-table td:first-child,
+.agency-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.ref-participant {
+  min-width: 0;
+}
+
+.ref-participant > span:not(.avatar):not(.badge),
+.ref-participant b {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ref-participant b {
+  white-space: normal;
+}
+
+.ref-admin-middle,
+.ref-admin-layout,
+.approval-table,
+.ref-ranking {
+  min-width: 0;
+}
+
+.approval-table .button-row {
+  flex-wrap: wrap;
+}
+
+/* Mobile: no horizontal scroll */
+@media (max-width: 480px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .app-body,
+  .main-content,
+  .ref-admin-layout,
+  .ref-purchase-columns,
+  .workspace-grid,
+  .calendar-layout {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .ref-participant {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
