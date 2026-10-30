@@ -64,7 +64,7 @@ p {
   content: "";
   position: absolute;
   inset: 39% 0 0;
-  background: url("/brand/ninho-arch.png") center bottom/cover no-repeat;
+  background: url("/brand/ninho-arch.jpg") center bottom/cover no-repeat;
   pointer-events: none;
 }
 .sidebar:after {
@@ -2378,46 +2378,63 @@ input[type="radio"] {
 }
 .login {
   background: #f4f0e8;
-  grid-template-columns: 33% 67%;
+  grid-template-columns: clamp(240px, 42dvh, 320px) minmax(0, 1fr);
 }
 .login-visual {
-  background: #3a1715;
-  min-height: 100vh;
-  padding: 50px;
+  background: #371515;
+  min-height: 0;
+  height: 100%;
+  width: clamp(240px, 42dvh, 320px);
+  max-width: clamp(240px, 42dvh, 320px);
+  padding: 28px 20px;
 }
 .login-visual > .brand {
   z-index: 2;
   padding: 0;
   color: #fff8e8;
-  font-size: 42px;
+  font-size: 38px;
   height: auto;
-  gap: 20px;
+  gap: 14px;
 }
 .login-visual > .brand span {
-  font-size: 45px;
+  font-size: 40px;
 }
 .login-visual > .brand svg {
-  height: 60px;
-  width: 46px;
+  height: 50px;
+  width: 38px;
 }
 .login-visual > img {
-  content: url("/brand/ninho-arch.png");
-  inset: auto 0 0;
-  height: 68%;
-  filter: none;
+  display: block;
+  position: absolute;
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  max-height: 85%;
+  object-fit: contain;
   object-position: center bottom;
+  filter: none;
+  z-index: 2;
 }
 .login-visual:after {
-  background: linear-gradient(#3b1714 0, transparent 45%);
-  top: 27%;
-  height: 30%;
+  top: 10%;
   bottom: auto;
+  height: 32%;
+  background: linear-gradient(
+    to bottom,
+    #371515 0%,
+    rgba(55, 21, 21, 0.85) 30%,
+    rgba(55, 21, 21, 0.4) 60%,
+    transparent 100%
+  );
 }
 .login-visual > div {
-  top: 180px;
+  top: 128px;
   bottom: auto;
-  left: 50px;
-  right: 35px;
+  left: 36px;
+  right: 28px;
 }
 .login-visual > div > .eyebrow {
   display: none;
@@ -2425,7 +2442,7 @@ input[type="radio"] {
 .login-visual h1 {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 36px;
+  font-size: 22px;
   line-height: 1.25;
   color: #f8eee2;
 }
@@ -3566,13 +3583,15 @@ input[type="radio"] {
     font-size: 10px;
   }
   .login {
-    grid-template-columns: 35% 65%;
+    grid-template-columns: clamp(220px, 40dvh, 300px) minmax(0, 1fr);
   }
   .login-content {
     padding: 80px 35px;
   }
   .login-visual {
     padding: 30px;
+    height: 100%;
+    min-height: 0;
   }
   .login-visual > .brand {
     gap: 13px;
@@ -3589,7 +3608,7 @@ input[type="radio"] {
     top: 170px;
   }
   .login-visual h1 {
-    font-size: 30px;
+    font-size: 22px;
   }
   .role-cards > button {
     padding: 20px 9px;
@@ -4419,7 +4438,7 @@ input[type="radio"] {
     right: 130px;
   }
   .login-visual h1 {
-    font-size: 28px;
+    font-size: 20px;
   }
   .login-visual p {
     font-size: 10px;
@@ -4435,7 +4454,7 @@ input[type="radio"] {
     font-size: 12px;
   }
   .login-form .role-cards {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .role-cards > button {
     padding: 19px 8px;

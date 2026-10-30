@@ -1,4 +1,5 @@
 /* NINHO design tokens + typography overrides (load last) */
+/* login-viewport-lock: v4-img-fit */
 :root {
   --ink: #211c1b;
   --text: #3b3634;
@@ -344,5 +345,571 @@ input[type="radio"] {
     display: block;
     width: 100%;
     overflow-x: auto;
+  }
+}
+
+/* —— Login page: lock to viewport, no document scroll —— */
+html.login-page,
+body.login-page {
+  height: 100% !important;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+html.login-page #root {
+  height: 100%;
+  overflow: hidden;
+}
+
+.login {
+  background: var(--cream) !important;
+  display: grid !important;
+  /* Sidebar width tracks image */
+  grid-template-columns: clamp(240px, 42dvh, 320px) minmax(0, 1fr) !important;
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-height: 100vh !important;
+  max-height: 100dvh !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.login-visual {
+  position: relative !important;
+  background: #371515 !important;
+  background-image: none !important;
+  width: clamp(240px, 42dvh, 320px) !important;
+  max-width: clamp(240px, 42dvh, 320px) !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  padding: 28px 20px !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Image fills full sidebar width (height follows; top can soft-clip) */
+.login-visual > img {
+  display: block !important;
+  position: absolute !important;
+  top: auto !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  max-height: 85% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  filter: none !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+}
+
+.login-visual > .brand {
+  position: relative !important;
+  z-index: 4 !important;
+  color: #fff8ee !important;
+  font-size: clamp(28px, 2.4vw, 36px) !important;
+  gap: 12px;
+  height: auto !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.login-visual > .brand span {
+  font-size: inherit !important;
+  letter-spacing: 0.06em;
+  color: inherit !important;
+}
+
+.login-visual > .brand svg {
+  width: clamp(28px, 2.4vw, 36px) !important;
+  height: clamp(36px, 3.2vw, 48px) !important;
+}
+
+/* Soft top blend into #371515 (matches image wall) */
+.login-visual:after {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 10% !important;
+  bottom: auto !important;
+  height: 32% !important;
+  background: linear-gradient(
+    to bottom,
+    #371515 0%,
+    rgba(55, 21, 21, 0.85) 30%,
+    rgba(55, 21, 21, 0.4) 60%,
+    transparent 100%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 3 !important;
+}
+
+.login-visual > div {
+  position: absolute !important;
+  top: clamp(96px, 14vh, 128px) !important;
+  bottom: auto !important;
+  left: 16px !important;
+  right: 16px !important;
+  z-index: 4 !important;
+  text-align: center !important;
+}
+
+.login-visual > div > .eyebrow,
+.login-visual p {
+  display: none !important;
+}
+
+.login-visual h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 22px !important;
+  line-height: 1.25;
+  color: #f8eee2 !important;
+  margin: 0;
+  max-width: 100%;
+}
+
+.login-content {
+  background: transparent !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: 100% !important;
+  padding: 48px 40px 24px !important;
+  overflow: hidden !important;
+  box-sizing: border-box;
+}
+
+.login-form {
+  max-width: 440px;
+  width: 100%;
+  margin: 0 auto;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.login-form > h1 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(28px, 2.6vw, 36px) !important;
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0;
+}
+
+.login-form > p.muted {
+  margin: 6px 0 16px !important;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.login-lang {
+  position: absolute;
+  top: 28px;
+  right: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #b5a8a0;
+  font-size: 12px;
+}
+
+.login-lang button {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0;
+  color: #9a8e86;
+}
+
+.login-lang button.active {
+  color: var(--burgundy);
+  font-weight: 600;
+}
+
+.login .role-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.login .role-cards > button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 84px;
+  padding: 12px 8px;
+  background: #fffef9;
+  border: 1px solid #d8cfc4;
+  border-radius: 8px;
+  color: var(--text);
+  text-align: center;
+}
+
+.login .role-cards > button span:not(.role-check) {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: inherit;
+}
+
+.login .role-cards > button.active {
+  border-color: var(--burgundy);
+  background: #fffef9;
+  color: var(--burgundy);
+  box-shadow: inset 0 0 0 1px var(--burgundy);
+}
+
+.login .role-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--burgundy);
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+
+.login-other-pro {
+  display: block;
+  width: fit-content;
+  margin: 4px 0 6px;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--burgundy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.login .form {
+  gap: 10px;
+}
+
+.login .form > label:not(.inline-check) {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  gap: 7px;
+}
+
+.login-field {
+  position: relative;
+  display: block;
+}
+
+.login-field > svg:first-child {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9a8e86;
+  pointer-events: none;
+}
+
+.login-field input {
+  width: 100%;
+  height: 40px;
+  padding: 8px 40px 8px 40px;
+  border: 1px solid #d5ccc2;
+  border-radius: 8px;
+  background: #fffef9;
+  font-size: 13px;
+  color: var(--ink);
+  box-sizing: border-box;
+}
+
+.login-field input:focus {
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 3px #57172018;
+  outline: none;
+}
+
+.login-field-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #9a8e86;
+  cursor: pointer;
+}
+
+.login .inline-check {
+  width: fit-content;
+  max-width: none;
+  flex-shrink: 0;
+  align-self: flex-start;
+  color: var(--text) !important;
+  font-size: 13px !important;
+  font-weight: 500;
+  margin-top: 2px;
+  justify-content: flex-start;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+.login .form > button.btn.primary.full {
+  margin-top: 2px;
+  height: 42px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.login-forgot,
+.login-create,
+.login-resend {
+  display: block;
+  width: fit-content;
+  margin: 4px auto 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--burgundy);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.login-or {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 8px 0 2px;
+  color: #a39890;
+  font-size: 12px;
+}
+
+.login-or::before,
+.login-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ddd4ca;
+}
+
+.login-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.login-note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--burgundy);
+}
+
+.login-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e2d9cf;
+}
+
+.login-legal button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 11px;
+  color: #9a8e86;
+  cursor: pointer;
+}
+
+.login-legal button:hover {
+  color: var(--burgundy);
+}
+
+/* 2FA */
+.login-2fa .login-form {
+  margin-top: 0;
+}
+
+.login-2fa-bar {
+  position: absolute;
+  top: 28px;
+  left: 40px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.login-2fa-brand {
+  color: var(--burgundy);
+  height: auto;
+  gap: 10px;
+  font-size: 22px;
+}
+
+.login-2fa-brand svg {
+  height: 28px;
+  width: 22px;
+}
+
+.login-2fa .otp-fields {
+  margin: 8px 0 18px;
+  gap: 10px;
+}
+
+.login-2fa .otp-fields input {
+  height: 56px;
+  max-width: 64px;
+  border-radius: 8px;
+  border-color: #d5ccc2;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink);
+  background: #fffef9;
+}
+
+.login-2fa .otp-fields input:focus {
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 1px var(--burgundy);
+}
+
+.login-2fa .login-legal {
+  margin-top: 40px;
+}
+
+@media (max-width: 1200px) {
+  .login {
+    grid-template-columns: clamp(220px, 40dvh, 300px) minmax(0, 1fr) !important;
+  }
+
+  .login-visual {
+    width: clamp(220px, 40dvh, 300px) !important;
+    max-width: clamp(220px, 40dvh, 300px) !important;
+  }
+}
+
+@media (max-width: 1000px) {
+  .login {
+    grid-template-columns: clamp(200px, 38dvh, 280px) minmax(0, 1fr) !important;
+  }
+
+  .login-visual {
+    width: clamp(200px, 38dvh, 280px) !important;
+    max-width: clamp(200px, 38dvh, 280px) !important;
+    padding: 24px 18px !important;
+  }
+
+  .login-visual > .brand {
+    font-size: 24px !important;
+  }
+
+  .login-visual h1 {
+    font-size: 18px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .login .role-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .login .role-cards > button {
+    min-height: 72px;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 14px 16px;
+    text-align: left;
+  }
+
+  .login-form {
+    margin-top: 36px;
+  }
+
+  .login-2fa .login-form {
+    margin-top: 56px;
+  }
+}
+
+@media (max-width: 720px) {
+  html.login-page,
+  body.login-page {
+    overflow: auto !important;
+    height: auto !important;
+  }
+
+  .login {
+    display: block !important;
+    grid-template-columns: none !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .login-visual {
+    height: 240px !important;
+    min-height: 240px !important;
+    max-height: 240px !important;
+    background-image: none !important;
+  }
+
+  .login-visual > img {
+    top: auto !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-height: 85% !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+    z-index: 2 !important;
+  }
+
+  .login-content {
+    height: auto !important;
+    overflow: visible !important;
+    padding: 40px 24px 28px !important;
   }
 }

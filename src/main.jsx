@@ -55,11 +55,14 @@ import {
   Leaf,
   ClipboardList,
   UserCheck,
+  User,
   Languages,
   Copy,
   RefreshCw,
   Lock,
   PenLine,
+  Scale,
+  EyeOff,
 } from "lucide-react";
 import { properties, pros, stages, initial } from "./data";
 import "@fontsource-variable/inter/wght.css";
@@ -235,9 +238,11 @@ function App() {
       return initial;
     }
   });
-  const [page, setPage] = useState(
-    decodeURIComponent(location.hash.slice(1)) || "Overview",
-  );
+  const readHashPage = () => {
+    const raw = decodeURIComponent(location.hash.replace(/^#\/?/, "")).trim();
+    return raw || "Overview";
+  };
+  const [page, setPage] = useState(readHashPage);
   const [selected, setSelected] = useState(1);
   const [modal, setModal] = useState(null);
   const [toast, setToast] = useState("");
@@ -255,6 +260,7 @@ function App() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loginRole, setLoginRole] = useState("Buyer");
   const [loginEmail, setLoginEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [unit, setUnit] = useState("m²");
   const [currency, setCurrency] = useState("EUR");
   const [proFilter, setProFilter] = useState("All professionals");
@@ -271,7 +277,7 @@ function App() {
   }, [d]);
   useEffect(() => {
     const f = () => {
-      setPage(decodeURIComponent(location.hash.slice(1)) || "Overview");
+      setPage(readHashPage());
       setMobile(false);
       window.scrollTo(0, 0);
     };
@@ -286,6 +292,15 @@ function App() {
   useEffect(() => {
     document.documentElement.lang = d.language === "PT" ? "pt" : "en";
   }, [d.language]);
+  useEffect(() => {
+    const onLogin = page === "login";
+    document.documentElement.classList.toggle("login-page", onLogin);
+    document.body.classList.toggle("login-page", onLogin);
+    return () => {
+      document.documentElement.classList.remove("login-page");
+      document.body.classList.remove("login-page");
+    };
+  }, [page]);
   useEffect(() => {
     if (!modal) return;
     const old = document.activeElement;
@@ -2335,34 +2350,67 @@ function App() {
     );
   }
   function login() {
+    const roleOptions = [
+      { id: "Buyer", label: "I'm a client", Icon: User },
+      { id: "Agent", label: "I'm a real estate agent", Icon: House },
+      { id: "Lawyer", label: "I'm a lawyer", Icon: Scale },
+    ];
+    const emailDisplay = loginEmail || "you@company.com";
     return (
-      <div className="login">
+      <div className={"login" + (loginStep ? " login-2fa" : "")}>
         <div className="login-visual">
           <a className="brand" href="#welcome">
             <Brand />
           </a>
-          <img src="/images/interior.jpg" alt="A welcoming home" />
+          <img src="/brand/ninho-arch.jpg" alt="" />
           <div>
-            <span className="eyebrow">A PLACE TO CALL YOURS</span>
             <h1>
               One place for everyone
               <br />
               on your home purchase.
             </h1>
-            <p>Your home in Portugal starts with a little connection.</p>
           </div>
         </div>
         <div className="login-content">
-          <div className="login-lang">
-            <button onClick={() => patch({ language: "EN" })}>EN</button> /{" "}
-            <button onClick={() => patch({ language: "PT" })}>PT</button>
-          </div>
+          {loginStep ? (
+            <div className="login-2fa-bar">
+              <button
+                type="button"
+                className="login-back"
+                onClick={() => {
+                  setLoginStep(0);
+                  setOtp(["", "", "", "", "", ""]);
+                }}
+              >
+                <ArrowLeft size={16} /> Back
+              </button>
+              <a className="brand login-2fa-brand" href="#welcome">
+                <Brand />
+              </a>
+            </div>
+          ) : (
+            <div className="login-lang">
+              {["EN", "PT", "ES"].map((l, i) => (
+                <React.Fragment key={l}>
+                  {i > 0 ? <span aria-hidden="true">|</span> : null}
+                  <button
+                    type="button"
+                    className={d.language === l ? "active" : ""}
+                    onClick={() => patch({ language: l })}
+                  >
+                    {l}
+                  </button>
+                </React.Fragment>
+              ))}
+            </div>
+          )}
           <div className="login-form">
-            <div className="eyebrow">WELCOME TO NINHO</div>
-            <h1>{loginStep ? "Two-factor authentication" : "Welcome back"}</h1>
+            <h1>
+              {loginStep ? "Two-factor authentication" : "Welcome back"}
+            </h1>
             <p className="muted">
               {loginStep
-                ? "Enter the six-digit demo verification code."
+                ? `We've sent a 6-digit code to your email address (${emailDisplay}).`
                 : "Log in to your NINHO account."}
             </p>
             {!loginStep ? (
@@ -2371,63 +2419,95 @@ function App() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   setLoginEmail(new FormData(e.target).get("email"));
+                  setOtp(["", "", "", "", "", ""]);
                   setLoginStep(1);
                 }}
               >
-                <label>I’m joining as</label>
                 <div className="role-cards">
-                  {["Buyer", "Agent", "Lawyer", "Admin"].map((r) => (
+                  {roleOptions.map(({ id, label, Icon }) => (
                     <button
                       type="button"
-                      key={r}
-                      className={loginRole === r ? "active" : ""}
-                      onClick={() => setLoginRole(r)}
+                      key={id}
+                      className={loginRole === id ? "active" : ""}
+                      onClick={() => setLoginRole(id)}
                     >
-                      {r === "Buyer" ? (
-                        <House size={20} />
-                      ) : r === "Agent" ? (
-                        <Briefcase size={20} />
-                      ) : r === "Lawyer" ? (
-                        <ShieldCheck size={20} />
-                      ) : (
-                        <Settings size={20} />
-                      )}
-                      <span>{r}</span>
+                      {loginRole === id ? (
+                        <span className="role-check" aria-hidden="true">
+                          <Check size={10} strokeWidth={3} />
+                        </span>
+                      ) : null}
+                      <Icon size={22} strokeWidth={1.5} />
+                      <span>{label}</span>
                     </button>
                   ))}
                 </div>
+                <button
+                  type="button"
+                  className="login-other-pro"
+                  onClick={() => setModal({ type: "access" })}
+                >
+                  Other professional? Request access
+                </button>
                 <label>
                   Email address
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="you@example.com"
-                    required
-                  />
+                  <span className="login-field">
+                    <Mail size={16} strokeWidth={1.5} aria-hidden="true" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="you@company.com"
+                      required
+                    />
+                  </span>
                 </label>
                 <label>
                   Password
-                  <input
-                    type="password"
-                    name="password"
-                    minLength="4"
-                    placeholder="Enter any demo password"
-                    required
-                  />
+                  <span className="login-field">
+                    <Lock size={16} strokeWidth={1.5} aria-hidden="true" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      minLength="4"
+                      placeholder="Enter your password"
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="login-field-toggle"
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                      onClick={() => setShowPassword((v) => !v)}
+                    >
+                      {showPassword ? (
+                        <EyeOff size={16} strokeWidth={1.5} />
+                      ) : (
+                        <Eye size={16} strokeWidth={1.5} />
+                      )}
+                    </button>
+                  </span>
                 </label>
                 <label className="inline-check">
                   <input type="checkbox" />
                   Remember me
                 </label>
+                <button className="btn primary full">Log in</button>
                 <button
                   type="button"
-                  className="text-link"
+                  className="text-link login-forgot"
                   onClick={() => setModal({ type: "recovery" })}
                 >
                   Forgot password?
                 </button>
-                <button className="btn primary full">
-                  Continue <ArrowRight size={16} />
+                <div className="login-or" role="separator">
+                  <span>or</span>
+                </div>
+                <button
+                  type="button"
+                  className="text-link login-create"
+                  onClick={() => setModal({ type: "signup" })}
+                >
+                  Create a client account
                 </button>
               </form>
             ) : (
@@ -2435,23 +2515,16 @@ function App() {
                 className="form"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  if (new FormData(e.target).get("code") !== "123456")
+                  if (otp.join("") !== "123456")
                     return notify("Use the demo code 123456");
                   changeRole(loginRole);
                   setLoginStep(0);
+                  setOtp(["", "", "", "", "", ""]);
                   notify(
                     "Welcome to your " + loginRole.toLowerCase() + " workspace",
                   );
                 }}
               >
-                <div className="callout">
-                  <Info size={18} />
-                  <span>
-                    Demo only · No email sent to {loginEmail}. Use code{" "}
-                    <b>123456</b>.
-                  </span>
-                </div>
-                <label>Verification code</label>
                 <input name="code" type="hidden" value={otp.join("")} />
                 <div className="otp-fields">
                   {otp.map((digit, i) => (
@@ -2463,6 +2536,7 @@ function App() {
                       maxLength="1"
                       value={digit}
                       required
+                      autoFocus={i === 0}
                       onChange={(e) => {
                         const v = e.target.value
                           .replace(/[^0-9]/g, "")
@@ -2487,38 +2561,45 @@ function App() {
                     />
                   ))}
                 </div>
-                <button className="btn primary full">
-                  Open my workspace <ArrowRight size={16} />
-                </button>
+                <button className="btn primary full">Continue</button>
                 <button
                   type="button"
-                  className="text-link"
-                  onClick={() => setLoginStep(0)}
+                  className="text-link login-resend"
+                  onClick={() => {
+                    setOtp(["", "", "", "", "", ""]);
+                    notify("Demo code resent · use 123456");
+                  }}
                 >
-                  Back to sign in
+                  Resend code
                 </button>
               </form>
             )}
-            <div className="login-client-account">
+            {!loginStep ? (
+              <p className="login-note">
+                <Info size={14} strokeWidth={1.75} aria-hidden="true" />
+                Professionals join by invitation or approval.
+              </p>
+            ) : null}
+            <div className="login-legal">
               <button
-                className="text-link"
-                onClick={() => setModal({ type: "signup" })}
+                type="button"
+                onClick={() => setModal({ type: "legal", key: "privacy" })}
               >
-                Create a client account
+                Privacy policy
+              </button>
+              <button
+                type="button"
+                onClick={() => setModal({ type: "legal", key: "terms" })}
+              >
+                Terms
+              </button>
+              <button
+                type="button"
+                onClick={() => setModal({ type: "legal", key: "consent" })}
+              >
+                Cookie settings
               </button>
             </div>
-            <div className="login-bottom">
-              Another kind of professional?{" "}
-              <button
-                className="text-link"
-                onClick={() => setModal({ type: "access" })}
-              >
-                Request access
-              </button>
-            </div>
-            <small className="muted">
-              Interactive client demo. No real account is created.
-            </small>
           </div>
         </div>
       </div>
