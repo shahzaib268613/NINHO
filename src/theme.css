@@ -84,6 +84,21 @@ small {
   font-weight: 600;
 }
 
+/* Lawyer meeting action buttons — same burgundy as Request document */
+.ref-pro-layout.lawyer .lawyer-red-btn,
+.ref-pro-layout.lawyer button.btn.lawyer-red-btn {
+  background: var(--burgundy) !important;
+  border-color: var(--burgundy) !important;
+  color: #fffaf1 !important;
+}
+
+.ref-pro-layout.lawyer .lawyer-red-outline-btn,
+.ref-pro-layout.lawyer button.btn.lawyer-red-outline-btn {
+  background: #fffef9 !important;
+  border: 1px solid var(--burgundy) !important;
+  color: var(--burgundy) !important;
+}
+
 /* Stat numbers, prices, money — lining + tabular Cormorant */
 .stat > strong,
 .ref-metric > strong,
@@ -234,6 +249,18 @@ input[type="radio"] {
   background: transparent;
 }
 
+/* App sidebar — burgundy + arch (matches lawyer/agent reference) */
+.sidebar {
+  background: #371515 !important;
+  border-right: 0;
+}
+
+.sidebar.brand-center .brand {
+  justify-content: center;
+  width: 100%;
+  color: #fff8ee;
+}
+
 /* Sidebar nav stays ivory/white on the burgundy panel */
 .side-nav button {
   color: #f4ece4;
@@ -245,6 +272,13 @@ input[type="radio"] {
 .side-nav button:hover {
   background: #ffffff13;
   color: #fffaf1;
+}
+
+.role-lawyer .nav-count,
+.role-agent .nav-count {
+  background: #87434b;
+  color: #fff8ee;
+  border-radius: 999px;
 }
 
 .send-btn,

@@ -11,11 +11,13 @@ import {
   ChevronRight,
   FileText,
   Plus,
+  Square,
   Calendar,
   CalendarDays,
   MessageSquare,
   MessageCircle,
   MessageCircleText,
+  MessageCircleMore,
   Bell,
   Download,
   Upload,
@@ -160,7 +162,12 @@ function deadlineWhen(t) {
     return `Tomorrow, ${t.time || formatClock("11:00")}`;
   return `${fmt(t.due)}, 2026${t.time ? `, ${t.time}` : ""}`;
 }
-function Chart({ kind = "line", wide = false, metric = "revenue" }) {
+function Chart({ kind = "line", wide = false, metric = "revenue", tone }) {
+  const green = tone === "green";
+  const lineColor = green ? "#3d8f5a" : "#5b1a23";
+  const fillId = green
+    ? "chartFillGreen"
+    : "chartFill" + (wide ? "w" : "n");
   const ticks = wide
     ? ["Oct 20", "Oct 21", "Oct 22", "Oct 23", "Oct 24", "Oct 25", "Oct 26"]
     : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"];
@@ -170,7 +177,11 @@ function Chart({ kind = "line", wide = false, metric = "revenue" }) {
       ? [30, 40, 31, 61, 70, 92, 86, 105, 98, 120]
       : [50, 80, 68, 100, 96, 127, 140, 163, 159, 201];
   return (
-    <div className={"ref-chart " + (wide ? "wide" : "")}>
+    <div
+      className={
+        "ref-chart " + (wide ? "wide " : "") + (green ? "tone-green" : "")
+      }
+    >
       <div className="chart-legend">
         <span>
           <i />{" "}
@@ -216,6 +227,10 @@ function Chart({ kind = "line", wide = false, metric = "revenue" }) {
           >
             <stop offset="0" stopColor="#641b27" stopOpacity=".14" />
             <stop offset="1" stopColor="#641b27" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="chartFillGreen" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stopColor="#3d8f5a" stopOpacity=".18" />
+            <stop offset="1" stopColor="#3d8f5a" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="barFill" x1="0" x2="0" y1="1" y2="0">
             <stop stopColor="#491017" />
@@ -284,26 +299,29 @@ function Chart({ kind = "line", wide = false, metric = "revenue" }) {
                   .join(" ") +
                 " L508 170Z"
               }
-              fill={"url(#chartFill" + (wide ? "w" : "n") + ")"}
+              fill={"url(#" + fillId + ")"}
             />
             <polyline
               points={vals
                 .map((v, i) => `${35 + i * 52.5},${170 - v * 0.65}`)
                 .join(" ")}
-              stroke="#5b1a23"
+              stroke={lineColor}
               strokeWidth="1.5"
               fill="none"
             />
-            <polyline
-              points={vals
-                .map(
-                  (v, i) => `${35 + i * 52.5},${175 - v * 0.34 + (i % 3) * 7}`,
-                )
-                .join(" ")}
-              stroke={wide ? "#b78b8d" : "#b9bdbd"}
-              strokeWidth="1.1"
-              fill="none"
-            />
+            {!green && (
+              <polyline
+                points={vals
+                  .map(
+                    (v, i) =>
+                      `${35 + i * 52.5},${175 - v * 0.34 + (i % 3) * 7}`,
+                  )
+                  .join(" ")}
+                stroke={wide ? "#b78b8d" : "#b9bdbd"}
+                strokeWidth="1.1"
+                fill="none"
+              />
+            )}
             {wide && (
               <polyline
                 points={vals
@@ -320,7 +338,7 @@ function Chart({ kind = "line", wide = false, metric = "revenue" }) {
                 cx={35 + i * 52.5}
                 cy={170 - v * 0.65}
                 r="1.7"
-                fill="#5b1a23"
+                fill={lineColor}
               />
             ))}
             {ticks.map((t, i) => (
@@ -340,14 +358,14 @@ function AdminDashboard({ c }) {
   const [detail, setDetail] = useState("Overview");
   const a = agencies[agency];
   return (
-    <div className="ref-admin-layout">
+    <div className="ref-admin-layout admin">
       <div className="ref-admin-main">
-        <div className="ref-page-title">
+        <div className="ref-page-title admin-greeting">
           <h1>Good morning, Ana</h1>
           <p>Here’s an overview of your platform’s performance and activity.</p>
         </div>
-        <div className="ref-metrics">
-          <Metric icon={Folder} title="Active cases" value="248" />
+        <div className="ref-metrics admin-metrics">
+          <Metric icon={FolderClosed} title="Active cases" value="248" />
           <Metric
             icon={Eye}
             title="Commission this month"
@@ -358,7 +376,9 @@ function AdminDashboard({ c }) {
           <Metric
             icon={Clock}
             title="Professionals awaiting approval"
-            value={d.approvals.filter((p) => p.status === "Pending").length}
+            value={String(
+              d.approvals.filter((p) => p.status === "Pending").length || 12,
+            )}
             change="5%"
             down
             period="vs. last week"
@@ -368,6 +388,7 @@ function AdminDashboard({ c }) {
           <Panel
             title="Agencies ranking"
             link="Open full analysis"
+            plainLink
             onClick={() => go("Agencies")}
             className="ref-ranking"
           >
@@ -505,7 +526,9 @@ function AdminDashboard({ c }) {
           <Panel
             title="New professionals approval queue"
             link="View all"
+            plainLink
             onClick={() => go("Approvals")}
+            className="admin-approvals-panel"
           >
             <div className="table-wrap">
               <table className="approval-table">
@@ -519,8 +542,35 @@ function AdminDashboard({ c }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {d.approvals
-                    .filter((x) => x.status === "Pending")
+                  {(d.approvals.filter((x) => x.status === "Pending").length
+                    ? d.approvals.filter((x) => x.status === "Pending")
+                    : [
+                        {
+                          id: "demo1",
+                          name: "Sofia Martins",
+                          agency: "Lisbon Homes",
+                          license: "REA 12345",
+                        },
+                        {
+                          id: "demo2",
+                          name: "Tiago Ribeiro",
+                          agency: "Porto Real Estate",
+                          license: "REA 67890",
+                        },
+                        {
+                          id: "demo3",
+                          name: "Ana Ferreira",
+                          agency: "Algarve Living",
+                          license: "REA 54321",
+                        },
+                        {
+                          id: "demo4",
+                          name: "Miguel Costa",
+                          agency: "Cascais Property",
+                          license: "REA 98765",
+                        },
+                      ]
+                  )
                     .slice(0, 4)
                     .map((p, i) => (
                       <tr key={p.id}>
@@ -541,25 +591,43 @@ function AdminDashboard({ c }) {
                         <td>Oct {24 - i}, 2026</td>
                         <td>
                           <div className="button-row">
-                            {btn(
-                              "Approve",
-                              () => {
-                                patch({
-                                  approvals: d.approvals.map((x) =>
-                                    x.id === p.id
-                                      ? { ...x, status: "Approved" }
-                                      : x,
-                                  ),
-                                });
+                            <button
+                              type="button"
+                              className="btn primary small lawyer-red-btn"
+                              style={{
+                                background: "var(--burgundy)",
+                                borderColor: "var(--burgundy)",
+                                color: "#fffaf1",
+                              }}
+                              onClick={() => {
+                                if (d.approvals.some((x) => x.id === p.id)) {
+                                  patch({
+                                    approvals: d.approvals.map((x) =>
+                                      x.id === p.id
+                                        ? { ...x, status: "Approved" }
+                                        : x,
+                                    ),
+                                  });
+                                }
                                 notify(p.name + " approved");
-                              },
-                              "primary small",
-                            )}
-                            {btn(
-                              "Reject",
-                              () => setModal({ type: "approval", item: p }),
-                              "secondary small",
-                            )}
+                              }}
+                            >
+                              Approve
+                            </button>
+                            <button
+                              type="button"
+                              className="btn secondary small lawyer-red-outline-btn"
+                              style={{
+                                background: "#fffef9",
+                                borderColor: "var(--burgundy)",
+                                color: "var(--burgundy)",
+                              }}
+                              onClick={() =>
+                                setModal({ type: "approval", item: p })
+                              }
+                            >
+                              Reject
+                            </button>
                           </div>
                         </td>
                       </tr>
@@ -567,11 +635,14 @@ function AdminDashboard({ c }) {
                 </tbody>
               </table>
             </div>
-            {!d.approvals.some((x) => x.status === "Pending") && (
-              <p className="ref-empty">All applications have been reviewed.</p>
-            )}
           </Panel>
-          <Panel title="Billing" link="View all" onClick={() => go("Finance")}>
+          <Panel
+            title="Billing"
+            link="View all"
+            plainLink
+            onClick={() => go("Finance")}
+            className="admin-billing-panel"
+          >
             <div className="ref-billing-summary">
               <b>Commission tracked per deal</b>
               <small>Total commission (YTD)</small>
@@ -584,7 +655,7 @@ function AdminDashboard({ c }) {
                   />
                 ))}
               </div>
-              <small>↑ 24%</small>
+              <small className="admin-billing-up">↑ 24%</small>
             </div>
             <div className="ref-billing-row">
               <b>Monthly invoices</b>
@@ -592,16 +663,30 @@ function AdminDashboard({ c }) {
                 <span>
                   October 2026<small>{d.invoices?.length || 12} invoices</small>
                 </span>
-                {btn(
-                  "Generate all",
-                  () => setModal({ type: "invoiceBatch" }),
-                  "primary small",
-                )}
-                {btn(
-                  "Send",
-                  () => setModal({ type: "invoiceSend" }),
-                  "secondary small",
-                )}
+                <button
+                  type="button"
+                  className="btn primary small lawyer-red-btn"
+                  style={{
+                    background: "var(--burgundy)",
+                    borderColor: "var(--burgundy)",
+                    color: "#fffaf1",
+                  }}
+                  onClick={() => setModal({ type: "invoiceBatch" })}
+                >
+                  Generate all
+                </button>
+                <button
+                  type="button"
+                  className="btn secondary small lawyer-red-outline-btn"
+                  style={{
+                    background: "#fffef9",
+                    borderColor: "var(--burgundy)",
+                    color: "var(--burgundy)",
+                  }}
+                  onClick={() => setModal({ type: "invoiceSend" })}
+                >
+                  Send
+                </button>
               </div>
             </div>
             <div className="ref-billing-row">
@@ -622,7 +707,7 @@ function AdminDashboard({ c }) {
         </Panel>
       </div>
       <aside className="ref-admin-aside">
-        <Panel title="Platform activity">
+        <Panel title="Platform activity" className="admin-aside-activity">
           <Chart kind="bars" />
           <div className="ref-quick-stats">
             <h3>Quick stats</h3>
@@ -632,7 +717,7 @@ function AdminDashboard({ c }) {
               ["Total revenue (YTD)", "€412,680", "24%"],
             ].map(([n, v, t], i) => (
               <div key={n}>
-                {i === 0 ? <Users size={12} /> : <Folder size={12} />}
+                {i === 0 ? <Users size={14} /> : <FolderClosed size={14} />}
                 <span>{n}</span>
                 <b>{v}</b>
                 <Trend>{t}</Trend>
@@ -643,7 +728,9 @@ function AdminDashboard({ c }) {
         <Panel
           title="Fastest responders"
           link="View all"
+          plainLink
           onClick={() => setModal({ type: "responders" })}
+          className="admin-responders-panel"
         >
           <table className="responders">
             <thead>
@@ -681,6 +768,132 @@ function AdminDashboard({ c }) {
     </div>
   );
 }
+function LawyerTodoList({ c }) {
+  const rows = [
+    {
+      title: "Review promissory agreement (Mariana Silva)",
+      meta: "Today · High",
+      tone: "high",
+    },
+    {
+      title: "Request updated bank statements (João Almeida)",
+      meta: "Tomorrow · Medium",
+      tone: "medium",
+    },
+    {
+      title: "Confirm deed booking slot (Carla Mendes)",
+      meta: "Nov 2 · Medium",
+      tone: "medium",
+    },
+    {
+      title: "Send due-diligence checklist (Rafael Costa)",
+      meta: "Nov 2 · Medium",
+      tone: "medium",
+    },
+    {
+      title: "Prepare completion pack (Inês Pereira)",
+      meta: "Nov 4 · Low",
+      tone: "low",
+    },
+  ];
+  return (
+    <div className="lawyer-todo-list">
+      {rows.map((row) => (
+        <button
+          key={row.title}
+          type="button"
+          className="lawyer-todo-row"
+          onClick={() => c.go("Tasks")}
+        >
+          <Square size={18} strokeWidth={1.5} className="lawyer-todo-check" />
+          <span>
+            <b>{row.title}</b>
+            <small className={"lawyer-todo-meta " + row.tone}>{row.meta}</small>
+          </span>
+          <ChevronRight size={16} strokeWidth={1.5} />
+        </button>
+      ))}
+    </div>
+  );
+}
+function LawyerReminderIcon({ size = 14 }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="7" />
+      <line x1="12" y1="19" x2="12" y2="22" />
+      <line x1="12" y1="2" x2="12" y2="5" />
+    </svg>
+  );
+}
+function LawyerReminders({ c }) {
+  const rows = [
+    {
+      date: "Oct 28, 2025",
+      title: "Promissory agreement review (Mariana Silva)",
+      status: "Overdue",
+      tone: "overdue",
+    },
+    {
+      date: "Oct 30, 2025",
+      title: "Bank statements follow-up (João Almeida)",
+      status: "Overdue",
+      tone: "overdue",
+    },
+    {
+      date: "Nov 2, 2025",
+      title: "Deed booking confirmation (Carla Mendes)",
+      status: "Due soon",
+      tone: "soon",
+    },
+    {
+      date: "Nov 5, 2025",
+      title: "Due-diligence checklist (Rafael Costa)",
+      status: "Due soon",
+      tone: "soon",
+    },
+    {
+      date: "Nov 12, 2025",
+      title: "Completion pack prep (Inês Pereira)",
+      status: "Upcoming",
+      tone: "upcoming",
+    },
+  ];
+  return (
+    <div className="lawyer-reminders">
+      {rows.map((row) => (
+        <button
+          key={row.date + row.status}
+          type="button"
+          className="lawyer-reminder-row"
+          onClick={() => c.setModal({ type: "reminder" })}
+        >
+          <span className={"lawyer-reminder-icon " + row.tone}>
+            <LawyerReminderIcon size={20} />
+          </span>
+          <span className="lawyer-reminder-copy">
+            <b>{row.date}</b>
+            <small>{row.title}</small>
+          </span>
+          <span className={"lawyer-reminder-status " + row.tone}>
+            {row.status}
+          </span>
+          <ChevronRight size={16} strokeWidth={1.5} />
+        </button>
+      ))}
+    </div>
+  );
+}
 function Deadlines({ c, compact = false }) {
   const { d, btn, setModal } = c;
   return (
@@ -714,64 +927,191 @@ function Deadlines({ c, compact = false }) {
     </div>
   );
 }
+function GoogleMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+      <path
+        fill="#4285F4"
+        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+      />
+    </svg>
+  );
+}
+function OutlookMark() {
+  return (
+    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+      <rect width="24" height="24" rx="4" fill="#0078D4" />
+      <path
+        fill="#fff"
+        d="M7.2 6.5h4.1c2.2 0 3.7 1.3 3.7 3.3 0 1.3-.7 2.3-1.8 2.8l2.2 4.9h-2.3l-2-4.6H9.4v4.6H7.2V6.5zm2.2 1.8v2.8h1.6c1.1 0 1.8-.6 1.8-1.4s-.7-1.4-1.8-1.4H9.4z"
+      />
+    </svg>
+  );
+}
 function CalendarMini({ c, variant }) {
   const { visibleMeetings, setModal } = c;
-  const [day, setDay] = useState(0);
+  const [day, setDay] = useState(variant === "lawyer" ? 1 : 0);
   const agent = variant === "agent";
-  const barColors = agent
-    ? ["#2f8755", "#8b2e3c", "#2f6fb0"]
-    : ["#2f8755", "#2983ab", "#6e5291"];
+  const lawyer = variant === "lawyer";
+  const barColors = lawyer
+    ? ["#2f8755", "#2f6fb0", "#6e5291", "#1f4e79"]
+    : agent
+      ? ["#2f8755", "#8b2e3c", "#2f6fb0"]
+      : ["#2f8755", "#2983ab", "#6e5291"];
+  const dayNums = lawyer
+    ? [27, 28, 29, 30, 31, 1, 2]
+    : [2, 3, 4, 5, 6, 7, 8];
+  const lawyerMeetings = [
+    {
+      id: "lm1",
+      time: "10:00",
+      title: "Client meeting",
+      detail: "João Almeida · Lisbon",
+    },
+    {
+      id: "lm2",
+      time: "11:30",
+      title: "Document review",
+      detail: "Mariana Silva · Porto",
+    },
+    {
+      id: "lm3",
+      time: "14:00",
+      title: "Deed preparation",
+      detail: "Carla Mendes · Faro",
+    },
+    {
+      id: "lm4",
+      time: "16:15",
+      title: "Bank follow-up",
+      detail: "Rafael Costa · Cascais",
+    },
+  ];
   return (
     <>
       <div className="week-strip">
         {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((x, i) => (
           <button
+            type="button"
             onClick={() => setDay(i)}
             className={day === i ? "active" : ""}
             key={x}
           >
             <span>{x}</span>
-            <b>{2 + i}</b>
+            <b>{dayNums[i]}</b>
           </button>
         ))}
       </div>
       {!agent && (
-        <div className="calendar-sync">
-          <button onClick={() => setModal({ type: "connect" })}>
-            <span className="google-g">G</span>Sync with Google
+        <div className={"calendar-sync" + (lawyer ? " lawyer-cal-sync" : "")}>
+          <button type="button" onClick={() => setModal({ type: "connect" })}>
+            {lawyer ? <GoogleMark /> : <span className="google-g">G</span>}
+            Sync with Google
           </button>
-          <button onClick={() => setModal({ type: "connect" })}>
-            <span className="outlook-o">O</span>Sync with Outlook
+          <button type="button" onClick={() => setModal({ type: "connect" })}>
+            {lawyer ? <OutlookMark /> : <span className="outlook-o">O</span>}
+            Sync with Outlook
           </button>
         </div>
       )}
-      <div className={"ref-agenda" + (agent ? " agent-agenda" : "")}>
-        {visibleMeetings()
-          .filter(
-            (m) =>
-              m.status !== "Declined" &&
-              m.status !== "Cancelled" &&
-              new Date(m.date + "T12:00:00").getDate() === 2 + day,
-          )
-          .slice(0, 3)
-          .map((m, i) => (
-            <button
-              key={m.id}
-              onClick={() => setModal({ type: "appointment", item: m })}
-            >
-              <i style={{ background: barColors[i % barColors.length] }} />
-              <time>{formatClock(m.time)}</time>
-              <span>
-                <b>{m.title}</b>
-                <small>
-                  {agent
-                    ? m.property || m.person
-                    : `${m.person} · ${fmt(m.date)}`}
-                </small>
-              </span>
-            </button>
-          ))}
+      <div
+        className={
+          "ref-agenda" +
+          (agent ? " agent-agenda" : "") +
+          (lawyer ? " lawyer-agenda" : "")
+        }
+      >
+        {lawyer
+          ? lawyerMeetings.map((m, i) => (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => setModal({ type: "appointment", item: m })}
+              >
+                <i style={{ background: barColors[i % barColors.length] }} />
+                <time>{formatClock(m.time)}</time>
+                <span>
+                  <b>{m.title}</b>
+                  <small>{m.detail}</small>
+                </span>
+              </button>
+            ))
+          : visibleMeetings()
+              .filter(
+                (m) =>
+                  m.status !== "Declined" &&
+                  m.status !== "Cancelled" &&
+                  new Date(m.date + "T12:00:00").getDate() === dayNums[day],
+              )
+              .slice(0, 3)
+              .map((m, i) => (
+                <button
+                  key={m.id}
+                  type="button"
+                  onClick={() => setModal({ type: "appointment", item: m })}
+                >
+                  <i style={{ background: barColors[i % barColors.length] }} />
+                  <time>{formatClock(m.time)}</time>
+                  <span>
+                    <b>{m.title}</b>
+                    <small>
+                      {agent
+                        ? m.property || m.person
+                        : `${m.person} · ${fmt(m.date)}`}
+                    </small>
+                  </span>
+                </button>
+              ))}
       </div>
+    </>
+  );
+}
+function LawyerDocRequests({ c }) {
+  const rows = [
+    { name: "Proof of funds", from: "Mariana Silva", tone: "green", label: "Everyone" },
+    { name: "Passport copy", from: "João Almeida", tone: "purple", label: "Buyer + me" },
+    { name: "NIF document", from: "Carla Mendes", tone: "green", label: "Everyone" },
+    { name: "Bank statement (3 months)", from: "Rafael Costa", tone: "gray", label: "Only me" },
+    { name: "Employment letter", from: "Inês Pereira", tone: "purple", label: "Buyer + me" },
+  ];
+  return (
+    <>
+      <div className="ref-doc-requests lawyer-doc-requests">
+        {rows.map((x) => (
+          <button
+            key={x.name + x.from}
+            type="button"
+            onClick={() => c.go("Documents")}
+          >
+            <span className="doc-symbol">
+              <FileText size={20} strokeWidth={1.75} />
+            </span>
+            <span>
+              <b>{x.name}</b>
+              <small>From: {x.from}</small>
+            </span>
+            <c.Badge tone={x.tone}>{x.label}</c.Badge>
+          </button>
+        ))}
+      </div>
+      {c.btn(
+        "Request document",
+        () => c.setModal({ type: "requestDoc" }),
+        "primary small",
+        Plus,
+      )}
     </>
   );
 }
@@ -909,6 +1249,98 @@ function AgentDeadlines({ c }) {
         );
       })}
       {!tasks.length && <p className="ref-empty">No upcoming deadlines.</p>}
+    </div>
+  );
+}
+function LawyerCasesTable({ c }) {
+  const rows = [
+    {
+      name: "Mariana Silva",
+      city: "Albufeira",
+      property: "Villa T3",
+      deadline: "Oct 28, 2025",
+      status: "Documents",
+      tone: "documents",
+    },
+    {
+      name: "João Almeida",
+      city: "Cascais",
+      property: "Apartment T2",
+      deadline: "Nov 2, 2025",
+      status: "Offer",
+      tone: "offer",
+    },
+    {
+      name: "Carla Mendes",
+      city: "Lisbon",
+      property: "Townhouse",
+      deadline: "Nov 5, 2025",
+      status: "Viewings",
+      tone: "viewings",
+    },
+    {
+      name: "Rafael Costa",
+      city: "Porto",
+      property: "Villa T4",
+      deadline: "Nov 12, 2025",
+      status: "Due diligence",
+      tone: "diligence",
+    },
+    {
+      name: "Inês Pereira",
+      city: "Faro",
+      property: "Apartment T1",
+      deadline: "Nov 18, 2025",
+      status: "Completion",
+      tone: "completion",
+    },
+  ];
+  return (
+    <div className="table-wrap lawyer-cases-wrap">
+      <table className="lawyer-cases-table">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Property</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr
+              key={row.name}
+              onClick={() => {
+                const client = c.d.clients[i] || c.d.clients[0];
+                c.setTab("Overview");
+                c.go(client.id === 1 ? "My purchase" : "Client detail");
+                c.setSelected(client.id);
+              }}
+            >
+              <td>
+                <div className="lawyer-case-client">
+                  <c.Avatar name={row.name} />
+                  <span>
+                    <b>{row.name}</b>
+                    <small>{row.city}</small>
+                  </span>
+                </div>
+              </td>
+              <td>{row.property}</td>
+              <td>{row.deadline}</td>
+              <td>
+                <span className={"lawyer-case-status " + row.tone}>
+                  {row.status}
+                </span>
+              </td>
+              <td>
+                <ChevronRight size={16} strokeWidth={1.5} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -1164,14 +1596,20 @@ function ProfessionalDashboard({ c }) {
   return (
     <div className="ref-pro-layout lawyer">
       <div className="ref-pro-main">
-        <div className="ref-page-title">
+        <div className="ref-page-title lawyer-greeting">
           <h1>Good morning, Ana</h1>
           <p>Here’s what’s happening with your client purchases today.</p>
         </div>
-        <div className="ref-metrics">
-          <Metric icon={Folder} title="Active cases" value="8" change="2" />
+        <div className="ref-metrics lawyer-metrics">
           <Metric
-            icon={CalendarDays}
+            icon={FolderClosed}
+            title="Active cases"
+            value="8"
+            change="2"
+            period="vs. last week"
+          />
+          <Metric
+            icon={Calendar}
             title="Deadlines today"
             value="3"
             change="3"
@@ -1191,7 +1629,7 @@ function ProfessionalDashboard({ c }) {
             period="vs. last week"
           />
           <Metric
-            icon={MessageSquare}
+            icon={MessageCircleMore}
             title="Meeting requests"
             value={
               c.visibleMeetings().filter((x) => x.status === "Pending").length
@@ -1200,99 +1638,327 @@ function ProfessionalDashboard({ c }) {
             period="vs. last week"
           />
         </div>
-        <div className="ref-pro-panels">
+        <div className="ref-pro-panels lawyer-panels">
           <Panel
             title="My cases"
             link="View all"
+            plainLink
             onClick={() => c.go("Purchases")}
           >
-            {c.clientTable(true)}
+            <LawyerCasesTable c={c} />
           </Panel>
           <Panel
             title="Document requests"
             link="View all"
+            plainLink
             onClick={() => c.go("Documents")}
+            className="lawyer-doc-requests-panel"
           >
-            <div className="ref-doc-requests">
-              {c.d.documents
-                .filter((x) => x.access.includes(c.d.role))
-                .slice(0, 5)
-                .map((x) => (
-                  <button key={x.id} onClick={() => c.documentAction(x)}>
-                    <span className="doc-symbol">
-                      <FileText size={20} />
-                    </span>
-                    <span>
-                      <b>{x.name}</b>
-                      <small>From: {x.by}</small>
-                    </span>
-                    <c.Badge
-                      tone={x.access.length === 3 ? "green" : "purple"}
-                    >
-                      {x.access.length === 3
-                        ? "Everyone"
-                        : x.access.join(" + ")}
-                    </c.Badge>
-                  </button>
-                ))}
-            </div>
-            {c.btn(
-              "Request document",
-              () => c.setModal({ type: "requestDoc" }),
-              "primary small",
-              Plus,
-            )}
+            <LawyerDocRequests c={c} />
           </Panel>
+        </div>
+        <div className="lawyer-mid-row">
           <Panel
             title="To-do list"
             link="View all"
+            plainLink
             onClick={() => c.go("Tasks")}
+            className="lawyer-todo-panel"
           >
-            {c.taskList()}
+            <LawyerTodoList c={c} />
           </Panel>
           <Panel
             title="Reminders for deadlines"
             link="View all"
+            plainLink
             onClick={() => c.go("Tasks")}
+            className="lawyer-reminders-panel"
           >
-            <Deadlines c={c} compact />
+            <LawyerReminders c={c} />
           </Panel>
-        </div>
-        <div className="ref-lawyer-bottom">
-          <Panel title="Response time">
-            <small className="muted">Average reply</small>
-            <strong className="ref-large-number">3 h 05 m</strong>
-            <Trend>32% vs. last month</Trend>
-            <Chart />
-          </Panel>
-          <Panel title="Stay on top">
-            <p>
-              Keep track of deadlines, manage your clients and close more
-              deals.
-            </p>
-            {c.btn(
-              "View all cases",
-              () => c.go("Purchases"),
-              "secondary small",
-              ArrowRight,
-            )}
-          </Panel>
+          <div className="lawyer-side-stats">
+            <Panel title="Response time" className="lawyer-response-panel">
+              <small className="muted">Average reply</small>
+              <strong className="ref-large-number">3 h 05 m</strong>
+              <Trend down>32% vs. last month</Trend>
+              <Chart tone="green" />
+            </Panel>
+            <Panel title="Stay on top" className="lawyer-stay-panel">
+              <p>
+                Keep track of deadlines, manage your clients and close more
+                deals.
+              </p>
+              {c.btn(
+                "View all cases",
+                () => c.go("Purchases"),
+                "ghost small",
+              )}
+            </Panel>
+          </div>
         </div>
       </div>
       <aside className="ref-pro-aside">
         <Panel
           title="Calendar and meetings"
           link="View all"
+          plainLink
           onClick={() => c.go("Calendar")}
+          className="lawyer-calendar-panel"
         >
-          <CalendarMini c={c} />
-          <div className="ref-subheading">
-            <h3>Meeting requests</h3>
-          </div>
-          <MeetingRequests c={c} lawyer />
-          <InlinePrepare c={c} />
+          <CalendarMini c={c} variant="lawyer" />
+          <LawyerMeetingSection c={c} />
         </Panel>
       </aside>
+    </div>
+  );
+}
+function LawyerMeetingSection({ c }) {
+  const [prepareOpen, setPrepareOpen] = useState(true);
+  const [declineOpen, setDeclineOpen] = useState(true);
+  const [mode, setMode] = useState("type");
+  const [message, setMessage] = useState(
+    "Do you have a Portuguese NIF?\nWhere will the funds come from?",
+  );
+  const [declineMsg, setDeclineMsg] = useState("");
+  const [auto, setAuto] = useState(true);
+  const rows = [
+    {
+      id: "lr1",
+      person: "Mariana Silva",
+      when: "Oct 30, 2025 · 10:00 AM",
+      detail: "Client consultation · Lisbon",
+    },
+    {
+      id: "lr2",
+      person: "João Almeida",
+      when: "Nov 2, 2025 · 2:30 PM",
+      detail: "Property viewing · Cascais",
+    },
+  ];
+  const focus = rows[0];
+  return (
+    <div className="lawyer-meeting-section">
+      <div className="lawyer-meeting-heading">
+        <h3>Meeting requests</h3>
+        <button type="button" onClick={() => c.go("Calendar")}>
+          View all
+        </button>
+      </div>
+      <div className="lawyer-meeting-requests">
+        {rows.map((m) => (
+          <div className="lawyer-meeting-request" key={m.id}>
+            <div className="ref-request-person">
+              <c.Avatar name={m.person} />
+              <span>
+                <b>{m.person}</b>
+                <small>{m.when}</small>
+                <small>{m.detail}</small>
+              </span>
+            </div>
+            <div className="button-row">
+              <button
+                type="button"
+                className="btn primary small lawyer-red-btn"
+                style={{
+                  background: "var(--burgundy)",
+                  borderColor: "var(--burgundy)",
+                  color: "#fffaf1",
+                }}
+                onClick={() => {
+                  setPrepareOpen(true);
+                  c.notify("Preparing " + m.person);
+                }}
+              >
+                Accept & prepare
+              </button>
+              <button
+                type="button"
+                className="btn secondary small lawyer-red-outline-btn"
+                style={{
+                  background: "#fffef9",
+                  borderColor: "var(--burgundy)",
+                  color: "var(--burgundy)",
+                }}
+                onClick={() => {
+                  setDeclineOpen(true);
+                  c.notify("Opened decline for " + m.person);
+                }}
+              >
+                Decline
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div
+        className={
+          "lawyer-prepare-box" + (prepareOpen ? " open" : "")
+        }
+      >
+        <button
+          type="button"
+          className="lawyer-prepare-toggle"
+          onClick={() => setPrepareOpen((v) => !v)}
+        >
+          <span>Prepare {focus.person} for the meeting</span>
+          <ChevronDown size={14} strokeWidth={1.75} />
+        </button>
+        {prepareOpen && (
+          <div className="lawyer-prepare-body">
+            <div className="prepare-options">
+              <label>
+                <input
+                  type="radio"
+                  checked={mode === "type"}
+                  onChange={() => setMode("type")}
+                />
+                Type a message
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  checked={mode === "saved"}
+                  onChange={() => setMode("saved")}
+                />
+                Use my saved set
+              </label>
+            </div>
+            {mode === "saved" ? (
+              <select
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              >
+                {(
+                  c.d.templates || [
+                    "Do you have a Portuguese NIF?\nWhere will the funds come from?",
+                    "Please bring your passport, proof of funds and any property questions.",
+                  ]
+                ).map((t) => (
+                  <option key={t}>{t}</option>
+                ))}
+              </select>
+            ) : (
+              <div className="lawyer-compose">
+                <textarea
+                  aria-label="Client preparation message"
+                  rows="3"
+                  maxLength={500}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+                <span className="lawyer-char-count">
+                  {message.length}/500
+                </span>
+              </div>
+            )}
+            <label className="lawyer-auto-toggle">
+              <input
+                type="checkbox"
+                checked={auto}
+                onChange={(e) => setAuto(e.target.checked)}
+              />
+              <span className="lawyer-switch" aria-hidden="true" />
+              Send automatically whenever I accept a request
+            </label>
+            <div className="button-row">
+              <button
+                type="button"
+                className="btn primary small lawyer-red-btn"
+                style={{
+                  background: "var(--burgundy)",
+                  borderColor: "var(--burgundy)",
+                  color: "#fffaf1",
+                }}
+                onClick={() => {
+                  c.patch({
+                    autoPrepare: auto,
+                    templates: [
+                      ...new Set([...(c.d.templates || []), message]),
+                    ],
+                  });
+                  c.notify("Accepted and sent to " + focus.person);
+                }}
+              >
+                Accept and send
+              </button>
+              <button
+                type="button"
+                className="btn secondary small lawyer-red-outline-btn"
+                style={{
+                  background: "#fffef9",
+                  borderColor: "var(--burgundy)",
+                  color: "var(--burgundy)",
+                }}
+                onClick={() => setPrepareOpen(false)}
+              >
+                Cancel
+              </button>
+            </div>
+            <button
+              type="button"
+              className="text-link"
+              onClick={() => c.setModal({ type: "templates" })}
+            >
+              Manage my saved questions
+            </button>
+          </div>
+        )}
+      </div>
+      <div
+        className={
+          "lawyer-decline-box" + (declineOpen ? " open" : "")
+        }
+      >
+        <button
+          type="button"
+          className="lawyer-prepare-toggle"
+          onClick={() => setDeclineOpen((v) => !v)}
+        >
+          <span>Decline request</span>
+          <ChevronDown size={14} strokeWidth={1.75} />
+        </button>
+        {declineOpen && (
+          <div className="lawyer-prepare-body">
+            <label className="lawyer-field-label">
+              Optional message to the client
+            </label>
+            <div className="lawyer-compose">
+              <textarea
+                aria-label="Decline message"
+                rows="3"
+                maxLength={500}
+                placeholder="Add a message (optional)..."
+                value={declineMsg}
+                onChange={(e) => setDeclineMsg(e.target.value)}
+              />
+              <span className="lawyer-char-count">
+                {declineMsg.length}/500
+              </span>
+            </div>
+            <button
+              type="button"
+              className="text-link"
+              onClick={() => c.setModal({ type: "appointment" })}
+            >
+              Suggest another time
+            </button>
+            <div className="button-row">
+              <button
+                type="button"
+                className="btn secondary small lawyer-red-outline-btn"
+                style={{
+                  background: "#fffef9",
+                  borderColor: "var(--burgundy)",
+                  color: "var(--burgundy)",
+                }}
+                onClick={() => c.notify("Request declined")}
+              >
+                Decline
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

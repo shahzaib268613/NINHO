@@ -55,7 +55,7 @@ p {
 .sidebar {
   width: 230px;
   padding: 24px 13px 0;
-  background: linear-gradient(140deg, #3d1916, #270d0c 80%);
+  background: #371515;
   color: #fbf6ea;
   border: 0;
   overflow: hidden;
@@ -63,7 +63,7 @@ p {
 .sidebar:before {
   content: "";
   position: absolute;
-  inset: 39% 0 0;
+  inset: 42% 0 0;
   background: url("/brand/ninho-arch.jpg") center bottom/cover no-repeat;
   pointer-events: none;
 }

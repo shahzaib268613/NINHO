@@ -74,6 +74,7 @@ import "./style.css";
 import "./reference.css";
 import "./theme.css";
 import "./agent-dashboard.css";
+import "./lawyer-dashboard.css";
 import {
   Brand,
   ReferenceDashboard,
@@ -117,6 +118,16 @@ const agentIcons = {
   Agency: BarChart3,
   Settings,
 };
+const lawyerIcons = {
+  Overview: House,
+  Purchases: Briefcase,
+  Documents: FileText,
+  Calendar: Calendar,
+  Messages: MessageCircle,
+  Meetings: Users,
+  Tasks: CheckSquare,
+  Settings,
+};
 const menus = {
   Buyer: [
     "Overview",
@@ -145,11 +156,10 @@ const menus = {
     "Overview",
     "Purchases",
     "Documents",
-    "Meetings",
     "Calendar",
     "Messages",
+    "Meetings",
     "Tasks",
-    "Membership",
     "Settings",
   ],
   Admin: [
@@ -4337,7 +4347,13 @@ function App() {
           {mobile && (
             <div className="sidebar-scrim" onClick={() => setMobile(false)} />
           )}
-          <aside className={"sidebar " + (mobile ? "open" : "")}>
+          <aside
+            className={
+              "sidebar " +
+              (mobile ? "open " : "") +
+              (d.role === "Lawyer" || d.role === "Agent" ? "brand-center" : "")
+            }
+          >
             <a className="brand" href="#welcome">
               <Brand />
             </a>
@@ -4389,7 +4405,9 @@ function App() {
                 const Icon =
                   d.role === "Agent" && agentIcons[n]
                     ? agentIcons[n]
-                    : icons[n];
+                    : d.role === "Lawyer" && lawyerIcons[n]
+                      ? lawyerIcons[n]
+                      : icons[n];
                 return (
                   <button
                     className={
@@ -4407,7 +4425,7 @@ function App() {
                     <span>{navLabel(n)}</span>
                     {n === "Messages" && (
                       <span className="nav-count">
-                        {d.role === "Agent" ? "2" : "3"}
+                        {d.role === "Agent" || d.role === "Lawyer" ? "2" : "3"}
                       </span>
                     )}
                     {n === "Approvals" && (
