@@ -478,21 +478,21 @@ export const initial = {
   payments: [
     {
       id: 1,
-      title: "Legal services · Initial retainer",
-      amount: 1500,
-      due: "2026-10-28",
+      title: "Reservation fee",
+      amount: 10000,
+      due: "2026-10-24",
       status: "Paid",
       reference: "NIN-2026-001",
-      type: "Legal fee",
+      type: "Reservation",
     },
     {
       id: 2,
-      title: "Property reservation",
-      amount: 5000,
+      title: "Legal services · Initial retainer",
+      amount: 1500,
       due: "2026-11-04",
       status: "Outstanding",
       reference: "NIN-2026-002",
-      type: "Reservation",
+      type: "Legal fee",
     },
   ],
   activity: [

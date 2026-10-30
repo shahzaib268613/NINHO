@@ -1,0 +1,651 @@
+/* Admin dashboard only — .ref-admin-layout.admin */
+
+.ref-admin-layout.admin {
+  display: grid;
+  grid-template-columns: minmax(0, 2.4fr) minmax(280px, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.ref-admin-layout.admin .ref-admin-main {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.ref-admin-layout.admin .ref-admin-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding-top: 0;
+}
+
+.ref-admin-layout.admin .ref-panel {
+  background: #fffef9;
+  border: 1px solid #ded8d0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 0;
+}
+
+.ref-admin-layout.admin .ref-panel-heading h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ref-admin-layout.admin .ref-panel-heading > button {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--burgundy);
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.ref-admin-layout.admin .ref-panel-heading > button svg {
+  display: none;
+}
+
+/* Greeting */
+.ref-admin-layout.admin .admin-greeting h1 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.12;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.ref-admin-layout.admin .admin-greeting p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* Metrics */
+.ref-admin-layout.admin .admin-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.ref-admin-layout.admin .admin-metrics .ref-metric {
+  padding: 14px;
+  gap: 8px;
+  align-items: flex-start;
+  text-align: left;
+  background: #fffef9;
+  border: 1px solid #ded8d0;
+  border-radius: 8px;
+}
+
+.ref-admin-layout.admin .admin-metrics .ref-metric > svg {
+  width: 22px;
+  height: 22px;
+  color: var(--burgundy);
+  stroke-width: 1.5;
+}
+
+.ref-admin-layout.admin .admin-metrics .ref-metric > span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.ref-admin-layout.admin .admin-metrics .ref-metric > strong {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 28px;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.ref-admin-layout.admin .admin-metrics .ref-metric > small {
+  font-size: 11px;
+}
+
+.ref-admin-layout.admin .ref-trend {
+  color: #2f7a4b;
+}
+
+.ref-admin-layout.admin .ref-trend.negative {
+  color: #b42318;
+}
+
+/* Middle grid */
+.ref-admin-layout.admin .ref-admin-middle {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.ref-admin-layout.admin .ref-admin-middle > .ref-panel {
+  min-height: 0;
+  padding: 16px;
+}
+
+.ref-admin-layout.admin .ref-ranking,
+.ref-admin-layout.admin .ref-agency-detail,
+.ref-admin-layout.admin .admin-approvals-panel,
+.ref-admin-layout.admin .admin-billing-panel {
+  grid-column: auto;
+}
+
+.ref-admin-layout.admin .admin-approvals-panel {
+  grid-column: 1;
+}
+
+.ref-admin-layout.admin .admin-billing-panel {
+  grid-column: 2;
+}
+
+/* Agencies ranking */
+.ref-admin-layout.admin .ref-ranking .ref-panel-heading {
+  border-bottom: 1px solid #ded8d0;
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.ref-admin-layout.admin .ref-ranking table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ref-admin-layout.admin .ref-ranking table th,
+.ref-admin-layout.admin .ref-ranking table td {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  padding: 10px 6px;
+  text-align: left;
+  border-bottom: 1px solid #ebe4db;
+  vertical-align: middle;
+}
+
+.ref-admin-layout.admin .ref-ranking table th {
+  font-weight: 500;
+  color: var(--muted);
+  border-bottom-color: #ded8d0;
+}
+
+.ref-admin-layout.admin .ref-ranking table tr:last-child td {
+  border-bottom: 0;
+}
+
+.ref-admin-layout.admin .ref-ranking table tr {
+  cursor: pointer;
+}
+
+.ref-admin-layout.admin .ref-ranking table .selected-row td {
+  background: #f5f0e8;
+}
+
+.ref-admin-layout.admin .ref-ranking .badge {
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: 999px;
+}
+
+.ref-admin-layout.admin .ref-agency-logo {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ece8e3;
+  border: 0;
+  color: #686459;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.ref-admin-layout.admin .ref-ranking tr:nth-child(1) .ref-agency-logo {
+  background: #695652;
+  color: #f7f0e4;
+}
+
+.ref-admin-layout.admin .ref-ranking tr:nth-child(2) .ref-agency-logo {
+  background: #bbaf97;
+  color: #fff8e5;
+}
+
+/* Agency detail */
+.ref-admin-layout.admin .ref-agency-detail > .badge {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e6f2ea;
+  color: #2f7a4b;
+}
+
+.ref-admin-layout.admin .ref-agency-detail .ref-panel-heading {
+  padding-right: 110px;
+  margin-bottom: 12px;
+}
+
+.ref-admin-layout.admin .agency-circle {
+  width: 28px;
+  height: 28px;
+  background: #371515;
+  color: #f7f0e4;
+  border-radius: 50%;
+}
+
+.ref-admin-layout.admin .ref-small-tabs {
+  gap: 16px;
+  border-bottom: 1px solid #ebe4db;
+  margin-bottom: 14px;
+}
+
+.ref-admin-layout.admin .ref-small-tabs > button {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 0 0 10px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  cursor: pointer;
+}
+
+.ref-admin-layout.admin .ref-small-tabs > button.active {
+  color: var(--burgundy);
+  border-bottom-color: var(--burgundy);
+}
+
+.ref-admin-layout.admin .ref-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ebe4db;
+  margin-bottom: 4px;
+}
+
+.ref-admin-layout.admin .ref-mini-stats > div {
+  border-right: 1px solid #ebe4db;
+  padding-right: 8px;
+}
+
+.ref-admin-layout.admin .ref-mini-stats > div:last-child {
+  border: 0;
+  padding-right: 0;
+}
+
+.ref-admin-layout.admin .ref-mini-stats small {
+  font-size: 10px;
+  color: var(--muted);
+  min-height: 28px;
+}
+
+.ref-admin-layout.admin .ref-mini-stats b {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 4px 0 6px;
+}
+
+.ref-admin-layout.admin .ref-agency-detail h4 {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 12px 0 4px;
+}
+
+.ref-admin-layout.admin .ref-agency-detail .ref-chart svg {
+  height: 120px;
+}
+
+.ref-admin-layout.admin .ref-agency-detail .chart-legend {
+  font-size: 10px;
+}
+
+/* Approvals */
+.ref-admin-layout.admin .admin-approvals-panel .ref-panel-heading,
+.ref-admin-layout.admin .admin-billing-panel .ref-panel-heading,
+.ref-admin-layout.admin .ref-wide-activity .ref-panel-heading,
+.ref-admin-layout.admin .admin-aside-activity .ref-panel-heading,
+.ref-admin-layout.admin .admin-responders-panel .ref-panel-heading {
+  border-bottom: 1px solid #ded8d0;
+  padding-bottom: 12px;
+  margin-bottom: 10px;
+}
+
+.ref-admin-layout.admin .approval-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ref-admin-layout.admin .approval-table th,
+.ref-admin-layout.admin .approval-table td {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid #ebe4db;
+  vertical-align: middle;
+}
+
+.ref-admin-layout.admin .approval-table th {
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.ref-admin-layout.admin .approval-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.ref-admin-layout.admin .approval-table td:first-child {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.ref-admin-layout.admin .approval-table .avatar {
+  width: 32px;
+  height: 32px;
+  margin-right: 0;
+  flex-shrink: 0;
+}
+
+.ref-admin-layout.admin .approval-table .button-row {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
+}
+
+.ref-admin-layout.admin .approval-table .btn.small,
+.ref-admin-layout.admin .admin-billing-panel .btn.small {
+  font-size: 11px;
+  padding: 7px 12px;
+  border-radius: 6px;
+  flex: 0 0 auto;
+}
+
+.ref-admin-layout.admin .btn.primary,
+.ref-admin-layout.admin .lawyer-red-btn {
+  background: var(--burgundy) !important;
+  border-color: var(--burgundy) !important;
+  color: #fffaf1 !important;
+}
+
+.ref-admin-layout.admin .btn.secondary,
+.ref-admin-layout.admin .lawyer-red-outline-btn {
+  background: #fffef9 !important;
+  border: 1px solid var(--burgundy) !important;
+  color: var(--burgundy) !important;
+}
+
+/* Billing */
+.ref-admin-layout.admin .ref-billing-summary {
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ebe4db;
+  margin-bottom: 4px;
+}
+
+.ref-admin-layout.admin .ref-billing-summary > b {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.ref-admin-layout.admin .ref-billing-summary > small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.ref-admin-layout.admin .ref-billing-summary > strong {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 8px 0 12px;
+}
+
+.ref-admin-layout.admin .mini-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 56px;
+  margin-bottom: 8px;
+}
+
+.ref-admin-layout.admin .mini-bars > i {
+  flex: 1;
+  display: block;
+  background: var(--burgundy);
+  border-radius: 3px 3px 0 0;
+  min-height: 8px;
+}
+
+.ref-admin-layout.admin .admin-billing-up {
+  color: #2f7a4b !important;
+  font-weight: 500;
+}
+
+.ref-admin-layout.admin .ref-billing-row {
+  padding: 12px 0;
+  border-bottom: 1px solid #ebe4db;
+}
+
+.ref-admin-layout.admin .ref-billing-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.ref-admin-layout.admin .ref-billing-row > b {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.ref-admin-layout.admin .ref-billing-row > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.ref-admin-layout.admin .ref-billing-row > div > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  color: var(--ink);
+  margin-right: auto;
+}
+
+.ref-admin-layout.admin .ref-billing-row > div > span small,
+.ref-admin-layout.admin .ref-billing-row > div > span strong {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.ref-admin-layout.admin .ref-billing-row > div > span strong {
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 14px;
+}
+
+/* Wide platform activity */
+.ref-admin-layout.admin .ref-wide-activity {
+  padding: 16px;
+}
+
+.ref-admin-layout.admin .ref-wide-activity .ref-chart {
+  margin-top: 0;
+}
+
+.ref-admin-layout.admin .ref-wide-activity .ref-chart svg {
+  height: 110px;
+}
+
+.ref-admin-layout.admin .ref-wide-activity .chart-legend {
+  justify-content: flex-start;
+  margin-bottom: 4px;
+}
+
+/* Aside */
+.ref-admin-layout.admin .admin-aside-activity .ref-chart svg {
+  height: 180px;
+}
+
+.ref-admin-layout.admin .ref-quick-stats {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #ebe4db;
+}
+
+.ref-admin-layout.admin .ref-quick-stats h3 {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
+.ref-admin-layout.admin .ref-quick-stats > div {
+  display: grid;
+  grid-template-columns: 18px 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ebe4db;
+  font-size: 12px;
+}
+
+.ref-admin-layout.admin .ref-quick-stats > div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.ref-admin-layout.admin .ref-quick-stats > div > svg {
+  color: var(--burgundy);
+}
+
+.ref-admin-layout.admin .ref-quick-stats > div > span {
+  color: var(--muted);
+}
+
+.ref-admin-layout.admin .ref-quick-stats > div > b {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+/* Fastest responders */
+.ref-admin-layout.admin .responders {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ref-admin-layout.admin .responders th,
+.ref-admin-layout.admin .responders td {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  padding: 10px 4px;
+  text-align: left;
+  border-bottom: 1px solid #ebe4db;
+  vertical-align: middle;
+}
+
+.ref-admin-layout.admin .responders th {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.ref-admin-layout.admin .responders tr:last-child td {
+  border-bottom: 0;
+}
+
+.ref-admin-layout.admin .responders td:nth-child(2) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.ref-admin-layout.admin .responders .avatar {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.ref-admin-layout.admin .rank-medal {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ece8e3;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.ref-admin-layout.admin .responders tr:nth-child(1) .rank-medal {
+  background: #e8d5a8;
+}
+
+.ref-admin-layout.admin .responders tr:nth-child(2) .rank-medal {
+  background: #ddd8d0;
+}
+
+.ref-admin-layout.admin .responders tr:nth-child(3) .rank-medal {
+  background: #e2c4b0;
+}
+
+@media (max-width: 1100px) {
+  .ref-admin-layout.admin {
+    grid-template-columns: 1fr;
+  }
+
+  .ref-admin-layout.admin .admin-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ref-admin-layout.admin .ref-admin-middle {
+    grid-template-columns: 1fr;
+  }
+
+  .ref-admin-layout.admin .admin-approvals-panel,
+  .ref-admin-layout.admin .admin-billing-panel {
+    grid-column: 1;
+  }
+}

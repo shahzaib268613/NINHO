@@ -75,6 +75,9 @@ import "./reference.css";
 import "./theme.css";
 import "./agent-dashboard.css";
 import "./lawyer-dashboard.css";
+import "./admin-dashboard.css";
+import "./property-detail.css";
+import "./purchase-detail.css";
 import {
   Brand,
   ReferenceDashboard,
@@ -126,6 +129,16 @@ const lawyerIcons = {
   Messages: MessageCircle,
   Meetings: Users,
   Tasks: CheckSquare,
+  Settings,
+};
+const adminIcons = {
+  Overview: House,
+  Agencies: Building2,
+  Approvals: UserCheck,
+  Purchases: Briefcase,
+  Finance: Wallet,
+  Content: FileText,
+  Languages,
   Settings,
 };
 const menus = {
@@ -527,7 +540,13 @@ function App() {
               (i < d.stage ? "complete" : i === d.stage ? "current" : "")
             }
           >
-            <span>{i < d.stage ? <Check size={14} /> : i + 1}</span>
+            <span>
+              {i < d.stage ? (
+                <Check size={14} strokeWidth={2.5} aria-hidden="true" />
+              ) : (
+                i + 1
+              )}
+            </span>
             <b>{s}</b>
             {i === d.stage && <small>You are here</small>}
           </div>
@@ -4407,7 +4426,9 @@ function App() {
                     ? agentIcons[n]
                     : d.role === "Lawyer" && lawyerIcons[n]
                       ? lawyerIcons[n]
-                      : icons[n];
+                      : d.role === "Admin" && adminIcons[n]
+                        ? adminIcons[n]
+                        : icons[n];
                 return (
                   <button
                     className={
@@ -4468,7 +4489,9 @@ function App() {
                   <small>
                     {d.role === "Buyer"
                       ? "Your next chapter awaits"
-                      : d.role + " workspace"}
+                      : d.role === "Admin"
+                        ? "Administrator"
+                        : d.role + " workspace"}
                   </small>
                 </span>
                 <MoreHorizontal size={17} />
@@ -4478,21 +4501,45 @@ function App() {
           <div className="app-body">
             <header className="topbar">
               <div className="breadcrumbs">
-                {(d.role === "Agent" || d.role === "Lawyer") && (
-                  <div className="ref-view-toggle">
+                {(d.role === "Agent" || d.role === "Lawyer") &&
+                  !["My purchase", "Client detail"].includes(page) && (
+                    <div className="ref-view-toggle">
+                      <button
+                        className={page === "Overview" ? "active" : ""}
+                        onClick={() => go("Overview")}
+                      >
+                        My view
+                      </button>
+                      <button
+                        className={page === "Agency" ? "active" : ""}
+                        onClick={() => go("Agency")}
+                      >
+                        Agency view
+                      </button>
+                    </div>
+                  )}
+                {(d.role === "Agent" || d.role === "Lawyer") &&
+                  ["My purchase", "Client detail"].includes(page) && (
                     <button
-                      className={page === "Overview" ? "active" : ""}
-                      onClick={() => go("Overview")}
+                      type="button"
+                      className="back-link purchase-header-back"
+                      onClick={() =>
+                        go(d.role === "Lawyer" ? "Purchases" : "Clients")
+                      }
                     >
-                      My view
+                      <ArrowLeft size={15} strokeWidth={2.5} />
+                      My cases
                     </button>
-                    <button
-                      className={page === "Agency" ? "active" : ""}
-                      onClick={() => go("Agency")}
-                    >
-                      Agency view
-                    </button>
-                  </div>
+                  )}
+                {d.role === "Buyer" && page === "My purchase" && (
+                  <button
+                    type="button"
+                    className="back-link purchase-header-back"
+                    onClick={() => go("Properties")}
+                  >
+                    <ArrowLeft size={15} strokeWidth={2.5} />
+                    Back to properties
+                  </button>
                 )}
                 <button
                   className="mobile-menu icon-btn"

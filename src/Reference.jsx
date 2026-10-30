@@ -8,6 +8,7 @@ import {
   ArrowUp,
   ArrowDown,
   ArrowRight,
+  ArrowLeft,
   ChevronRight,
   FileText,
   Plus,
@@ -40,6 +41,18 @@ import {
   TrendingUp,
   Link,
   Database,
+  Info,
+  Paperclip,
+  Coins,
+  X,
+  Trees,
+  Waves,
+  Car,
+  ShoppingCart,
+  Cross,
+  TreePalm,
+  Utensils,
+  GraduationCap,
 } from "lucide-react";
 export function Brand() {
   return (
@@ -129,10 +142,10 @@ function Panel({
         <h2>{title}</h2>
         {actions ||
           (link && (
-            <button onClick={onClick}>
-              {link}
+          <button onClick={onClick}>
+            {link}
               {!plainLink && <ArrowRight size={11} />}
-            </button>
+          </button>
           ))}
       </div>
       {children}
@@ -310,17 +323,17 @@ function Chart({ kind = "line", wide = false, metric = "revenue", tone }) {
               fill="none"
             />
             {!green && (
-              <polyline
-                points={vals
-                  .map(
+            <polyline
+              points={vals
+                .map(
                     (v, i) =>
                       `${35 + i * 52.5},${175 - v * 0.34 + (i % 3) * 7}`,
-                  )
-                  .join(" ")}
-                stroke={wide ? "#b78b8d" : "#b9bdbd"}
-                strokeWidth="1.1"
-                fill="none"
-              />
+                )
+                .join(" ")}
+              stroke={wide ? "#b78b8d" : "#b9bdbd"}
+              strokeWidth="1.1"
+              fill="none"
+            />
             )}
             {wide && (
               <polyline
@@ -601,13 +614,13 @@ function AdminDashboard({ c }) {
                               }}
                               onClick={() => {
                                 if (d.approvals.some((x) => x.id === p.id)) {
-                                  patch({
-                                    approvals: d.approvals.map((x) =>
-                                      x.id === p.id
-                                        ? { ...x, status: "Approved" }
-                                        : x,
-                                    ),
-                                  });
+                                patch({
+                                  approvals: d.approvals.map((x) =>
+                                    x.id === p.id
+                                      ? { ...x, status: "Approved" }
+                                      : x,
+                                  ),
+                                });
                                 }
                                 notify(p.name + " approved");
                               }}
@@ -894,8 +907,61 @@ function LawyerReminders({ c }) {
     </div>
   );
 }
-function Deadlines({ c, compact = false }) {
-  const { d, btn, setModal } = c;
+function Deadlines({ c, compact = false, purchaseStyle = false }) {
+  const { d, setModal } = c;
+  const purchaseItems = [
+    {
+      id: "res",
+      title: "Reservation fee",
+      due: "Nov 10",
+      state: "ok",
+      label: "Reminder sent 2 days before",
+    },
+    {
+      id: "dd",
+      title: "Due diligence",
+      due: "Nov 18",
+      state: "ok",
+      label: "Reminder sent 2 days before",
+    },
+    {
+      id: "comp",
+      title: "Completion",
+      due: "Dec 5",
+      state: "late",
+      label: "Overdue",
+    },
+  ];
+  if (purchaseStyle) {
+    return (
+      <div className="ref-deadlines compact purchase-deadlines">
+        {purchaseItems.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            className="ref-deadline"
+            onClick={() => setModal({ type: "reminder", item: t })}
+          >
+            <span className={"deadline-icon " + (t.state === "late" ? "late" : "")}>
+              <CalendarDays size={15} />
+            </span>
+            <span>
+              <b>{t.title}</b>
+              <small>{t.due}</small>
+            </span>
+            <span
+              className={
+                "deadline-state purchase-deadline-pill " +
+                (t.state === "late" ? "late" : "")
+              }
+            >
+              {t.label}
+            </span>
+          </button>
+        ))}
+      </div>
+    );
+  }
   return (
     <div className={"ref-deadlines " + (compact ? "compact" : "")}>
       {d.tasks
@@ -1019,12 +1085,12 @@ function CalendarMini({ c, variant }) {
           <button type="button" onClick={() => setModal({ type: "connect" })}>
             {lawyer ? <GoogleMark /> : <span className="google-g">G</span>}
             Sync with Google
-          </button>
+        </button>
           <button type="button" onClick={() => setModal({ type: "connect" })}>
             {lawyer ? <OutlookMark /> : <span className="outlook-o">O</span>}
             Sync with Outlook
-          </button>
-        </div>
+        </button>
+      </div>
       )}
       <div
         className={
@@ -1049,31 +1115,31 @@ function CalendarMini({ c, variant }) {
               </button>
             ))
           : visibleMeetings()
-              .filter(
-                (m) =>
-                  m.status !== "Declined" &&
-                  m.status !== "Cancelled" &&
+          .filter(
+            (m) =>
+              m.status !== "Declined" &&
+              m.status !== "Cancelled" &&
                   new Date(m.date + "T12:00:00").getDate() === dayNums[day],
-              )
-              .slice(0, 3)
-              .map((m, i) => (
-                <button
-                  key={m.id}
+          )
+          .slice(0, 3)
+          .map((m, i) => (
+            <button
+              key={m.id}
                   type="button"
-                  onClick={() => setModal({ type: "appointment", item: m })}
-                >
+              onClick={() => setModal({ type: "appointment", item: m })}
+            >
                   <i style={{ background: barColors[i % barColors.length] }} />
                   <time>{formatClock(m.time)}</time>
-                  <span>
-                    <b>{m.title}</b>
-                    <small>
+              <span>
+                <b>{m.title}</b>
+                <small>
                       {agent
                         ? m.property || m.person
                         : `${m.person} · ${fmt(m.date)}`}
-                    </small>
-                  </span>
-                </button>
-              ))}
+                </small>
+              </span>
+            </button>
+          ))}
       </div>
     </>
   );
@@ -1123,46 +1189,46 @@ function MeetingRequests({ c, lawyer = false }) {
   return (
     <div className="ref-meeting-requests">
       {pending.map((m) => (
-        <div key={m.id}>
-          <div className="ref-request-person">
-            <c.Avatar name={m.person} />
-            <span>
-              <b>{m.person}</b>
-              <small>
+          <div key={m.id}>
+            <div className="ref-request-person">
+              <c.Avatar name={m.person} />
+              <span>
+                <b>{m.person}</b>
+                <small>
                 {lawyer
                   ? `${m.title} · ${m.property}`
                   : `${m.title} – ${m.property}`}
-              </small>
-              <small>
+                </small>
+                <small>
                 {lawyer
                   ? `${fmt(m.date)}, 2026 · ${m.time}`
                   : deadlineWhen({
                       due: m.date,
                       time: formatClock(m.time),
                     })}
-              </small>
-            </span>
-          </div>
+                </small>
+              </span>
+            </div>
           <div className={"button-row" + (lawyer ? "" : " agent-meeting-actions")}>
-            {btn(
-              lawyer ? "Accept & prepare" : "Accept",
-              () => setModal({ type: "prepare", item: m }),
-              "primary small",
-            )}
-            {btn(
-              "Decline",
-              () => meetingAction(m.id, "Declined"),
-              "secondary small",
-            )}
-            {!lawyer &&
-              btn(
-                "Reassign",
-                () => setModal({ type: "reassign", item: m }),
+              {btn(
+                lawyer ? "Accept & prepare" : "Accept",
+                () => setModal({ type: "prepare", item: m }),
+                "primary small",
+              )}
+              {btn(
+                "Decline",
+                () => meetingAction(m.id, "Declined"),
                 "secondary small",
               )}
+              {!lawyer &&
+                btn(
+                  "Reassign",
+                  () => setModal({ type: "reassign", item: m }),
+                  "secondary small",
+                )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
       {!pending.length && (
         <p className="ref-empty">No pending meeting requests.</p>
       )}
@@ -1434,49 +1500,49 @@ function AgentStatTile({
 function ProfessionalDashboard({ c }) {
   const lawyer = c.d.role === "Lawyer";
   if (!lawyer) {
-    return (
+  return (
       <div className="ref-pro-layout agent">
-        <div className="ref-pro-main">
+      <div className="ref-pro-main">
           <div className="ref-page-title agent-greeting">
             <h1>Good morning, Sofia</h1>
             <p>Here’s what’s happening with your cases today.</p>
-          </div>
+        </div>
           <div className="ref-metrics agent-metrics">
-            <Metric
+          <Metric
               icon={FolderClosed}
-              title="Active cases"
+            title="Active cases"
               value="12"
-              change="2"
+            change="2"
               period="vs. last week"
-            />
-            <Metric
+          />
+          <Metric
               icon={Eye}
               title="Viewings this week"
               value="7"
-              change="3"
-              period="vs. last week"
-            />
-            <Metric
-              icon={FileText}
-              title="Documents waiting"
-              value={
-                c.d.documents.filter((x) =>
-                  ["Requested", "Ready to review"].includes(x.status),
-                ).length
-              }
-              change="2"
-              down
-              period="vs. last week"
-            />
-            <Metric
+            change="3"
+            period="vs. last week"
+          />
+          <Metric
+            icon={FileText}
+            title="Documents waiting"
+            value={
+              c.d.documents.filter((x) =>
+                ["Requested", "Ready to review"].includes(x.status),
+              ).length
+            }
+            change="2"
+            down
+            period="vs. last week"
+          />
+          <Metric
               icon={Calendar}
               title="Reminders due today"
               value="3"
-              change="1"
+            change="1"
               down={false}
-              period="vs. last week"
-            />
-          </div>
+            period="vs. last week"
+          />
+        </div>
           <div className="ref-pro-panels agent-panels">
             <Panel
               title="Deadlines and reminders"
@@ -1526,7 +1592,7 @@ function ProfessionalDashboard({ c }) {
                           d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                         />
                       </svg>
-                    </span>
+                      </span>
                     Sync with Google
                   </button>
                   <button onClick={() => c.setModal({ type: "connect" })}>
@@ -1538,7 +1604,7 @@ function ProfessionalDashboard({ c }) {
                           d="M7.2 6.5h4.1c2.2 0 3.7 1.3 3.7 3.3 0 1.3-.7 2.3-1.8 2.8l2.2 4.9h-2.3l-2-4.6H9.4v4.6H7.2V6.5zm2.2 1.8v2.8h1.6c1.1 0 1.8-.6 1.8-1.4s-.7-1.4-1.8-1.4H9.4z"
                         />
                       </svg>
-                    </span>
+                      </span>
                     Sync with Outlook
                   </button>
                 </div>
@@ -1557,14 +1623,14 @@ function ProfessionalDashboard({ c }) {
                     onClick={() => c.go("Listings")}
                   >
                     View all
-                  </button>
+                    </button>
                   <button
                     className="agent-add-listing"
                     onClick={() => c.setModal({ type: "listing" })}
                   >
                     <Plus size={12} strokeWidth={1.5} /> Add listing
                   </button>
-                </div>
+              </div>
               }
             >
               <ListingsMini c={c} variant="agent" />
@@ -1639,43 +1705,43 @@ function ProfessionalDashboard({ c }) {
           />
         </div>
         <div className="ref-pro-panels lawyer-panels">
-          <Panel
-            title="My cases"
-            link="View all"
+            <Panel
+              title="My cases"
+              link="View all"
             plainLink
             onClick={() => c.go("Purchases")}
-          >
+            >
             <LawyerCasesTable c={c} />
-          </Panel>
-          <Panel
+            </Panel>
+            <Panel
             title="Document requests"
-            link="View all"
+              link="View all"
             plainLink
             onClick={() => c.go("Documents")}
             className="lawyer-doc-requests-panel"
-          >
+            >
             <LawyerDocRequests c={c} />
-          </Panel>
+            </Panel>
         </div>
         <div className="lawyer-mid-row">
-          <Panel
+            <Panel
             title="To-do list"
-            link="View all"
+              link="View all"
             plainLink
             onClick={() => c.go("Tasks")}
             className="lawyer-todo-panel"
-          >
+            >
             <LawyerTodoList c={c} />
-          </Panel>
-          <Panel
-            title="Reminders for deadlines"
-            link="View all"
+            </Panel>
+            <Panel
+              title="Reminders for deadlines"
+              link="View all"
             plainLink
-            onClick={() => c.go("Tasks")}
+              onClick={() => c.go("Tasks")}
             className="lawyer-reminders-panel"
-          >
+            >
             <LawyerReminders c={c} />
-          </Panel>
+            </Panel>
           <div className="lawyer-side-stats">
             <Panel title="Response time" className="lawyer-response-panel">
               <small className="muted">Average reply</small>
@@ -1698,11 +1764,11 @@ function ProfessionalDashboard({ c }) {
         </div>
       </div>
       <aside className="ref-pro-aside">
-        <Panel
-          title="Calendar and meetings"
-          link="View all"
+            <Panel
+              title="Calendar and meetings"
+              link="View all"
           plainLink
-          onClick={() => c.go("Calendar")}
+              onClick={() => c.go("Calendar")}
           className="lawyer-calendar-panel"
         >
           <CalendarMini c={c} variant="lawyer" />
@@ -1739,11 +1805,11 @@ function LawyerMeetingSection({ c }) {
   return (
     <div className="lawyer-meeting-section">
       <div className="lawyer-meeting-heading">
-        <h3>Meeting requests</h3>
+                <h3>Meeting requests</h3>
         <button type="button" onClick={() => c.go("Calendar")}>
           View all
         </button>
-      </div>
+              </div>
       <div className="lawyer-meeting-requests">
         {rows.map((m) => (
           <div className="lawyer-meeting-request" key={m.id}>
@@ -2224,74 +2290,172 @@ export function ReferencePurchase({ c, embedded = false }) {
   const agent = ["Agent", "Lawyer"].includes(c.d.role);
   const [chatTab, setChatTab] = useState("Whole team");
   const [translated, setTranslated] = useState(true);
+  const [callPeople, setCallPeople] = useState({
+    emily: false,
+    marta: true,
+    joao: false,
+    sofia: false,
+  });
+  const [remindPeople, setRemindPeople] = useState({
+    emily: true,
+    marta: true,
+    joao: false,
+    sofia: false,
+  });
+  const [remindMode, setRemindMode] = useState("template");
+  const [callMsg, setCallMsg] = useState("");
+  const [actionOpen, setActionOpen] = useState({
+    call: true,
+    remind: true,
+    doc: true,
+  });
   return (
-    <div className={"ref-purchase " + (agent ? "professional" : "buyer")}>
+    <div
+      className={
+        "ref-purchase purchase-detail " + (agent ? "professional" : "buyer")
+      }
+    >
       <div className="ref-purchase-title">
         {agent ? (
           <div className="ref-client-header">
             <c.Avatar name="Emily Carter" size="large" />
-            <div>
+            <div className="purchase-client-main">
+              <div className="purchase-client-top">
               <h1>
                 Emily Carter <span>🇺🇸 USA</span>
               </h1>
+                <div className="button-row purchase-title-actions">
+                  <button
+                    type="button"
+                    className="btn primary small purchase-primary-btn"
+                    style={{
+                      background: "var(--burgundy)",
+                      borderColor: "var(--burgundy)",
+                      color: "#fffaf1",
+                    }}
+                    onClick={() =>
+                      c.setModal({ type: "book", item: c.purchase })
+                    }
+                  >
+                    <Phone size={14} /> Request a call
+                  </button>
+                  <button
+                    type="button"
+                    className="btn secondary small purchase-outline-btn"
+                    style={{
+                      background: "#fffef9",
+                      borderColor: "var(--burgundy)",
+                      color: "var(--burgundy)",
+                    }}
+                    onClick={() => c.setModal({ type: "requestDoc" })}
+                  >
+                    <FileText size={14} /> Request document
+                  </button>
+                  <button
+                    type="button"
+                    className="btn secondary small purchase-outline-btn"
+                    style={{
+                      background: "#fffef9",
+                      borderColor: "var(--burgundy)",
+                      color: "var(--burgundy)",
+                    }}
+                    onClick={() => c.setModal({ type: "reminder" })}
+                  >
+                    <Bell size={14} /> Send reminder
+                  </button>
+                  <button
+                    type="button"
+                    className="btn secondary small purchase-outline-btn"
+                    style={{
+                      background: "#fffef9",
+                      borderColor: "var(--burgundy)",
+                      color: "var(--burgundy)",
+                    }}
+                    onClick={() =>
+                      document.querySelector(".ref-group-chat input")?.focus()
+                    }
+                  >
+                    <MessageCircleMore size={14} /> Message
+                  </button>
+                  {c.d.role === "Lawyer" &&
+                    c.btn(
+                      "Update stage",
+                      () => c.setModal({ type: "stage" }),
+                      "primary small",
+                      CheckCircle2,
+                    )}
+                </div>
+              </div>
               <div className="ref-client-meta">
                 <img src={c.purchase.image} alt="Selected home" />
-                <b>{c.purchase.name}</b>
-                <span>
+                <b>{c.purchase.name}, Cascais</b>
+                <span className="purchase-meta-lang">
                   Language: English
                   <br />
                   Budget: €500,000 – €900,000
                 </span>
+                <div className="ref-purchase-progress purchase-meta-progress">
+                  <div className="journey-steps purchase-journey-steps">
+                    {c.stages.map((s, i) => (
+                      <div
+                        key={s}
+                        className={
+                          "journey-step purchase-journey-step " +
+                          (i < c.d.stage
+                            ? "complete"
+                            : i === c.d.stage
+                              ? "current"
+                              : "")
+                        }
+                      >
+                        <span className="purchase-step-icon" aria-hidden="true">
+                          {i < c.d.stage ? (
+                            <Check size={14} strokeWidth={2.5} />
+                          ) : (
+                            i + 1
+                          )}
+                        </span>
+                        <b className="purchase-step-label">{s}</b>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         ) : (
-          <h1>
+          <h1 className="purchase-buyer-heading">
             Purchase: {c.purchase.name}, Cascais{" "}
             <c.Badge tone="green">
               {c.d.stage === 4 ? "Completed" : "In progress"}
             </c.Badge>
           </h1>
         )}
-        <div className="button-row">
-          {agent && (
-            <>
-              {c.btn(
-                "Request a call",
-                () => c.setModal({ type: "book", item: c.purchase }),
-                "primary small",
-                Phone,
-              )}
-              {c.btn(
-                "Request document",
-                () => c.setModal({ type: "requestDoc" }),
-                "secondary small",
-                FileText,
-              )}
-              {c.btn(
-                "Send reminder",
-                () => c.setModal({ type: "reminder" }),
-                "secondary small",
-                Bell,
-              )}
-              {c.btn(
-                "Message",
-                () => document.querySelector(".ref-group-chat input")?.focus(),
-                "secondary small",
-                MessageSquare,
-              )}
-            </>
-          )}
-          {c.d.role === "Lawyer" &&
-            c.btn(
-              "Update stage",
-              () => c.setModal({ type: "stage" }),
-              "primary small",
-              CheckCircle2,
-            )}
-        </div>
       </div>
-      <div className="ref-purchase-progress">{c.progress()}</div>
+      {!agent && (
+        <div className="ref-purchase-progress purchase-buyer-progress">
+          <div className="journey-steps purchase-journey-steps purchase-buyer-steps">
+            {c.stages.map((s, i) => (
+              <div
+                key={s}
+                className={
+                  "journey-step purchase-journey-step " +
+                  (i < c.d.stage
+                    ? "complete"
+                    : i === c.d.stage
+                      ? "current"
+                      : "")
+                }
+              >
+                <span className="purchase-step-icon" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <b className="purchase-step-label">{s}</b>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       {!agent && (
         <div className="ref-participant-row">
           <div className="ref-participant">
@@ -2315,7 +2479,15 @@ export function ReferencePurchase({ c, embedded = false }) {
               <div className="ref-participant" key={p.id}>
                 <c.Avatar name={p.name} size="large" />
                 <span>
-                  <small>{p.role}</small>
+                  <small>
+                    {/agent/i.test(p.role)
+                      ? "Realtor"
+                      : /lawyer/i.test(p.role)
+                        ? "Lawyer"
+                        : /bank/i.test(p.role)
+                          ? "Bank advisor"
+                          : p.role}
+                  </small>
                   <b>{p.name}</b>
                   <small>🇵🇹 Portugal</small>
                 </span>
@@ -2337,59 +2509,91 @@ export function ReferencePurchase({ c, embedded = false }) {
               .filter((p) => c.d.team.includes(p.id))
               .map((p, i) => (
                 <div className="ref-team-member" key={p.id}>
+                  <div className="team-member-top">
                   <div className="person-line">
                     <c.Avatar name={p.name} size="large" />
                     <span>
                       <b>{p.name}</b>
-                      <small>{p.role}</small>
+                        <small>
+                          {/agent/i.test(p.role)
+                            ? "Realtor"
+                            : /lawyer/i.test(p.role)
+                              ? "Lawyer"
+                              : p.role}
+                        </small>
                     </span>
+                    </div>
+                    <div className="team-status-col">
                     <c.Badge tone="green">Replies in {p.response}</c.Badge>
+                      <span className="team-last-active">
+                        Last active: {i + 1} h ago
+                      </span>
+                    </div>
                   </div>
                   <div className="team-task-bar">
-                    <i style={{ width: (i + 2) * 20 + "%" }} />
+                    <i style={{ width: ((i + 3) / 6) * 100 + "%" }} />
                   </div>
-                  <small>
-                    {i + 3} of 6 tasks done this week{" "}
-                    <span>Last active: {i + 1} h ago</span>
+                  <small className="team-task-label">
+                    {i + 3} of 6 tasks done this week
                   </small>
-                  <div className="button-row">
-                    {c.btn(
-                      "Message",
-                      () => {
+                  <div className="button-row team-actions">
+                    <button
+                      type="button"
+                      className="btn secondary small purchase-outline-btn"
+                      style={{
+                        background: "#fffef9",
+                        borderColor: "var(--burgundy)",
+                        color: "var(--burgundy)",
+                      }}
+                      onClick={() => {
                         setChatTab("Whole team");
                         document
                           .querySelector(".ref-group-chat input")
                           ?.focus();
-                      },
-                      "secondary small",
-                      MessageSquare,
-                    )}
-                    {c.btn(
-                      "Remind",
-                      () => c.setModal({ type: "reminder", recipient: p.name }),
-                      "secondary small",
-                      Bell,
-                    )}
+                      }}
+                    >
+                      <MessageCircleMore size={13} /> Message
+                    </button>
+                    <button
+                      type="button"
+                      className="btn secondary small purchase-outline-btn"
+                      style={{
+                        background: "#fffef9",
+                        borderColor: "var(--burgundy)",
+                        color: "var(--burgundy)",
+                      }}
+                      onClick={() =>
+                        c.setModal({ type: "reminder", recipient: p.name })
+                      }
+                    >
+                      <Bell size={13} /> Remind
+                    </button>
                   </div>
                 </div>
               ))}
-            {c.btn(
-              "Invite a professional",
-              () => c.go("Professionals"),
-              "secondary small",
-              Plus,
-            )}
+            <button
+              type="button"
+              className="btn secondary small purchase-invite-btn"
+              style={{
+                background: "#fffef9",
+                borderColor: "var(--burgundy)",
+                color: "var(--burgundy)",
+              }}
+              onClick={() => c.go("Professionals")}
+            >
+              <Plus size={14} /> Invite a professional
+            </button>
           </Panel>
         )}
         <div className="ref-purchase-center">
-          <PurchaseDocuments c={c} />
+          <PurchaseDocuments c={c} agent={agent} />
           {agent && (
             <Panel
               title="Deadlines"
               link="View all"
               onClick={() => c.go("Tasks")}
             >
-              <Deadlines c={c} compact />
+              <Deadlines c={c} compact purchaseStyle />
             </Panel>
           )}
         </div>
@@ -2398,12 +2602,16 @@ export function ReferencePurchase({ c, embedded = false }) {
             title="Deadlines"
             link="View all"
             onClick={() => c.go("Tasks")}
+            className="purchase-buyer-deadlines"
           >
-            <Deadlines c={c} />
+            <Deadlines c={c} purchaseStyle />
           </Panel>
         )}
         <div className="ref-purchase-right">
-          <Panel title="Group chat" className="ref-group-chat">
+          <Panel
+            title={agent ? "Chat" : "Group chat"}
+            className="ref-group-chat"
+          >
             <label className="ref-translate">
               Translate
               <input
@@ -2417,6 +2625,7 @@ export function ReferencePurchase({ c, embedded = false }) {
                 {["Whole team", "Emily", "Lawyer"].map((x) => (
                   <button
                     key={x}
+                    type="button"
                     className={chatTab === x ? "active" : ""}
                     onClick={() => setChatTab(x)}
                   >
@@ -2450,7 +2659,10 @@ export function ReferencePurchase({ c, embedded = false }) {
                             <p className="translated-copy">{m.text}</p>
                             <small>
                               <Globe size={10} /> Translated{" "}
-                              <button onClick={() => setTranslated(false)}>
+                              <button
+                                type="button"
+                                onClick={() => setTranslated(false)}
+                              >
                                 See original
                               </button>
                             </small>
@@ -2462,7 +2674,7 @@ export function ReferencePurchase({ c, embedded = false }) {
                 ))}
             </div>
             <form
-              className="ref-chat-compose"
+              className="ref-chat-compose purchase-chat-compose"
               onSubmit={(e) => {
                 e.preventDefault();
                 const input = e.target.elements.text;
@@ -2484,125 +2696,402 @@ export function ReferencePurchase({ c, embedded = false }) {
             >
               <input
                 name="text"
-                placeholder="Message the purchase team…"
+                placeholder="Type a message..."
                 aria-label="Purchase message"
               />
               <button
                 type="button"
+                className="purchase-chat-attach"
                 aria-label="Attach purchase document"
                 onClick={() => c.setModal({ type: "upload" })}
               >
-                <Upload size={15} />
+                <Paperclip size={16} strokeWidth={1.75} />
               </button>
-              <button aria-label="Send purchase message">
-                <Send size={16} />
+              <button
+                type="submit"
+                className="purchase-chat-send"
+                aria-label="Send purchase message"
+              >
+                <Send size={16} strokeWidth={1.75} />
               </button>
             </form>
           </Panel>
           {agent && (
-            <Panel title="Commission tracked on this deal">
+            <section className="ref-panel purchase-commission-panel">
               <div className="ref-commission">
-                <Wallet size={26} />
+                <span className="purchase-commission-icon" aria-hidden="true">
+                  <Coins size={20} strokeWidth={1.75} />
+                </span>
+                <div className="purchase-commission-copy">
+                  <b>Commission tracked on this deal</b>
                 <strong>
                   {euro((c.purchase.price * c.d.agencyRate) / 100)}
                 </strong>
+                </div>
                 <c.Badge tone="amber">Pending</c.Badge>
               </div>
-            </Panel>
+            </section>
           )}
         </div>
       </div>
       {!agent && (
-        <Panel
-          title="Payments"
-          link="View all"
-          onClick={() => c.go("Payments")}
-        >
-          <div className="ref-purchase-payment">
-            {c.d.payments.map((p) => (
-              <button
-                key={p.id}
-                onClick={() => c.setModal({ type: "paymentDetail", item: p })}
-              >
-                <Wallet size={26} />
-                <b>{p.title}</b>
-                <span>{euro(p.amount)}</span>
-                <span>
-                  Coordinated by NINHO<small>{fmt(p.due)}, 2026</small>
-                </span>
-                <c.Badge tone={p.status === "Paid" ? "green" : "amber"}>
-                  {p.status}
-                </c.Badge>
-              </button>
-            ))}
-          </div>
-        </Panel>
+        <div className="purchase-payments-row">
+          <Panel
+            title="Payments"
+            link="View all"
+            plainLink
+            className="purchase-payments-panel"
+            onClick={() => c.go("Payments")}
+          >
+            <div className="ref-purchase-payment">
+              {c.d.payments.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  className="purchase-payment-row"
+                  onClick={() => c.setModal({ type: "paymentDetail", item: p })}
+                >
+                  <span className="purchase-payment-icon" aria-hidden="true">
+                    <Coins size={18} strokeWidth={1.75} />
+                  </span>
+                  <b className="purchase-payment-title">{p.title}</b>
+                  <span className="purchase-payment-amount">
+                    {euro(p.amount)}
+                  </span>
+                  <span className="purchase-payment-meta">
+                    {p.status === "Paid"
+                      ? "Paid through NINHO"
+                      : "Coordinated by NINHO"}
+                    <small>{fmt(p.due)}, 2026</small>
+                  </span>
+                  <c.Badge tone={p.status === "Paid" ? "green" : "amber"}>
+                    {p.status}
+                  </c.Badge>
+                </button>
+              ))}
+            </div>
+          </Panel>
+        </div>
       )}
       {agent && (
         <div className="ref-purchase-action-panels">
-          <Panel title="Request a call">
-            <p>
-              Select your team and propose a time for the next conversation.
-            </p>
-            <div className="person-line">
-              <c.Avatar name="Emily Carter" />
-              <span>Emily Carter · Buyer</span>
+          {actionOpen.call && (
+            <section className="ref-panel purchase-action-panel purchase-box-call">
+              <div className="purchase-box-head">
+                <h2>
+                  <Phone size={16} strokeWidth={1.75} /> Request a call
+                </h2>
+                <button
+                  type="button"
+                  className="purchase-box-close"
+                  aria-label="Close request a call"
+                  onClick={() => setActionOpen((s) => ({ ...s, call: false }))}
+                >
+                  <X size={16} />
+                </button>
             </div>
-            {c.btn(
-              "Choose participants & time",
-              () => c.setModal({ type: "book", item: c.purchase }),
-              "primary full",
-              Phone,
-            )}
-          </Panel>
-          <Panel title="Send reminder">
-            <p>Keep everyone aligned on the next deadline.</p>
-            <Deadlines c={c} compact />
-            {c.btn(
-              "Send a reminder",
-              () => c.setModal({ type: "reminder" }),
-              "primary full",
-              Bell,
-            )}
-          </Panel>
-          <Panel title="Request document">
-            <p>Choose a document, due date and who can view it.</p>
-            <div className="callout">
-              <ShieldCheck size={20} />
-              Visibility is selected separately for each document.
+              <div className="purchase-call-grid">
+                <div className="purchase-field">
+                  <span>Select participants</span>
+                  {[
+                    ["emily", "Emily Carter (Buyer)"],
+                    ["marta", "Marta Ribeiro (Realtor)"],
+                    ["joao", "Dr. João Carvalho (Lawyer)"],
+                    ["sofia", "Sofia Sousa (Agent)"],
+                  ].map(([key, label]) => (
+                    <label key={key} className="purchase-check">
+                      <input
+                        type="checkbox"
+                        checked={callPeople[key]}
+                        onChange={() =>
+                          setCallPeople((s) => ({ ...s, [key]: !s[key] }))
+                        }
+                      />
+                      {label}
+                    </label>
+                  ))}
+                </div>
+                <div className="purchase-call-mid">
+                  <div className="purchase-field">
+                    <span>Propose 3 time slots</span>
+                    <select defaultValue="a">
+                      <option value="a">Oct 28, 2025 – 10:00 AM</option>
+                      <option value="b">Oct 28, 2025 – 2:00 PM</option>
+                      <option value="c">Oct 29, 2025 – 11:00 AM</option>
+                    </select>
+                    <select defaultValue="b">
+                      <option value="a">Oct 28, 2025 – 10:00 AM</option>
+                      <option value="b">Oct 28, 2025 – 2:00 PM</option>
+                      <option value="c">Oct 29, 2025 – 11:00 AM</option>
+                    </select>
+                    <select defaultValue="c">
+                      <option value="a">Oct 28, 2025 – 10:00 AM</option>
+                      <option value="b">Oct 28, 2025 – 2:00 PM</option>
+                      <option value="c">Oct 29, 2025 – 11:00 AM</option>
+                    </select>
+                  </div>
+                  <div className="purchase-field purchase-msg-field">
+                    <span>Optional message</span>
+                    <textarea
+                      rows={4}
+                      maxLength={500}
+                      placeholder="Add a message (optional)..."
+                      value={callMsg}
+                      onChange={(e) => setCallMsg(e.target.value)}
+                    />
+                    <small className="purchase-char-count">
+                      {callMsg.length}/500
+                    </small>
+                  </div>
+                </div>
+                <div className="purchase-field">
+                  <span>Invitee view</span>
+                  <div className="purchase-invitee-view">
+                    <c.Avatar name="Marta Ribeiro" size="small" />
+                    <p>Marta Ribeiro invited you to a call</p>
+                    <div className="purchase-invitee-actions">
+                      <button type="button" className="purchase-accept-btn">
+                        Accept &amp; prepare
+                      </button>
+                      <button type="button" className="purchase-decline-btn">
+                        Decline
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="purchase-send-btn"
+                onClick={() => {
+                  c.notify("Call invite sent");
+                  c.setModal({ type: "book", item: c.purchase });
+                }}
+              >
+                Send
+              </button>
+            </section>
+          )}
+          {actionOpen.remind && (
+            <section className="ref-panel purchase-action-panel purchase-box-remind">
+              <div className="purchase-box-head">
+                <h2>
+                  <Bell size={16} strokeWidth={1.75} /> Send reminder
+                </h2>
+                <button
+                  type="button"
+                  className="purchase-box-close"
+                  aria-label="Close send reminder"
+                  onClick={() =>
+                    setActionOpen((s) => ({ ...s, remind: false }))
+                  }
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              <div className="purchase-remind-body">
+                <div className="purchase-remind-grid">
+                  <div className="purchase-field purchase-remind-recipients">
+                    <span>Recipients</span>
+                    <div className="purchase-check-list">
+                      {[
+                        ["emily", "Emily Carter"],
+                        ["marta", "Marta Ribeiro"],
+                        ["joao", "Dr. João Carvalho"],
+                        ["sofia", "Sofia Sousa"],
+                      ].map(([key, label]) => (
+                        <label key={key} className="purchase-check">
+                          <input
+                            type="checkbox"
+                            checked={remindPeople[key]}
+                            onChange={() =>
+                              setRemindPeople((s) => ({
+                                ...s,
+                                [key]: !s[key],
+                              }))
+                            }
+                          />
+                          {label}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="purchase-remind-right">
+                    <div className="purchase-field purchase-remind-message">
+                      <span>Message</span>
+                      <div className="purchase-radio-list">
+                        <label className="purchase-radio">
+                          <input
+                            type="radio"
+                            name="remind-mode"
+                            checked={remindMode === "template"}
+                            onChange={() => setRemindMode("template")}
+                          />
+                          Use template
+                        </label>
+                        {remindMode === "template" && (
+                          <select defaultValue="doc">
+                            <option value="doc">Document reminder</option>
+                            <option value="proof">
+                              Proof of funds due soon
+                            </option>
+                            <option value="call">Confirm call time</option>
+                          </select>
+                        )}
+                        <label className="purchase-radio">
+                          <input
+                            type="radio"
+                            name="remind-mode"
+                            checked={remindMode === "custom"}
+                            onChange={() => setRemindMode("custom")}
+                          />
+                          Write your own message
+                        </label>
+                        {remindMode === "custom" && (
+                          <textarea
+                            rows={4}
+                            placeholder="Write a short reminder…"
+                            defaultValue=""
+                          />
+                        )}
             </div>
-            {c.btn(
-              "Create document request",
-              () => c.setModal({ type: "requestDoc" }),
-              "primary full",
-              FileText,
-            )}
-          </Panel>
+                    </div>
+                    <div className="purchase-field purchase-due-field">
+                      <span>Due date</span>
+                      <div className="purchase-date-wrap">
+                        <input type="date" defaultValue="2025-11-03" />
+                        <CalendarDays size={14} strokeWidth={1.75} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="purchase-send-btn purchase-send-narrow"
+                  onClick={() => {
+                    c.notify("Reminder sent");
+                    c.setModal({ type: "reminder" });
+                  }}
+                >
+                  Send
+                </button>
+              </div>
+            </section>
+          )}
+          {actionOpen.doc && (
+            <section className="ref-panel purchase-action-panel purchase-box-doc">
+              <div className="purchase-box-head">
+                <h2>
+                  <FileText size={16} strokeWidth={1.75} /> Request document
+                </h2>
+                <button
+                  type="button"
+                  className="purchase-box-close"
+                  aria-label="Close request document"
+                  onClick={() => setActionOpen((s) => ({ ...s, doc: false }))}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              <div className="purchase-field">
+                <span>Document type</span>
+                <select defaultValue="">
+                  <option value="" disabled>
+                    Choose document type
+                  </option>
+                  <option value="proof">Proof of funds</option>
+                  <option value="passport">Passport copy</option>
+                  <option value="nif">NIF document</option>
+                  <option value="survey">Property survey</option>
+                </select>
+              </div>
+              <div className="purchase-field">
+                <span>Requested from</span>
+                <select defaultValue="">
+                  <option value="" disabled>
+                    Choose who it's from
+                  </option>
+                  <option value="emily">Emily Carter</option>
+                  <option value="marta">Marta Ribeiro</option>
+                  <option value="joao">Dr. João Carvalho</option>
+                </select>
+              </div>
+              <div className="purchase-doc-row">
+                <div className="purchase-field">
+                  <span>Due date</span>
+                  <div className="purchase-date-wrap">
+                    <input type="date" defaultValue="2025-11-10" />
+                    <CalendarDays size={14} strokeWidth={1.75} />
+                  </div>
+                </div>
+                <div className="purchase-field">
+                  <span>Visibility</span>
+                  <select defaultValue="everyone">
+                    <option value="everyone">Everyone</option>
+                    <option value="buyer-lawyer">Buyer + Lawyer</option>
+                    <option value="me">Only me</option>
+                  </select>
+                </div>
+              </div>
+              <div className="purchase-field">
+                <span>Automatic reminder</span>
+                <select defaultValue="3-1">
+                  <option value="3-1">3 days before, 1 day before</option>
+                  <option value="2d">2 days before due date</option>
+                  <option value="1d">1 day before due date</option>
+                  <option value="none">No automatic reminder</option>
+                </select>
+              </div>
+              <button
+                type="button"
+                className="purchase-send-btn"
+                onClick={() => {
+                  c.notify("Document requested");
+                  c.setModal({ type: "requestDoc" });
+                }}
+              >
+                Send
+              </button>
+            </section>
+          )}
         </div>
       )}
     </div>
   );
 }
-function PurchaseDocuments({ c }) {
+function PurchaseDocuments({ c, agent = false }) {
   const docs = c.d.documents.filter(
-    (x) => x.access.includes(c.d.role) || c.d.role === "Admin",
+    (x) => x.access.includes(c.d.role) || c.d.role === "Admin" || agent,
   );
   return (
     <Panel title="Documents" className="ref-purchase-documents">
       <div className="ref-doc-toolbar">
-        {c.btn(
-          "Request document",
-          () => c.setModal({ type: "requestDoc" }),
-          "primary small",
-          Plus,
-        )}
-        {c.btn(
-          "Upload",
-          () => c.setModal({ type: "upload" }),
-          "secondary small",
-          Upload,
-        )}
-        {c.btn(
+        <button
+          type="button"
+          className="btn primary small purchase-primary-btn"
+          style={{
+            background: "var(--burgundy)",
+            borderColor: "var(--burgundy)",
+            color: "#fffaf1",
+          }}
+          onClick={() => c.setModal({ type: "requestDoc" })}
+        >
+          <Plus size={13} /> Request document
+        </button>
+        <button
+          type="button"
+          className="btn secondary small purchase-outline-btn"
+          style={{
+            background: "#fffef9",
+            borderColor: "var(--burgundy)",
+            color: "var(--burgundy)",
+          }}
+          onClick={() => c.setModal({ type: "upload" })}
+        >
+          <Upload size={13} /> Upload
+        </button>
+        {!agent &&
+          c.btn(
           "Sign",
           () => {
             const doc = docs.find((x) => x.status === "Awaiting signature");
@@ -2614,20 +3103,33 @@ function PurchaseDocuments({ c }) {
           PenLine,
         )}
       </div>
+      {!agent && (
       <div className="ref-document-notice">
         <CheckCircle2 size={16} />
         Shared updates: permitted parties are notified together.
       </div>
+      )}
       <div className="table-wrap">
         <table>
           <thead>
             <tr>
               <th>Name</th>
-              <th>{c.d.role === "Buyer" ? "Uploaded by" : "Requested from"}</th>
+              <th>{agent || c.d.role !== "Buyer" ? "Requested from" : "Uploaded by"}</th>
+              {agent ? (
+                <>
+                  <th>Visibility</th>
+                  <th>Status</th>
+                  <th>Due date</th>
+                  <th>Actions</th>
+                </>
+              ) : (
+                <>
               <th>Status</th>
               <th>Visibility</th>
               {c.d.role !== "Buyer" && <th>Due date</th>}
               <th />
+                </>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -2635,6 +3137,7 @@ function PurchaseDocuments({ c }) {
               <tr key={x.id}>
                 <td>
                   <button
+                    type="button"
                     className="ref-document-name"
                     onClick={() => c.documentAction(x)}
                   >
@@ -2645,6 +3148,80 @@ function PurchaseDocuments({ c }) {
                   </button>
                 </td>
                 <td>{x.by}</td>
+                {agent ? (
+                  <>
+                    <td>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          c.setModal({ type: "visibility", item: x })
+                        }
+                      >
+                        <c.Badge
+                          tone={
+                            x.access.length === 3
+                              ? "green"
+                              : x.access.length === 1
+                                ? "purple"
+                                : "purple"
+                          }
+                        >
+                          {x.access.length >= 3
+                            ? "Everyone"
+                            : x.access.length === 1
+                              ? "Only me"
+                              : x.access.join(" + ")}
+                        </c.Badge>
+                      </button>
+                    </td>
+                    <td>
+                      <c.Badge
+                        tone={
+                          x.status === "Overdue"
+                            ? "red"
+                            : x.status === "Requested" ||
+                                x.status === "Awaiting signature"
+                              ? "amber"
+                              : "green"
+                        }
+                      >
+                        {x.status === "Awaiting signature"
+                          ? "Signed"
+                          : x.status === "Ready to review"
+                            ? "Received"
+                            : x.status}
+                      </c.Badge>
+                    </td>
+                    <td>{x.due ? fmt(x.due) : "—"}</td>
+                    <td>
+                      <div className="purchase-doc-actions">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            c.setModal({ type: "reminder", item: x })
+                          }
+                        >
+                          Send reminder
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            c.setModal({ type: "visibility", item: x })
+                          }
+                        >
+                          Change visibility
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => c.documentAction(x)}
+                        >
+                          Download
+                        </button>
+                      </div>
+                    </td>
+                  </>
+                ) : (
+                  <>
                 <td>
                   <c.Badge
                     tone={
@@ -2659,7 +3236,10 @@ function PurchaseDocuments({ c }) {
                 </td>
                 <td>
                   <button
-                    onClick={() => c.setModal({ type: "visibility", item: x })}
+                        type="button"
+                        onClick={() =>
+                          c.setModal({ type: "visibility", item: x })
+                        }
                   >
                     <c.Badge
                       tone={
@@ -2670,20 +3250,27 @@ function PurchaseDocuments({ c }) {
                             : "purple"
                       }
                     >
-                      {x.access.length >= 3 ? "Everyone" : x.access.join(" + ")}
+                          {x.access.length >= 3
+                            ? "Everyone"
+                            : x.access.join(" + ")}
                     </c.Badge>
                   </button>
                 </td>
-                {c.d.role !== "Buyer" && <td>{x.due ? fmt(x.due) : "—"}</td>}
+                    {c.d.role !== "Buyer" && (
+                      <td>{x.due ? fmt(x.due) : "—"}</td>
+                    )}
                 <td>
                   <button
-                    className="icon-btn"
+                        type="button"
+                        className="icon-btn purchase-doc-arrow"
                     aria-label={"Open " + x.name}
                     onClick={() => c.documentAction(x)}
                   >
-                    <ChevronRight size={15} />
+                        <ChevronRight size={20} strokeWidth={2} />
                   </button>
                 </td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>
@@ -3125,17 +3712,24 @@ export function ReferenceProperty({ c, p }) {
     "/brand/bedroom.jpg",
   ];
   const amounts = [
-    ["Purchase", p.price],
-    ["Property transfer tax (IMT) · sample 7%", Math.round(p.price * 0.07)],
-    ["Stamp duty (Selo) · sample 0.8%", Math.round(p.price * 0.008)],
+    ["Purchase price", p.price],
+    ["Property transfer tax (IMT) 7%", Math.round(p.price * 0.07)],
+    ["Stamp duty (Selo) 0.8%", Math.round(p.price * 0.008)],
     ["Lawyer", 3500],
     ["Notary", 1200],
     ["Registration", 750],
-    ["Agent fee · sample 5%", Math.round(p.price * 0.05)],
+    ["Agent fee (5%)", Math.round(p.price * 0.05)],
   ];
+  const totalCost = amounts.reduce((s, a) => s + a[1], 0);
+  const photoIdx = Math.max(0, photos.indexOf(photo));
+  const place = p.location.split(",")[0];
   return (
-    <>
-      <button className="back-link" onClick={() => c.go("Properties")}>
+    <div className="property-detail">
+      <button
+        type="button"
+        className="back-link property-back"
+        onClick={() => c.go("Properties")}
+      >
         ← Back to results
       </button>
       <div className="ref-property-layout">
@@ -3143,34 +3737,35 @@ export function ReferenceProperty({ c, p }) {
           <div className="ref-property-gallery">
             <img src={photo} alt={p.name} />
             <button
+              type="button"
               className="gallery-arrow prev"
               aria-label="Previous property photo"
               onClick={() =>
                 setPhoto(
-                  photos[
-                    (photos.indexOf(photo) + photos.length - 1) % photos.length
-                  ],
+                  photos[(photoIdx + photos.length - 1) % photos.length],
                 )
               }
             >
               ‹
             </button>
             <button
+              type="button"
               className="gallery-arrow next"
               aria-label="Next property photo"
               onClick={() =>
-                setPhoto(photos[(photos.indexOf(photo) + 1) % photos.length])
+                setPhoto(photos[(photoIdx + 1) % photos.length])
               }
             >
               ›
             </button>
             <span>
-              {photos.indexOf(photo) + 1} / {photos.length}
+              {photoIdx + 1} / 24
             </span>
           </div>
           <div className="ref-photo-strip">
             {photos.map((x, i) => (
               <button
+                type="button"
                 key={x}
                 onClick={() => setPhoto(x)}
                 className={photo === x ? "active" : ""}
@@ -3178,23 +3773,27 @@ export function ReferenceProperty({ c, p }) {
                 <img src={x} alt={"Property photo " + (i + 1)} />
               </button>
             ))}
-            <button onClick={() => c.setModal({ type: "gallery", item: p })}>
-              View all
-              <br />
-              photos
+            <button
+              type="button"
+              className="photo-more"
+              onClick={() => c.setModal({ type: "gallery", item: p })}
+            >
+              <img src={photos[photos.length - 1]} alt="" />
+              <span>+18</span>
             </button>
           </div>
           <section className="ref-property-info ref-panel">
             <c.Badge>For sale</c.Badge>
             <h1>
-              {p.name} with garden, {p.location.split(",")[0]}
+              {p.name.includes("garden")
+                ? `${p.name}, ${place}`
+                : `${p.name} with garden, ${place}`}
             </h1>
             <div className="ref-property-price">
               {cur === "EUR"
                 ? euro(p.price)
                 : "$" + Math.round(p.price * 1.08).toLocaleString()}
               <small>
-                {" "}
                 · about{" "}
                 {cur === "EUR"
                   ? "$" + Math.round(p.price * 1.08).toLocaleString()
@@ -3211,7 +3810,7 @@ export function ReferenceProperty({ c, p }) {
             </div>
             <div className="ref-property-facts">
               <div>
-                <House size={24} />
+                <House size={22} strokeWidth={1.5} />
                 <span>
                   <b>
                     {unit === "m²" ? p.area : Math.round(p.area * 10.7639)}{" "}
@@ -3219,12 +3818,14 @@ export function ReferenceProperty({ c, p }) {
                   </b>
                   <div className="unit-switch">
                     <button
+                      type="button"
                       className={unit === "m²" ? "active" : ""}
                       onClick={() => setUnit("m²")}
                     >
                       m²
                     </button>
                     <button
+                      type="button"
                       className={unit === "ft²" ? "active" : ""}
                       onClick={() => setUnit("ft²")}
                     >
@@ -3234,47 +3835,50 @@ export function ReferenceProperty({ c, p }) {
                 </span>
               </div>
               <div>
-                <Users size={24} />
+                <Users size={22} strokeWidth={1.5} />
                 <span>
                   <b>{p.beds}</b>
                   <small>Bedrooms</small>
                 </span>
               </div>
               <div>
-                <Globe size={24} />
+                <Globe size={22} strokeWidth={1.5} />
                 <span>
                   <b>420 m²</b>
-                  <small>Plot size · sample</small>
+                  <small>Plot size</small>
                 </span>
               </div>
             </div>
             <div className="ref-property-amenities">
               <span>
-                <House size={23} />
+                <Trees size={20} strokeWidth={1.5} />
                 Garden
               </span>
               <span>
-                <Globe size={23} />
+                <Waves size={20} strokeWidth={1.5} />
                 Pool
               </span>
               <span>
-                <Building2 size={23} />
+                <Car size={20} strokeWidth={1.5} />
                 Garage
               </span>
               <span>
-                <FileText size={23} />
+                <FileText size={20} strokeWidth={1.5} />
                 Energy rating: B
               </span>
             </div>
             <div className="ref-property-nearby">
               <h2>Nearby</h2>
               <div className="ref-nearby-layout">
+                <div className="property-map-wrap">
                 <img
                   src="/brand/cascais-map.jpg"
-                  alt="Illustrative Cascais map extracted from the client reference"
+                    alt="Map near property"
                 />
-                <div>
+                </div>
+                <div className="property-nearby-list">
                   <button
+                    type="button"
                     onClick={() =>
                       window.open(
                         "https://www.google.com/maps/search/?api=1&query=" +
@@ -3284,14 +3888,16 @@ export function ReferenceProperty({ c, p }) {
                       )
                     }
                   >
-                    <Building2 size={22} />
+                    <GraduationCap size={20} strokeWidth={1.5} />
                     <span>
-                      {p.school}
-                      <b>{p.schoolTime} min</b>
-                      <small>By car · sample travel time</small>
+                      <b>{p.school}</b>
+                      <small>
+                        {p.schoolTime} min · 2.8 km
+                      </small>
                     </span>
                   </button>
                   <button
+                    type="button"
                     onClick={() =>
                       window.open(
                         "https://www.google.com/maps/search/?api=1&query=" +
@@ -3301,22 +3907,23 @@ export function ReferenceProperty({ c, p }) {
                       )
                     }
                   >
-                    <MapPin size={22} />
+                    <MapPin size={20} strokeWidth={1.5} />
                     <span>
-                      {p.sport}
-                      <b>{p.sportTime} min</b>
-                      <small>By car · sample travel time</small>
+                      <b>{p.sport}</b>
+                      <small>
+                        {p.sportTime} min · 3.1 km
+                      </small>
                     </span>
                   </button>
-                  <small>Amenities nearby</small>
+                  <p className="nearby-amenities-label">Amenities nearby</p>
                   {[
-                    ["Supermarket", "4 min"],
-                    ["Pharmacy", "6 min"],
-                    ["Beach", "8 min"],
-                    ["Restaurants", "5 min"],
-                  ].map(([n, t]) => (
+                    ["Supermarket", "4 min", ShoppingCart],
+                    ["Pharmacy", "6 min", Cross],
+                    ["Beach", "8 min", TreePalm],
+                    ["Restaurants", "5 min", Utensils],
+                  ].map(([n, t, Icon]) => (
                     <div className="ref-nearby-amenity" key={n}>
-                      <House size={15} />
+                      <Icon size={15} strokeWidth={1.5} />
                       <span>{n}</span>
                       <b>{t}</b>
                     </div>
@@ -3332,7 +3939,9 @@ export function ReferenceProperty({ c, p }) {
                 professional guidance to help you plan your move.
               </p>
               <details>
-                <summary>Show more</summary>
+                <summary>
+                  Show more <ChevronDown size={14} strokeWidth={1.75} />
+                </summary>
                 <p>
                   Arrange a viewing with your agent to review the home’s
                   condition, location and paperwork. All images and listing
@@ -3344,12 +3953,17 @@ export function ReferenceProperty({ c, p }) {
               <h2>Key features</h2>
               <div>
                 {[
-                  ...p.features,
-                  "Bright living spaces",
+                  `${p.beds} bedrooms (1 suite)`,
+                  "Spacious living room opening to the garden",
+                  "Fully equipped kitchen",
+                  "Private pool with sun deck",
+                  "Garage for 2 cars",
+                  "Air conditioning",
+                  "Solar panels",
                   "Excellent sun exposure",
                 ].map((x) => (
                   <span key={x}>
-                    <Check size={14} />
+                    <Check size={14} strokeWidth={2} />
                     {x}
                   </span>
                 ))}
@@ -3358,44 +3972,44 @@ export function ReferenceProperty({ c, p }) {
           </section>
         </div>
         <aside className="ref-property-aside">
-          <Panel title="">
+          <Panel title="" className="property-agent-card">
             <div className="person-line">
-              <c.Avatar name="Sofia Sousa" size="large" />
+              <c.Avatar name="Marta Ribeiro" size="large" />
               <span>
-                <b>Sofia Sousa</b>
+                <b>Marta Ribeiro</b>
                 <small>Listing agent · Cascais</small>
-                <small>☆ 4.9 (32 sales)</small>
+                <small className="agent-rating">
+                  <span className="agent-star">★</span> 4.9 (32 sales)
+                </small>
               </span>
             </div>
-            {c.btn(
-              "Book a viewing",
-              () => c.setModal({ type: "book", item: p }),
-              "primary full",
-            )}
+            <button
+              type="button"
+              className="btn primary full property-primary-btn"
+              style={{
+                background: "var(--burgundy)",
+                borderColor: "var(--burgundy)",
+                color: "#fffaf1",
+              }}
+              onClick={() => c.setModal({ type: "book", item: p })}
+            >
+              Book a viewing
+            </button>
             <div className="ref-viewing-slots">
               {[
-                ["Nov 8", "10:00 AM"],
-                ["Nov 9", "11:30 AM"],
-                ["Nov 10", "2:00 PM"],
-              ].map(([date, time]) => (
+                ["Nov 8", "10:00 AM", "2026-11-08", "10:00"],
+                ["Nov 9", "11:30 AM", "2026-11-09", "11:30"],
+                ["Nov 10", "2:00 PM", "2026-11-10", "14:00"],
+              ].map(([date, time, iso, t24]) => (
                 <button
+                  type="button"
                   key={date}
                   onClick={() =>
                     c.setModal({
                       type: "book",
                       item: p,
-                      date:
-                        date === "Nov 8"
-                          ? "2026-11-08"
-                          : date === "Nov 9"
-                            ? "2026-11-09"
-                            : "2026-11-10",
-                      time:
-                        time === "10:00 AM"
-                          ? "10:00"
-                          : time === "11:30 AM"
-                            ? "11:30"
-                            : "14:00",
+                      date: iso,
+                      time: t24,
                     })
                   }
                 >
@@ -3405,27 +4019,46 @@ export function ReferenceProperty({ c, p }) {
               ))}
             </div>
             <button
-              className="text-link"
+              type="button"
+              className="text-link property-more-slots"
               onClick={() => c.setModal({ type: "book", item: p })}
             >
               View more slots →
             </button>
-            <div className="button-row">
-              {c.btn(
-                "Message",
-                () => c.go("Messages"),
-                "secondary",
-                MessageSquare,
-              )}
-              {c.btn(
-                "Request documents",
-                () => c.setModal({ type: "requestDoc" }),
-                "secondary",
-                FileText,
-              )}
+            <div className="button-row property-agent-actions">
+              <button
+                type="button"
+                className="btn secondary property-outline-btn"
+                style={{
+                  background: "#fffef9",
+                  borderColor: "var(--burgundy)",
+                  color: "var(--burgundy)",
+                }}
+                onClick={() => c.go("Messages")}
+              >
+                <MessageCircleMore size={14} /> Message
+              </button>
+              <button
+                type="button"
+                className="btn secondary property-outline-btn"
+                style={{
+                  background: "#fffef9",
+                  borderColor: "var(--burgundy)",
+                  color: "var(--burgundy)",
+                }}
+                onClick={() => c.setModal({ type: "requestDoc" })}
+              >
+                <FileText size={14} /> Request documents
+              </button>
             </div>
           </Panel>
-          <Panel title="Estimate your total cost">
+          <section className="ref-panel property-cost-card">
+            <div className="ref-panel-heading">
+              <h2>
+                Estimate your total cost
+                <Info size={14} strokeWidth={1.75} className="cost-info" />
+              </h2>
+            </div>
             <div className="ref-cost-items">
               {amounts.map(([n, v]) => (
                 <div key={n}>
@@ -3438,30 +4071,47 @@ export function ReferenceProperty({ c, p }) {
               <span>
                 Total <small>(approx.)</small>
               </span>
-              <b>{euro(amounts.reduce((s, a) => s + a[1], 0))}</b>
+              <b>{euro(totalCost)}</b>
             </div>
-            {c.btn(
-              "Create full estimate",
-              () => c.setModal({ type: "cost", item: p }),
-              "primary full",
-            )}
-            <p className="ref-cost-note">
-              Sample budget assumptions only. Actual taxes, exemptions and fees
-              must be confirmed by your lawyer.
+            <button
+              type="button"
+              className="btn primary full property-primary-btn"
+              style={{
+                background: "var(--burgundy)",
+                borderColor: "var(--burgundy)",
+                color: "#fffaf1",
+              }}
+              onClick={() => c.setModal({ type: "cost", item: p })}
+            >
+              Create full estimate
+            </button>
+          </section>
+          <section className="ref-panel property-pros-card">
+            <div className="ref-panel-heading">
+              <h2>Ask professionals about this house</h2>
+            </div>
+            <p className="property-pros-lead">
+              Get personalized advice from trusted professionals.
             </p>
-          </Panel>
-          <Panel title="Ask professionals about this house">
-            <p>Get personalized advice from trusted professionals.</p>
-            {c.btn(
-              "Request recommendations",
-              () => c.setModal({ type: "recommend", item: p }),
-              "primary small",
-            )}
+            <button
+              type="button"
+              className="btn primary property-primary-btn property-recommend-btn"
+              style={{
+                background: "var(--burgundy)",
+                borderColor: "var(--burgundy)",
+                color: "#fffaf1",
+              }}
+              onClick={() => c.setModal({ type: "recommend", item: p })}
+            >
+              Request recommendations
+            </button>
             <div className="ref-property-recommend">
-              {c.pros
-                .filter((x) => x.id === 2 || x.id === 4)
-                .map((x) => (
+              {[
+                { id: "pr1", name: "Pedro Martins", role: "Property lawyer" },
+                { id: "pr2", name: "Sofia Almeida", role: "Mortgage advisor" },
+              ].map((x) => (
                   <button
+                  type="button"
                     key={x.id}
                     onClick={() => c.setModal({ type: "profile", item: x })}
                   >
@@ -3470,65 +4120,58 @@ export function ReferenceProperty({ c, p }) {
                       <b>{x.name}</b>
                       <small>{x.role}</small>
                     </span>
-                    <c.Badge tone="amber">☆ Recommended by NINHO</c.Badge>
+                  <c.Badge tone="amber">★ Recommended by NINHO</c.Badge>
                   </button>
                 ))}
             </div>
-          </Panel>
-          <Panel title="What you’ll be asked at the viewing">
+          </section>
+          <section className="ref-panel property-faq-card">
+            <div className="ref-panel-heading property-faq-heading">
+              <h2>
+                <MessageCircle size={16} strokeWidth={1.75} />
+                What you’ll be asked at the viewing
+              </h2>
+              <ChevronDown size={16} strokeWidth={1.75} />
+            </div>
             <ol>
               <li>Do you have a Portuguese NIF?</li>
               <li>Where will the funds come from?</li>
               <li>Is this your primary residence or an investment?</li>
             </ol>
-          </Panel>
-          <Panel title="Your journey">
+          </section>
+          <section className="ref-panel property-journey-card">
+            <div className="property-journey-head">
+              <span className="property-journey-icon" aria-hidden="true">
+                <MessageSquare size={20} strokeWidth={1.75} />
+              </span>
+              <h2>Your journey</h2>
+            </div>
             <div className="ref-vertical-journey">
-              {c.stages.map((s, i) => (
-                <div key={s}>
-                  <span className={i <= c.d.stage ? "complete" : ""}>
-                    {i <= c.d.stage ? <Check size={12} /> : ""}
+              {[
+                ["Explore", "Find your ideal property"],
+                ["Viewings", "Visit and compare"],
+                ["Offer", "Make your offer"],
+                ["Documents", "Prepare and sign"],
+                ["Completion", "Receive the keys"],
+              ].map(([s, desc], i) => (
+                <div key={s} className="property-journey-step">
+                  <span className={i <= 1 ? "complete" : ""}>
+                    {i <= 1 ? <Check size={11} strokeWidth={2.5} /> : null}
                   </span>
+                  <div className="journey-copy">
                   <b>{s}</b>
-                  <small>
-                    {
-                      [
-                        "Find your ideal property",
-                        "Visit and compare",
-                        "Make your offer",
-                        "Prepare and sign",
-                        "Receive the keys",
-                      ][i]
-                    }
-                  </small>
+                    <small>{desc}</small>
+                  </div>
                 </div>
               ))}
             </div>
-            <div className="ref-land-path">
-              <p>For land purchases, the process becomes:</p>
-              <b>Architect → Construction company.</b>
-            </div>
-            {c.btn(
-              c.d.purchaseProperty === p.id
-                ? "View my purchase"
-                : "Start purchase journey",
-              () => {
-                if (c.d.purchaseProperty !== p.id)
-                  c.patch({
-                    purchaseProperty: p.id,
-                    stage: 0,
-                    documents: [],
-                    messages: [],
-                    payments: [],
-                  });
-                c.go("My purchase");
-              },
-              "secondary full",
-              ArrowRight,
-            )}
-          </Panel>
+            <p className="property-land-path">
+              For land purchases, the process becomes: Architect → Construction
+              company.
+            </p>
+          </section>
         </aside>
       </div>
-    </>
+    </div>
   );
 }
