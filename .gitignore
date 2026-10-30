@@ -23,6 +23,13 @@ Thumbs.db
 *.swp
 *.swo
 
+# Windows reserved device-name junk (cannot be committed)
+/NUL
+NUL
+/CON
+/PRN
+/AUX
+
 # Local / deploy tooling
 .vercel/
 .openai/
