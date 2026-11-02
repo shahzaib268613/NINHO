@@ -525,7 +525,9 @@ html.login-page #root {
   min-height: 0 !important;
   max-height: 100% !important;
   padding: 48px 40px 24px !important;
-  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
 }
 
@@ -533,8 +535,8 @@ html.login-page #root {
   max-width: 440px;
   width: 100%;
   margin: 0 auto;
-  max-height: 100%;
-  overflow: hidden;
+  max-height: none;
+  overflow: visible;
 }
 
 .login-form > h1 {
@@ -653,6 +655,7 @@ html.login-page #root {
 .login-field {
   position: relative;
   display: block;
+  width: 100%;
 }
 
 .login-field > svg:first-child {
@@ -660,31 +663,44 @@ html.login-page #root {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
   color: #9a8e86;
   pointer-events: none;
+  z-index: 1;
 }
 
+.login .form label .login-field input,
 .login-field input {
-  width: 100%;
-  height: 40px;
-  padding: 8px 40px 8px 40px;
-  border: 1px solid #d5ccc2;
-  border-radius: 8px;
-  background: #fffef9;
-  font-size: 13px;
-  color: var(--ink);
-  box-sizing: border-box;
+  width: 100% !important;
+  height: 40px !important;
+  padding: 8px 44px 8px 40px !important;
+  border: 1px solid #d5ccc2 !important;
+  border-radius: 8px !important;
+  background: #fffef9 !important;
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+  color: var(--ink) !important;
+  box-sizing: border-box !important;
 }
 
+.login .form label .login-field input::placeholder,
+.login-field input::placeholder {
+  font-size: 12px !important;
+  color: #9a8e86 !important;
+  opacity: 1 !important;
+}
+
+.login .form label .login-field input:focus,
 .login-field input:focus {
-  border-color: var(--burgundy);
-  box-shadow: 0 0 0 3px #57172018;
-  outline: none;
+  border-color: var(--burgundy) !important;
+  box-shadow: 0 0 0 3px #57172018 !important;
+  outline: none !important;
 }
 
 .login-field-toggle {
   position: absolute;
-  right: 8px;
+  right: 6px;
   top: 50%;
   transform: translateY(-50%);
   width: 32px;
@@ -696,6 +712,7 @@ html.login-page #root {
   background: transparent;
   color: #9a8e86;
   cursor: pointer;
+  z-index: 1;
 }
 
 .login .inline-check {
@@ -888,62 +905,338 @@ html.login-page #root {
 }
 
 @media (max-width: 900px) {
-  .login .role-cards {
-    grid-template-columns: 1fr;
+  .login-content {
+    padding: 40px 28px 24px !important;
   }
 
-  .login .role-cards > button {
-    min-height: 72px;
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: 14px 16px;
-    text-align: left;
+  .login-lang {
+    top: 20px;
+    right: 28px;
   }
 
   .login-form {
-    margin-top: 36px;
+    margin-top: 28px;
+  }
+
+  .login-2fa-bar {
+    top: 20px;
+    left: 28px;
+    right: 28px;
   }
 
   .login-2fa .login-form {
-    margin-top: 56px;
+    margin-top: 48px;
+  }
+
+  .login .role-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .login .role-cards > button {
+    min-height: 84px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 8px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 720px), (max-height: 760px) {
+  html.login-page,
+  body.login-page {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 100% !important;
+    overscroll-behavior: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    position: static !important;
+    touch-action: pan-y !important;
+  }
+
+  html.login-page #root {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 100% !important;
+    overflow: visible !important;
   }
 }
 
 @media (max-width: 720px) {
-  html.login-page,
-  body.login-page {
-    overflow: auto !important;
-    height: auto !important;
-  }
-
   .login {
-    display: block !important;
+    display: flex !important;
+    flex-direction: column !important;
     grid-template-columns: none !important;
+    width: 100% !important;
     height: auto !important;
     max-height: none !important;
+    min-height: 100dvh !important;
     overflow: visible !important;
   }
 
   .login-visual {
-    height: 240px !important;
-    min-height: 240px !important;
-    max-height: 240px !important;
+    position: relative !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 200px !important;
+    min-height: 200px !important;
+    max-height: 200px !important;
+    padding: 22px 18px !important;
     background-image: none !important;
+    overflow: hidden !important;
+  }
+
+  .login-visual > .brand {
+    font-size: 26px !important;
+    justify-content: flex-start !important;
+    width: auto !important;
+    margin: 0 !important;
+  }
+
+  .login-visual > .brand svg {
+    width: 26px !important;
+    height: 34px !important;
   }
 
   .login-visual > img {
-    top: auto !important;
-    left: 0 !important;
-    width: 100% !important;
-    max-height: 85% !important;
-    object-fit: contain !important;
-    object-position: center bottom !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    width: 48% !important;
+    max-width: 48% !important;
+    height: 100% !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    object-position: center 55% !important;
     z-index: 2 !important;
   }
 
-  .login-content {
+  .login-visual:after {
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 35% !important;
     height: auto !important;
+    background: linear-gradient(
+      90deg,
+      #371515 0%,
+      #371515 55%,
+      rgba(55, 21, 21, 0.72) 78%,
+      transparent 100%
+    ) !important;
+  }
+
+  .login-visual > div {
+    top: 64px !important;
+    left: 18px !important;
+    right: 42% !important;
+    text-align: left !important;
+  }
+
+  .login-visual h1 {
+    font-size: 18px !important;
+    max-width: none;
+  }
+
+  .login-content {
+    position: relative;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
     overflow: visible !important;
-    padding: 40px 24px 28px !important;
+    padding: 28px 20px 32px !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+  }
+
+  .login-lang {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+  }
+
+  .login-form {
+    max-width: 440px;
+    width: 100%;
+    margin: 36px auto 0;
+    overflow: visible;
+  }
+
+  .login-form > h1 {
+    font-size: 30px !important;
+  }
+
+  .login .role-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px;
+  }
+
+  .login .role-cards > button {
+    min-height: 78px;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 10px 6px !important;
+    text-align: center !important;
+    gap: 6px;
+  }
+
+  .login .role-cards > button span:not(.role-check) {
+    font-size: 11px;
+  }
+
+  .login-2fa-bar {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    right: 20px;
+  }
+
+  .login-2fa .login-form {
+    margin-top: 48px;
+  }
+
+  .login-2fa .otp-fields {
+    gap: 6px;
+  }
+
+  .login-2fa .otp-fields input {
+    height: 48px;
+    max-width: 48px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-visual {
+    height: 168px !important;
+    min-height: 168px !important;
+    max-height: 168px !important;
+    padding: 16px 14px !important;
+  }
+
+  .login-visual > .brand {
+    font-size: 22px !important;
+  }
+
+  .login-visual > .brand svg {
+    width: 22px !important;
+    height: 28px !important;
+  }
+
+  .login-visual > img {
+    width: 46% !important;
+    max-width: 46% !important;
+  }
+
+  .login-visual > div {
+    top: 50px !important;
+    left: 14px !important;
+    right: 44% !important;
+  }
+
+  .login-visual h1 {
+    font-size: 15px !important;
+    line-height: 1.3;
+  }
+
+  .login-content {
+    padding: 24px 16px 28px !important;
+  }
+
+  .login-lang {
+    top: 14px;
+    right: 16px;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .login-lang button {
+    font-size: 11px;
+  }
+
+  .login-form {
+    margin-top: 32px;
+  }
+
+  .login-form > h1 {
+    font-size: 26px !important;
+  }
+
+  .login .role-cards {
+    gap: 6px;
+  }
+
+  .login .role-cards > button {
+    min-height: 72px;
+    padding: 8px 4px !important;
+    gap: 5px;
+  }
+
+  .login .role-cards > button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .login .role-cards > button span:not(.role-check) {
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .login .role-check {
+    top: 5px;
+    right: 5px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .login .form label .login-field input,
+  .login-field input {
+    height: 44px !important;
+    font-size: 16px !important;
+    padding: 10px 44px 10px 40px !important;
+  }
+
+  .login .form label .login-field input::placeholder,
+  .login-field input::placeholder {
+    font-size: 13px !important;
+  }
+
+  .login-field > svg:first-child {
+    left: 12px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .login .form > button.btn.primary.full {
+    height: 44px;
+  }
+
+  .login-2fa .otp-fields {
+    gap: 4px;
+  }
+
+  .login-2fa .otp-fields input {
+    height: 44px;
+    max-width: 42px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 360px) {
+  .login-visual h1 {
+    font-size: 15px !important;
+  }
+
+  .login .role-cards > button span:not(.role-check) {
+    font-size: 9px;
+  }
+
+  .login-content {
+    padding: 20px 12px 24px !important;
   }
 }
