@@ -1263,8 +1263,17 @@ function ListingsMini({ c, variant }) {
               }}
             >
               <td>
-                <img src={p.image} alt="" />
-                <span>{p.name}</span>
+                {agent ? (
+                  <div className="agent-listing-property">
+                    <img src={p.image} alt="" />
+                    <span>{p.name}</span>
+                  </div>
+                ) : (
+                  <>
+                    <img src={p.image} alt="" />
+                    <span>{p.name}</span>
+                  </>
+                )}
               </td>
               <td>{agent ? p.location.split(",")[0] : p.location}</td>
               <td>{euro(p.price)}</td>

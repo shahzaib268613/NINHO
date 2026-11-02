@@ -1056,3 +1056,93 @@
     width: 100%;
   }
 }
+
+/* Meeting requests box only */
+@media (max-width: 720px) {
+  .ref-pro-layout.lawyer .lawyer-meeting-requests {
+    padding: 0 12px;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-meeting-request {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 0;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-meeting-request .ref-request-person {
+    flex: none;
+    width: 100%;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-meeting-request .ref-request-person small {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-meeting-request .button-row {
+    width: 100%;
+    margin-left: 0;
+    flex-wrap: wrap;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-meeting-request .button-row .btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-prepare-body .button-row {
+    width: 100%;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-prepare-body .button-row .btn {
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-prepare-body .prepare-options {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-auto-toggle {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .ref-pro-layout.lawyer .lawyer-meeting-heading h3 {
+    font-size: 15px;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-meeting-requests {
+    padding: 0 10px;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-meeting-request .button-row {
+    flex-direction: column;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-meeting-request .button-row .btn,
+  .ref-pro-layout.lawyer .lawyer-prepare-body .button-row .btn {
+    width: 100%;
+    flex: none;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-prepare-body .button-row {
+    flex-direction: column;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-prepare-toggle {
+    padding: 12px 12px;
+    font-size: 12px;
+  }
+
+  .ref-pro-layout.lawyer .lawyer-prepare-body {
+    padding: 0 12px 12px;
+  }
+}

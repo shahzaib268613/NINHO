@@ -346,6 +346,47 @@ input[type="checkbox"] {
 .app-shell {
   min-height: 100vh;
 }
+
+.app-shell.role-buyer {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.app-shell.role-buyer .main-content,
+.app-shell.role-buyer .topbar {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .app-shell.role-buyer .topbar {
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .app-shell.role-buyer .top-actions {
+    gap: 4px;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .app-shell.role-buyer .header-languages {
+    display: none;
+  }
+
+  .app-shell.role-buyer .breadcrumbs {
+    min-width: 0;
+    flex-shrink: 1;
+    overflow: hidden;
+  }
+
+  .app-shell.role-buyer .purchase-header-back,
+  .app-shell.role-buyer .back-link {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 .sidebar {
   width: 236px;
   background: #fffefb;

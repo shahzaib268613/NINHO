@@ -539,6 +539,7 @@
 .ref-pro-layout.agent .agent-listings-table {
   table-layout: fixed;
   width: 100%;
+  border-collapse: collapse;
 }
 
 .ref-pro-layout.agent .agent-listings-table th:nth-child(1),
@@ -564,21 +565,34 @@
   font-size: 11px;
   font-weight: 600;
   color: var(--muted);
+  border-bottom: 1px solid #ded8d0;
+  padding: 0 8px 10px;
+  white-space: nowrap;
 }
 
 .ref-pro-layout.agent .agent-listings-table td {
+  display: table-cell;
   font-size: 12px;
   color: var(--text);
-  vertical-align: top;
+  vertical-align: middle;
   overflow-wrap: anywhere;
+  white-space: normal;
+  border-bottom: 1px solid #ebe6df;
+  padding: 12px 8px;
 }
 
-.ref-pro-layout.agent .agent-listings-table td:first-child {
+.ref-pro-layout.agent .agent-listings-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.ref-pro-layout.agent .agent-listing-property {
   display: flex;
   align-items: flex-start;
   gap: 8px;
+  min-width: 0;
 }
 
+.ref-pro-layout.agent .agent-listing-property > img,
 .ref-pro-layout.agent .agent-listings-table td > img {
   width: 44px;
   height: 34px;
@@ -587,11 +601,13 @@
   flex-shrink: 0;
 }
 
+.ref-pro-layout.agent .agent-listing-property > span,
 .ref-pro-layout.agent .agent-listings-table td > span {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  min-width: 0;
 }
 
 .ref-pro-layout.agent .agent-listings-table small {
@@ -607,7 +623,7 @@
   flex-direction: column;
   gap: 14px;
   height: 100%;
-  min-height: 100%;
+  min-height: 0;
   align-self: stretch;
 }
 
@@ -623,8 +639,8 @@
   border-radius: 8px;
   text-align: left;
   width: 100%;
-  flex: 1 1 0;
-  min-height: 0;
+  flex: 1 1 auto;
+  min-height: 110px;
   font: inherit;
   color: inherit;
   box-sizing: border-box;
@@ -920,40 +936,314 @@ body:has(.ref-pro-layout.agent) .app-footer button + button:before {
   .ref-pro-layout.agent .agent-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
   .ref-pro-layout.agent .agent-agency-metrics {
     grid-template-columns: 1fr 1fr;
   }
+
   .ref-pro-layout.agent .agent-listings-bottom {
     grid-template-columns: 1fr;
+  }
+
+  .ref-pro-layout.agent .agent-side-tiles {
+    height: auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .ref-pro-layout.agent .agent-stat-tile {
+    flex: none;
+    min-height: 120px;
+    height: auto;
+  }
+
+  .ref-pro-layout.agent .agent-greeting h1 {
+    font-size: 26px;
+  }
+
+  .ref-pro-layout.agent .agent-metrics .ref-metric > strong,
+  .ref-pro-layout.agent .agent-agency-metrics > .ref-metric > strong {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .ref-pro-layout.agent {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .ref-pro-layout.agent .ref-pro-aside {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid #ded8d0;
+    padding-top: 16px;
+  }
+
+  .ref-pro-layout.agent .agent-panels {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .ref-pro-layout.agent .ref-panel:has(.agent-cal-sync) .ref-panel-heading {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+
+  .ref-pro-layout.agent .agent-cal-sync {
+    margin-left: 0;
+    width: 100%;
+    gap: 14px;
+  }
+
+  .ref-pro-layout.agent .agent-cases-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ref-pro-layout.agent .agent-cases-table {
+    min-width: 420px;
+  }
+}
+
+@media (max-width: 900px) {
+  .ref-pro-layout.agent .agent-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .ref-pro-layout.agent .agent-meeting-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .ref-pro-layout.agent .agent-meeting-actions .btn {
+    font-size: 11px;
+    padding: 0 4px;
+    height: 32px;
+  }
+
+  .ref-pro-layout.agent .agent-listings-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .ref-pro-layout.agent .agent-agency-banner {
+    grid-template-columns: 1fr;
+  }
+
+  .ref-pro-layout.agent .agent-agency-banner > img {
+    min-height: 120px;
+    max-height: 160px;
   }
 }
 
 @media (max-width: 720px) {
   .ref-pro-layout.agent {
     grid-template-columns: 1fr;
+    gap: 14px;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
   }
+
+  .ref-pro-layout.agent .agent-greeting h1 {
+    font-size: 24px;
+  }
+
+  .ref-pro-layout.agent .agent-greeting p {
+    font-size: 12px;
+  }
+
   .ref-pro-layout.agent .agent-panels {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
+
   .ref-pro-layout.agent .agent-metrics {
     grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
+
+  .ref-pro-layout.agent .agent-metrics .ref-metric {
+    padding: 12px;
+  }
+
+  .ref-pro-layout.agent .agent-metrics .ref-metric > strong {
+    font-size: 24px;
+  }
+
   .ref-pro-layout.agent .agent-agency-metrics {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
-  .ref-pro-layout.agent .agent-agency-banner {
-    grid-template-columns: 1fr;
+
+  .ref-pro-layout.agent .agent-panels > .ref-panel {
+    padding: 14px;
   }
+
   .ref-pro-layout.agent .agent-meeting-actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px;
+  }
+
+  .ref-pro-layout.agent .ref-meeting-requests > div {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .ref-pro-layout.agent .agent-cal-sync {
+    gap: 12px;
+  }
+
+  .ref-pro-layout.agent .agent-cal-sync > button {
+    font-size: 10px;
+  }
+
+  .ref-pro-layout.agent .agent-cases-table {
+    min-width: 400px;
+  }
+
+  .ref-pro-layout.agent .agent-cases-table th:nth-child(3),
+  .ref-pro-layout.agent .agent-cases-table td:nth-child(3) {
+    display: none;
+  }
+
+  .ref-pro-layout.agent .agent-listings-table {
+    min-width: 480px;
+  }
+
+  .ref-pro-layout.agent .agent-listings-bottom > .ref-panel .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ref-pro-layout.agent .agent-side-tiles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    height: auto;
+    min-height: 0;
+  }
+
+  .ref-pro-layout.agent .agent-stat-tile {
+    flex: none;
+    min-height: 110px;
+    height: auto;
+    padding: 14px;
+  }
+
+  .ref-pro-layout.agent .agent-agency-banner > div {
+    padding: 16px 14px;
+  }
+
+  .ref-pro-layout.agent .agent-agency-banner h2 {
+    font-size: 20px;
   }
 }
 
 @media (max-width: 480px) {
+  .ref-pro-layout.agent {
+    overflow-x: hidden;
+    gap: 12px;
+  }
+
+  .ref-pro-layout.agent .agent-greeting h1 {
+    font-size: 22px;
+  }
+
+  .ref-pro-layout.agent .agent-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .ref-pro-layout.agent .agent-metrics .ref-metric {
+    padding: 12px 10px;
+    gap: 6px;
+  }
+
+  .ref-pro-layout.agent .agent-metrics .ref-metric > svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ref-pro-layout.agent .agent-metrics .ref-metric > span {
+    font-size: 11px;
+  }
+
+  .ref-pro-layout.agent .agent-metrics .ref-metric > strong {
+    font-size: 22px;
+  }
+
+  .ref-pro-layout.agent .agent-metrics .ref-metric > small {
+    font-size: 10px;
+  }
+
+  .ref-pro-layout.agent .agent-agency-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .ref-pro-layout.agent .agent-meeting-actions {
+    gap: 5px;
+  }
+
+  .ref-pro-layout.agent .agent-meeting-actions .btn {
+    font-size: 10px;
+    height: 30px;
+  }
+
+  .ref-pro-layout.agent .agent-side-tiles {
+    grid-template-columns: 1fr;
+  }
+
+  .ref-pro-layout.agent .agent-stat-tile {
+    min-height: 100px;
+  }
+
+  .ref-pro-layout.agent .agent-timeline-row {
+    grid-template-columns: 14px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .ref-pro-layout.agent .agent-timeline-meta {
+    grid-column: 2;
+    margin-top: 2px;
+  }
+
+  .ref-pro-layout.agent .agent-cases-table {
+    min-width: 360px;
+  }
+
+  .ref-pro-layout.agent .agent-listings-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .ref-pro-layout.agent .agent-add-listing {
+    height: 30px;
+    font-size: 11px;
+  }
+
+  .ref-pro-layout.agent .ref-panel-heading h2,
+  .ref-pro-layout.agent .ref-panel-heading h2 .agent-bars-heading {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 360px) {
   .ref-pro-layout.agent .agent-metrics {
     grid-template-columns: 1fr;
   }
-  .ref-pro-layout.agent {
-    overflow-x: hidden;
+
+  .ref-pro-layout.agent .agent-meeting-actions .btn {
+    font-size: 9px;
+    letter-spacing: -0.01em;
+  }
+
+  .ref-pro-layout.agent .agent-greeting h1 {
+    font-size: 20px;
   }
 }
