@@ -6,18 +6,6 @@
   gap: 12px;
 }
 
-.property-detail .property-back {
-  align-self: flex-start;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--burgundy);
-  background: none;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-}
-
 .property-detail .ref-property-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.85fr) minmax(300px, 1fr);

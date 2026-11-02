@@ -4502,7 +4502,9 @@ function App() {
             <header className="topbar">
               <div className="breadcrumbs">
                 {(d.role === "Agent" || d.role === "Lawyer") &&
-                  !["My purchase", "Client detail"].includes(page) && (
+                  !["My purchase", "Client detail", "Property"].includes(
+                    page,
+                  ) && (
                     <div className="ref-view-toggle">
                       <button
                         className={page === "Overview" ? "active" : ""}
@@ -4539,6 +4541,16 @@ function App() {
                   >
                     <ArrowLeft size={15} strokeWidth={2.5} />
                     Back to properties
+                  </button>
+                )}
+                {page === "Property" && (
+                  <button
+                    type="button"
+                    className="back-link purchase-header-back"
+                    onClick={() => go("Properties")}
+                  >
+                    <ArrowLeft size={15} strokeWidth={2.5} />
+                    Back to results
                   </button>
                 )}
                 <button

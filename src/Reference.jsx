@@ -1805,11 +1805,11 @@ function LawyerMeetingSection({ c }) {
   return (
     <div className="lawyer-meeting-section">
       <div className="lawyer-meeting-heading">
-                <h3>Meeting requests</h3>
+        <h3>Meeting requests</h3>
         <button type="button" onClick={() => c.go("Calendar")}>
           View all
         </button>
-              </div>
+      </div>
       <div className="lawyer-meeting-requests">
         {rows.map((m) => (
           <div className="lawyer-meeting-request" key={m.id}>
@@ -2436,22 +2436,29 @@ export function ReferencePurchase({ c, embedded = false }) {
         <div className="ref-purchase-progress purchase-buyer-progress">
           <div className="journey-steps purchase-journey-steps purchase-buyer-steps">
             {c.stages.map((s, i) => (
-              <div
-                key={s}
-                className={
-                  "journey-step purchase-journey-step " +
-                  (i < c.d.stage
-                    ? "complete"
-                    : i === c.d.stage
-                      ? "current"
-                      : "")
-                }
-              >
-                <span className="purchase-step-icon" aria-hidden="true">
-                  {i + 1}
-                </span>
-                <b className="purchase-step-label">{s}</b>
-              </div>
+              <React.Fragment key={s}>
+                <div
+                  className={
+                    "journey-step purchase-journey-step " +
+                    (i < c.d.stage
+                      ? "complete"
+                      : i === c.d.stage
+                        ? "current"
+                        : "")
+                  }
+                >
+                  <span className="purchase-step-icon" aria-hidden="true">
+                    {i + 1}
+                  </span>
+                  <b className="purchase-step-label">{s}</b>
+                </div>
+                {i < c.stages.length - 1 ? (
+                  <span
+                    className="purchase-step-connector"
+                    aria-hidden="true"
+                  />
+                ) : null}
+              </React.Fragment>
             ))}
           </div>
         </div>
@@ -3725,13 +3732,6 @@ export function ReferenceProperty({ c, p }) {
   const place = p.location.split(",")[0];
   return (
     <div className="property-detail">
-      <button
-        type="button"
-        className="back-link property-back"
-        onClick={() => c.go("Properties")}
-      >
-        ← Back to results
-      </button>
       <div className="ref-property-layout">
         <div className="ref-property-main">
           <div className="ref-property-gallery">

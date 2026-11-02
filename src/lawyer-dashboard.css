@@ -746,6 +746,13 @@
   margin-bottom: 10px;
 }
 
+.ref-pro-layout.lawyer .lawyer-meeting-requests {
+  border: 1px solid #ded8d0;
+  border-radius: 8px;
+  background: #fffef9;
+  padding: 0 14px;
+}
+
 .ref-pro-layout.lawyer .lawyer-meeting-heading h3 {
   margin: 0;
   font-family: var(--font-serif);
